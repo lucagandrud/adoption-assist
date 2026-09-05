@@ -23,7 +23,7 @@ credibility claim. (CLAUDE.md principle #2.)
 ## Why extraction is the highest-consequence AI call
 
 A hallucinated value here propagates into a defect report that tells a family their real
-paperwork is wrong. That is the worst output this system can produce — it manufactures
+paperwork is wrong! That is the worst output this system can produce — it manufactures
 exactly the burden the project exists to remove.
 
 Design accordingly:
