@@ -403,7 +403,7 @@ grep -rn "PSEUDOCODE — NOT IMPLEMENTED" --include="*.ts" .
 ## Getting started
 
 ```bash
-git clone git@github.com:<your-username>/icpc-compliance-engine.git
+git clone https://github.com/lucagandrud/icpc-compliance-engine.git
 cd icpc-compliance-engine
 ```
 

@@ -5,7 +5,10 @@ Written for **two people building for 26 hours.** Everything here is copy-pastab
 At this team size and time budget, the real risk is **merge conflicts and a broken `main`
 at 3am**, not insufficient code review. The workflow below optimizes for that.
 
-Replace `<username>` with the GitHub account that owns the repo.
+Repo: **https://github.com/lucagandrud/icpc-compliance-engine** (private).
+
+> **Use HTTPS, not SSH.** `gh auth login` sets up a credential helper that makes HTTPS work
+> with no key management. Every command below assumes it.
 
 ---
 
@@ -52,17 +55,16 @@ git config --global rerere.enabled true     # remember conflict resolutions
 
 ### 4. Clone the repo
 
+Accept the collaborator invite first (check your email, or
+https://github.com/lucagandrud/icpc-compliance-engine/invitations), then:
+
 ```bash
-gh repo clone <username>/icpc-compliance-engine
+git clone https://github.com/lucagandrud/icpc-compliance-engine.git
 cd icpc-compliance-engine
 ```
 
-Or with plain git:
-
-```bash
-git clone git@github.com:<username>/icpc-compliance-engine.git
-cd icpc-compliance-engine
-```
+If git asks for a password, you skipped `gh auth login` above — run it, then
+`gh auth setup-git`.
 
 ### 5. Read before writing code
 
