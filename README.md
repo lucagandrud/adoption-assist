@@ -318,7 +318,14 @@ advance work before writing any code.)*
 ```bash
 git clone https://github.com/lucagandrud/icpc-compliance-engine.git
 cd icpc-compliance-engine
+npm install
+npm run dev            # http://localhost:3000
 ```
+
+No configuration is required to run it. Sign in with any name and email; cases persist to a
+local JSON file (`.data/workbench.json`, gitignored) through `lib/store.ts`. Supabase and the
+Anthropic key are wired but optional — copy `.env.local.example` to `.env.local` when you need
+them.
 
 Read in order:
 

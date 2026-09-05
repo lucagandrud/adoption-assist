@@ -4,13 +4,47 @@
 family-facing intake.
 
 ```
-/cases      case list, state pair + direction selection   (D1)
-/workflow   the dashboard — graph, node panels, verification   (F1, F2)
-/api        route handlers
+/login              caseworker sign in
+/cases              case list, open a case, state pair + direction   (D1)
+/workflow/[caseId]  the dashboard — graph, node panels, verification (F1, F2)
+/api/session        sign in / sign out / who am I
+/api/cases          case list, create, amend, delete
+/api/workflow/[id]  the GraphModel contract over the wire
 ```
 
-> ❌ **Not scaffolded.** There is no `package.json` yet. Hours 0–3 create the Next.js app,
-> Tailwind + shadcn/ui, and the Supabase connection.
+✅ **Scaffolded** (handoff Step 1). Next.js 16 App Router + TypeScript, Tailwind v4,
+shadcn/ui, React Flow (`@xyflow/react`) with dagre layout, Zod, Supabase packages installed.
+`npm run dev` → http://localhost:3000.
+
+### What is real and what is placeholder
+
+| Working now | Still to build |
+|---|---|
+| Sign in, sign out, session cookie, persistence | Supabase Auth (`lib/supabase.ts` is wired but unused) |
+| Case list, create a case, all 51 jurisdictions | — |
+| State pair + direction, saved to the case | Direction actually changing the workflow (needs `/engines`) |
+| Graph from the contract fixture, dagre auto-layout | Graph from `/engines/graph.ts` (swap `lib/workflow-model.ts`) |
+| Five node states, critical path, node panel, citations, defects | — |
+| — | Upload → extract → verify (handoff Step 5) |
+
+### Where the backend plugs in
+
+`lib/workflow-model.ts` is the single swap point. It returns the fixture stamped with the real
+case, tagged `source: "fixture"`, and the dashboard renders a banner saying so. When
+`/engines/graph.ts` composes a state pair, that function returns engine output tagged
+`source: "engine"` and no component changes.
+
+### Note on the React Flow package
+
+The handoff says `reactflow`. That package's v11 peers on React ≤18 and this scaffold is on
+React 19, so the dependency is **`@xyflow/react` v12** — the same library under its current
+name, same API. Import from `@xyflow/react`.
+
+### Persistence
+
+`lib/store.ts` is a small JSON-file store so the app runs with zero configuration. Every read
+and write goes through it, so moving to Supabase touches that file and `lib/session.ts` and
+nothing else. Synthetic records only (hard boundary #3).
 
 ## The flow
 

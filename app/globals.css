@@ -1,0 +1,195 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ---------------------------------------------------------------------------
+   ICPC Compliance Workbench — navy + beige.
+   Government-official, not cold. Navy carries authority, beige carries paper.
+   Status colors are deliberately NOT the shadcn defaults: a caseworker reads
+   these five states hundreds of times a day and they must be unambiguous.
+   --------------------------------------------------------------------------- */
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-public-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-source-serif);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* brand */
+  --color-navy-900: #0a1730;
+  --color-navy-800: #14213d;
+  --color-navy-700: #1f3a6e;
+  --color-navy-600: #2e5590;
+  --color-navy-500: #4a72ab;
+  --color-beige-50: #fffdf8;
+  --color-beige-100: #faf5ea;
+  --color-beige-200: #f2ead9;
+  --color-beige-300: #e6dbc3;
+  --color-beige-400: #d6c7a8;
+  --color-gold: #a97f26;
+  --color-gold-soft: #f4e9cf;
+
+  /* workflow node states */
+  --color-state-locked: #8a8779;
+  --color-state-locked-bg: #ece6d9;
+  --color-state-available: #1f3a6e;
+  --color-state-available-bg: #ffffff;
+  --color-state-progress: #a97f26;
+  --color-state-progress-bg: #fdf3dd;
+  --color-state-verified: #2c6b4d;
+  --color-state-verified-bg: #e4f0e7;
+  --color-state-defect: #a32e22;
+  --color-state-defect-bg: #fbe6e2;
+}
+
+:root {
+  --background: #f2ead9;
+  --foreground: #14213d;
+  --card: #fffdf8;
+  --card-foreground: #14213d;
+  --popover: #fffdf8;
+  --popover-foreground: #14213d;
+  --primary: #14213d;
+  --primary-foreground: #faf5ea;
+  --secondary: #e6dbc3;
+  --secondary-foreground: #14213d;
+  --muted: #eae1cd;
+  --muted-foreground: #5d6478;
+  --accent: #e6dbc3;
+  --accent-foreground: #14213d;
+  --destructive: #a32e22;
+  --border: #d9cdb3;
+  --input: #d9cdb3;
+  --ring: #1f3a6e;
+  --chart-1: #1f3a6e;
+  --chart-2: #a97f26;
+  --chart-3: #2c6b4d;
+  --chart-4: #a32e22;
+  --chart-5: #5d6478;
+  --radius: 0.5rem;
+  --sidebar: #14213d;
+  --sidebar-foreground: #faf5ea;
+  --sidebar-primary: #a97f26;
+  --sidebar-primary-foreground: #14213d;
+  --sidebar-accent: #1f3a6e;
+  --sidebar-accent-foreground: #faf5ea;
+  --sidebar-border: #1f3a6e;
+  --sidebar-ring: #a97f26;
+}
+
+.dark {
+  --background: #0a1730;
+  --foreground: #f2ead9;
+  --card: #14213d;
+  --card-foreground: #f2ead9;
+  --popover: #14213d;
+  --popover-foreground: #f2ead9;
+  --primary: #f2ead9;
+  --primary-foreground: #14213d;
+  --secondary: #1f3a6e;
+  --secondary-foreground: #f2ead9;
+  --muted: #1f3a6e;
+  --muted-foreground: #b9c2d4;
+  --accent: #1f3a6e;
+  --accent-foreground: #f2ead9;
+  --destructive: #e2695c;
+  --border: #ffffff1a;
+  --input: #ffffff26;
+  --ring: #a97f26;
+  --sidebar: #0a1730;
+  --sidebar-foreground: #f2ead9;
+  --sidebar-primary: #a97f26;
+  --sidebar-primary-foreground: #0a1730;
+  --sidebar-accent: #1f3a6e;
+  --sidebar-accent-foreground: #f2ead9;
+  --sidebar-border: #ffffff1a;
+  --sidebar-ring: #a97f26;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+  h1, h2, h3 {
+    font-family: var(--font-heading), Georgia, serif;
+  }
+}
+
+/* Thin top rule that reads as a government letterhead. */
+.gov-rule {
+  background: linear-gradient(
+    90deg,
+    var(--color-navy-800) 0%,
+    var(--color-navy-700) 55%,
+    var(--color-gold) 55%,
+    var(--color-gold) 100%
+  );
+}
+
+/* React Flow surface: paper, not a dark canvas. */
+.workflow-canvas {
+  background-color: #f7f1e4;
+}
+.workflow-canvas .react-flow__edge-path {
+  stroke: #b3a68a;
+  stroke-width: 1.75;
+}
+.workflow-canvas .react-flow__edge.edge-critical .react-flow__edge-path {
+  stroke: var(--color-gold);
+  stroke-width: 3;
+}
+.workflow-canvas .react-flow__handle {
+  border: none;
+  background: #b3a68a;
+  width: 7px;
+  height: 7px;
+}
+.workflow-canvas .react-flow__attribution {
+  background: transparent;
+  font-size: 10px;
+}

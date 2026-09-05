@@ -73,3 +73,6 @@ Thumbs.db
 **/real-families/
 **/*-REAL.*
 scratch/
+
+# Local JSON store written by lib/store.ts — synthetic case data, never commit.
+/.data/
