@@ -323,8 +323,18 @@ cd icpc-compliance-engine
 Read in order:
 
 1. [`CLAUDE.md`](CLAUDE.md) — the standing brief, read fully before writing code
-2. [`docs/git-workflow.md`](docs/git-workflow.md) — branch, commit, merge, recovery
-3. [`ontology/README.md`](ontology/README.md) — start here for real work
+2. **Your handoff doc** — step-by-step for your half of the build:
+   - [`docs/handoff-ontology.md`](docs/handoff-ontology.md) — Christopher: `/ontology`, `/engines`
+   - [`docs/handoff-frontend.md`](docs/handoff-frontend.md) — Luca: `/app`, `/extraction`, `/demo`
+3. [`docs/git-workflow.md`](docs/git-workflow.md) — branch, commit, merge, recovery
+
+### The contract
+
+[`demo/fixtures/graph-model.example.json`](demo/fixtures/graph-model.example.json) defines the
+boundary between backend and frontend. The engines emit that shape; the dashboard renders it.
+
+Both people build against it from hour 0, so neither waits on the other. **Read it together
+before writing any code**, and never change it unilaterally — it breaks both sides at once.
 
 Find remaining pseudocode:
 

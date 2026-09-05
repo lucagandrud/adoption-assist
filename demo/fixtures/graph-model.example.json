@@ -1,0 +1,193 @@
+{
+  "_README": [
+    "THIS FILE IS THE CONTRACT BETWEEN FRONTEND AND BACKEND.",
+    "",
+    "Christopher: your engines must emit exactly this shape.",
+    "Luca: your dashboard renders exactly this shape.",
+    "",
+    "Neither of you waits for the other. Luca builds against this static file",
+    "from hour 0. Christopher swaps in real generated data when the engines work.",
+    "",
+    "CHANGING THIS SHAPE BREAKS BOTH SIDES AT ONCE. If you need a field added,",
+    "say so out loud, change it together, and both pull immediately.",
+    "",
+    "The requirement data below is PLACEHOLDER STRUCTURE, not real regulation.",
+    "Every citation says PLACEHOLDER and every entry is verified:false on purpose.",
+    "Christopher replaces these with sourced CA/TX requirements."
+  ],
+
+  "case": {
+    "id": "case-demo-001",
+    "label": "Demo Case — Rivera",
+    "sending_state": "CA",
+    "receiving_state": "TX",
+    "direction": "CA_to_TX",
+    "profile": {
+      "relationship": "relative",
+      "children_count": 2,
+      "placement_type": "foster"
+    },
+    "window_start": "2026-09-01",
+    "projected_decision": "2027-02-28"
+  },
+
+  "earliest_filing": "2026-11-14",
+  "critical_path": ["req-bg-fingerprint", "req-bg-clearance", "req-home-study"],
+
+  "nodes": [
+    {
+      "requirement_id": "req-application",
+      "label": "Placement Application",
+      "state": "verified",
+      "on_critical_path": false,
+      "slack_days": 12,
+      "earliest_start": "2026-09-01",
+      "earliest_finish": "2026-09-03",
+      "citation": {
+        "text": "PLACEHOLDER — Christopher to replace with sourced citation",
+        "url": null,
+        "retrieved": null
+      },
+      "verified": false,
+      "inputs": [
+        { "kind": "document", "id": "doc-application", "label": "Signed application", "satisfied": true }
+      ],
+      "defects": []
+    },
+    {
+      "requirement_id": "req-bg-fingerprint",
+      "label": "Fingerprint Submission",
+      "state": "in_progress",
+      "on_critical_path": true,
+      "slack_days": 0,
+      "earliest_start": "2026-09-03",
+      "earliest_finish": "2026-10-01",
+      "citation": {
+        "text": "PLACEHOLDER — Christopher to replace with sourced citation",
+        "url": null,
+        "retrieved": null
+      },
+      "verified": false,
+      "inputs": [
+        { "kind": "document", "id": "doc-fingerprint-receipt", "label": "Fingerprint receipt", "satisfied": true },
+        { "kind": "document", "id": "doc-gov-id", "label": "Government ID", "satisfied": false }
+      ],
+      "defects": []
+    },
+    {
+      "requirement_id": "req-bg-clearance",
+      "label": "Background Clearance",
+      "state": "locked",
+      "on_critical_path": true,
+      "slack_days": 0,
+      "earliest_start": "2026-10-01",
+      "earliest_finish": "2026-10-29",
+      "citation": {
+        "text": "PLACEHOLDER — Christopher to replace with sourced citation",
+        "url": null,
+        "retrieved": null
+      },
+      "verified": false,
+      "inputs": [
+        { "kind": "document", "id": "doc-clearance", "label": "Clearance letter", "satisfied": false }
+      ],
+      "defects": []
+    },
+    {
+      "requirement_id": "req-financial",
+      "label": "Financial Documentation",
+      "state": "defect",
+      "on_critical_path": false,
+      "slack_days": 8,
+      "earliest_start": "2026-09-03",
+      "earliest_finish": "2026-09-10",
+      "citation": {
+        "text": "PLACEHOLDER — Christopher to replace with sourced citation",
+        "url": null,
+        "retrieved": null
+      },
+      "verified": false,
+      "inputs": [
+        { "kind": "document", "id": "doc-tax-return", "label": "Tax return", "satisfied": true },
+        { "kind": "fact", "id": "fact.income.annual_gross", "label": "Declared income", "satisfied": true }
+      ],
+      "defects": [
+        {
+          "rule_id": "rule-address-consistency",
+          "severity": "blocking",
+          "message": "The address on the 2025 tax return differs from the address on the home study. Which is current?",
+          "citation": {
+            "text": "PLACEHOLDER — Christopher to replace with sourced citation",
+            "url": null,
+            "retrieved": null
+          },
+          "conflicting": [
+            {
+              "fact_id": "fact-addr-1",
+              "value": "1442 OAK ST, SACRAMENTO, CA 95814",
+              "document_id": "doc-tax-return",
+              "document_name": "2025 Tax Return",
+              "page": 1,
+              "field": "Home address"
+            },
+            {
+              "fact_id": "fact-addr-2",
+              "value": "88 CEDAR AVE, SACRAMENTO, CA 95818",
+              "document_id": "doc-home-study",
+              "document_name": "Home Study Report",
+              "page": 3,
+              "field": "Residence"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "requirement_id": "req-home-study",
+      "label": "Home Study Report",
+      "state": "locked",
+      "on_critical_path": true,
+      "slack_days": 0,
+      "earliest_start": "2026-10-29",
+      "earliest_finish": "2026-11-14",
+      "citation": {
+        "text": "PLACEHOLDER — Christopher to replace with sourced citation",
+        "url": null,
+        "retrieved": null
+      },
+      "verified": false,
+      "inputs": [
+        { "kind": "document", "id": "doc-home-study", "label": "Home study report", "satisfied": false }
+      ],
+      "defects": []
+    },
+    {
+      "requirement_id": "req-icpc-100a",
+      "label": "ICPC-100A Filing",
+      "state": "locked",
+      "on_critical_path": false,
+      "slack_days": 0,
+      "earliest_start": "2026-11-14",
+      "earliest_finish": "2026-11-14",
+      "citation": {
+        "text": "PLACEHOLDER — Christopher to replace with sourced citation",
+        "url": null,
+        "retrieved": null
+      },
+      "verified": false,
+      "inputs": [
+        { "kind": "document", "id": "doc-icpc-100a", "label": "Completed ICPC-100A", "satisfied": false }
+      ],
+      "defects": []
+    }
+  ],
+
+  "edges": [
+    { "from": "req-application", "to": "req-bg-fingerprint" },
+    { "from": "req-application", "to": "req-financial" },
+    { "from": "req-bg-fingerprint", "to": "req-bg-clearance" },
+    { "from": "req-bg-clearance", "to": "req-home-study" },
+    { "from": "req-financial", "to": "req-home-study" },
+    { "from": "req-home-study", "to": "req-icpc-100a" }
+  ]
+}
