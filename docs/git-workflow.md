@@ -82,8 +82,8 @@ hackathon repos die.
 
 | Owner | Directories | Deliverables |
 |---|---|---|
-| **Person A** | `/ontology`, `/engines` | D0 ontology, D1 consistency, D2 validity, D4 delta |
-| **Person B** | `/app`, `/extraction`, `/demo` | D3 graph UI, D5 extraction, D6 intake, D7 caseworker, D8 demo families |
+| **Person A** | `/ontology`, `/engines` | D0 ontology, F1 graph logic, F2 rules, delta + validity math |
+| **Person B** | `/app`, `/extraction`, `/demo` | Case shell, F1 dashboard UI, extraction pipeline, demo case |
 
 **The exceptions, and how to handle them:**
 

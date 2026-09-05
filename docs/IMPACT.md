@@ -4,7 +4,7 @@
 > in the bracketed parameters are **not filled in** — filling them without sources would
 > violate hard boundary #4.
 
-Deliverable **D9**. Phase: hours 22–24.
+Phase: hours 23–24.
 
 ---
 

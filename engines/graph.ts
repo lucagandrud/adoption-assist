@@ -35,7 +35,7 @@
 //                    defects           Defect[]  from Engine 1
 //
 // InputStatus      object:
-//                    kind        enum: "document" | "fact" | "interview"
+//                    kind        enum: "document" | "fact"
 //                    id          string
 //                    label       string
 //                    satisfied   boolean

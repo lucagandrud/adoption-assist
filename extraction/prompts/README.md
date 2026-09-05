@@ -34,7 +34,7 @@ Every prompt must instruct the model to:
 
 ## Synthetic documents only
 
-Test against `/demo/families`. Never a real record. (Hard boundary #3.)
+Test against [`/demo/cases`](../../demo/cases). Never a real record. (Hard boundary #3.)
 
 ## Status
 

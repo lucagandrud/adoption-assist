@@ -26,6 +26,9 @@ The system checks completeness, consistency, validity, and sequencing. It never 
 whether a family is fit. That is a licensed social worker's clinical judgment, and if a
 family is genuinely unsuitable the human process must still catch it.
 
+**A green check means the paperwork is consistent and complete — never that a family is
+approved.** Label it as document status everywhere it appears in the UI.
+
 ### 4. No state logic in code
 Nothing in `/engines` may branch on `"CA"` or `"TX"`. Thresholds, validity periods, and
 tolerances live in `/ontology`. The test: adding a 51st jurisdiction should require zero
@@ -92,10 +95,13 @@ Commit small and often. Small commits are easier to undo at 4am.
 ## Cut order
 
 ```
-CUT FIRST →  D6 voice intake (fall back to text chat)
-             D4 state-pair delta
-             D7 caseworker surface
-NEVER CUT →  D1 consistency engine, D3 dependency graph
+CUT FIRST →  D3 180-day timeline view
+             D4 state-pair delta view
+             D1 auth (hardcode a session, keep case selection)
+NEVER CUT →  F1 workflow dashboard, F2 AI verification
 ```
+
+Cutting a *view* is not cutting its *logic* — F1 needs state-pair resolution and F2 needs
+expiration math regardless. Build both engines on schedule; skip only the standalone screens.
 
 **Freeze at hour 24.** Two hours of rehearsal beats one more feature.

@@ -1,14 +1,14 @@
 # /extraction
 
-Document → typed facts, with provenance. Deliverable **D5**, phase hours 2–6.
+Document → typed facts, with provenance. Foundation for **F2**, phase hours 3–7.
 
 ```
 pipeline.ts   the extraction pipeline
 prompts/      one extraction prompt per document type
 ```
 
-This is one of only two places an LLM touches the data path (the other is the voice/chat
-interview). Everything downstream of it is deterministic.
+**This is the only place an LLM touches the data path.** Everything downstream of it —
+consistency checks, date arithmetic, graph derivation — is deterministic code.
 
 ## The contract
 
@@ -35,7 +35,10 @@ Design accordingly:
 
 Hard boundary #3. Every document this pipeline sees — in development, in testing, on stage —
 is synthetic. Never upload a real person's records, not once, not to check something. See
-[`/demo/families`](../demo/families).
+[`/demo/cases`](../demo/cases).
+
+Documents come from the caseworker's own case file, not from a family-facing upload. There is
+no consumer intake surface anywhere in this system.
 
 ## Demo reliability
 

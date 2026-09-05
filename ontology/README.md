@@ -10,7 +10,7 @@ a directory here and nothing else.
 ## Layout
 
 ```
-/shared      Federal ICPC requirements and canonical fact types.
+/shared      Federal ICPC requirements, canonical fact types, and actions.
              Anything true regardless of state goes here.
 /ca          California. Resource Family Approval (RFA) — a unified process.
 /tx          Texas. DFPS home screening and licensing.
@@ -24,10 +24,16 @@ CA receiving. A `Requirement` carries a `direction` field for exactly this reaso
 
 | Type | What it is |
 |---|---|
-| `Fact` | A canonical variable extracted from a document or from intake |
-| `Document` | An artifact the family provides |
-| `Requirement` | An obligation imposed by a state |
+| `Fact` | A canonical typed value extracted from a document |
+| `Document` | An artifact in the case file |
+| `Requirement` | An obligation imposed by a state or by the compact |
 | `ConsistencyRule` | An assertion that must hold across facts |
+| `Action` | A verb — a state transition a caseworker can invoke |
+
+`Action` is what makes this an ontology rather than a schema. `verify`, `flag`, `override`,
+`request_renewal`, and `mark_filed` are typed operations with preconditions and recorded
+effects, so an override becomes an audited event with an author rather than a silently
+flipped boolean.
 
 Full field lists are in [`schema.ts`](schema.ts) and in [`CLAUDE.md §6.1`](../CLAUDE.md).
 

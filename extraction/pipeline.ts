@@ -9,9 +9,8 @@
  * Owner:   unassigned
  * Phase:   Hours 2–6
  *
- * This is the ONLY place in the system where an LLM touches the data path,
- * alongside the interview. Everything downstream is deterministic.
- * (CLAUDE.md principle #3.)
+ * This is the ONLY place in the system where an LLM touches the data path.
+ * Everything downstream is deterministic. (CLAUDE.md principle #3.)
  * ============================================================================= */
 
 // ---------------------------------------------------------------------------
@@ -89,18 +88,25 @@
 // to a warning that says the source was hard to read.
 //
 // ---------------------------------------------------------------------------
-// INTERVIEW-SOURCED FACTS
+// MANUALLY KEYED FACTS
 // ---------------------------------------------------------------------------
-// Facts from voice/chat intake enter through the same Fact shape but with
-// provenance source_kind "interview" and no page/field. They are ALWAYS
-// flagged for human review in the caseworker view. (CLAUDE.md §6.6.)
+// A caseworker can key a value in directly when a document is unreadable or
+// the record is held somewhere this system does not reach. Those facts enter
+// through the same Fact shape but with provenance source_kind "manual" and no
+// page/field.
+//
+// A manual fact NEVER produces an automatic green check. It has no document
+// behind it, so there is nothing to verify against — mark it as caseworker-
+// asserted and show it as such. Letting keyed-in values go green would let the
+// system launder an assumption into a verification, which is the failure mode
+// most likely to embarrass this project.
 //
 // ---------------------------------------------------------------------------
 // SYNTHETIC DATA ONLY
 // ---------------------------------------------------------------------------
 // Hard boundary #3. Every document this pipeline sees during development and
 // demo is synthetic. Never upload a real person's records — not to test, not
-// once. See /demo/families.
+// once. See /demo/cases.
 //
 // ---------------------------------------------------------------------------
 // DEMO RELIABILITY

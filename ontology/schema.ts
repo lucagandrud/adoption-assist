@@ -42,7 +42,9 @@
 // ---------------------------------------------------------------------------
 //
 // Provenance       object:
-//                    source_kind   enum: "document" | "interview" | "manual"
+//                    source_kind   enum: "document" | "manual"
+//                                  manual = caseworker keyed it in directly;
+//                                  always flagged for review, never auto-green
 //                    document_id   string?   present when source_kind=document
 //                    page          number?   1-indexed page
 //                    field         string?   field name on the form
@@ -126,6 +128,49 @@
 // (b) is the 26-hour answer. It keeps rules deterministic and debuggable, and
 // the rule SET still lives in data even though the comparators live in code.
 // (a) risks spending hours on a parser during the build window.
+//
+// ---------------------------------------------------------------------------
+// OBJECT 5 — Action (the verbs)
+// ---------------------------------------------------------------------------
+// This is what makes the data model an ONTOLOGY rather than a schema. Objects
+// and links describe what is; actions describe what a caseworker can DO, with
+// preconditions and recorded effects.
+//
+// Action           object:
+//                    id             string
+//                    verb           string    e.g. "verify", "override"
+//                    applies_to     enum: "requirement" | "document" | "fact"
+//                    preconditions  string[]  keys into a predicate registry
+//                    effects        string[]  declared state transitions
+//                    requires_note  boolean   force a written justification
+//
+// ActionEvent      object:      the append-only audit record
+//                    id            string
+//                    action_id     string
+//                    target_id     string
+//                    actor         string    caseworker identity
+//                    note          string?
+//                    occurred_at   date
+//                    prior_state   unknown
+//                    next_state    unknown
+//
+// The verbs to model first:
+//
+//   verify           system marks an item checked and consistent → green
+//   flag             system or caseworker records a defect
+//   override         caseworker accepts an item DESPITE a defect
+//                    → requires_note: true, ALWAYS
+//   request_renewal  a document expires before the projected decision date
+//   mark_filed       the packet leaves for the ICPC central office
+//
+// WHY THIS MATTERS: `override` must be an audited EVENT with an author and a
+// written reason, not a mutated boolean on the requirement. In a government
+// workflow someone will eventually ask who cleared a defect and why, and a
+// field that was silently flipped cannot answer. Model it as an event from
+// the start — retrofitting an audit trail is far harder than writing one.
+//
+// COROLLARY: state on a requirement is DERIVED by folding its ActionEvents,
+// not stored and patched. Two writers of truth drift; one does not.
 //
 // ---------------------------------------------------------------------------
 // BOOT VALIDATION

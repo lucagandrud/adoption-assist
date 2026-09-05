@@ -1,49 +1,52 @@
 # /app — Next.js App Router
 
-The surface. The engines are the product; this is how they are seen.
+**One surface: the caseworker.** There is no family-facing UI and the system accepts no
+family-facing intake.
 
 ```
-/family      intake portal + dependency graph UI   (D3, D6)
-/caseworker  assembled packet review               (D7)
-/api         route handlers
+/cases      case list, state pair + direction selection   (D1)
+/workflow   the dashboard — graph, node panels, verification   (F1, F2)
+/api        route handlers
 ```
 
-> ❌ **Not scaffolded yet.** There is no `package.json` in this repository. Hour 0–2 creates
-> the Next.js app, Tailwind + shadcn/ui, and the Supabase connection.
+> ❌ **Not scaffolded.** There is no `package.json` yet. Hours 0–3 create the Next.js app,
+> Tailwind + shadcn/ui, and the Supabase connection.
 
-## The two surfaces
+## The flow
 
-| Surface | User | What they do |
-|---|---|---|
-| `/family` | The family | Supply documents and narrative, work the dependency graph, produce a complete family-side packet |
-| `/caseworker` | The caseworker | Receive the assembled packet with all checks already run, review, exercise judgment, submit |
+```
+sign in → /cases → select case → select state pair + direction → /workflow
+```
 
-**Families do not file ICPC packets.** The ICPC-100A is filed by the sending state agency.
-Families originate nearly all the underlying data but are not the filer, and the UI must
-never imply otherwise.
+Selecting the state pair is what composes the workflow. Everything after that point is one
+screen: the branching graph, the node panel, and the verification loop.
 
-## Non-negotiable UI framing
+## Non-negotiable framing
 
-**This is decision-support for caseworker review, not an approval decision.** (Hard boundary
-#5.) Nothing in the interface may read as the system approving or denying a placement, or as
-assessing whether a family is fit.
+**Decision-support for caseworker review. Not an approval decision.** (Hard boundary #5.)
 
-Concretely:
-- A "complete" node means *the paperwork is complete*, not *you passed*
-- A defect names a contradiction between two documents; it never characterizes the family
-- Interview-sourced fields are always visibly flagged for human review
-- An unverified requirement (`verified: false`) is badged as unverified wherever it appears
+Concretely, in the UI:
+
+- A **green check means the paperwork is consistent and complete.** It never means the family
+  is approved, cleared, or assessed. Label it as document status — never as clearance.
+- A defect names a contradiction between two documents. It never characterizes the family.
+- An unverified requirement (`verified: false`) is badged as unverified wherever it appears.
+- Nothing scores, ranks, or recommends approval or denial.
+
+If a family is genuinely unsuitable, the human process must still catch that. A UI that reads
+as "all checks passed" invites exactly that failure.
 
 ## The graph is the primary UI
 
-Not sequential screens. See [`engines/graph.ts`](../engines/graph.ts) for the full UX
-specification — node states, the requirement panel, the Automate action, and critical-path
-highlighting.
+Not sequential screens. Full UX specification in [`engines/graph.ts`](../engines/graph.ts) —
+node states, requirement panel, critical-path highlighting.
 
 React Flow for rendering, dagre or elkjs for auto-layout. **Never hand-position nodes.**
 
 ## Boundary with the engines
 
-The engines produce plain data — `Defect[]`, `ValidityReport`, `GraphModel`, `DeltaReport`.
-This directory renders it. Keep that line clean: no consistency logic, no date arithmetic,
-and no state-specific branching in components.
+Engines produce plain data — `GraphModel`, `Defect[]`, `ValidityReport`. This directory
+renders it.
+
+No consistency logic, no date arithmetic, and no state-specific branching in components. If a
+component contains `if (state === "TX")`, the value belongs in `/ontology`.

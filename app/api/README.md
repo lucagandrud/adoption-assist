@@ -1,18 +1,17 @@
 # /app/api — route handlers
 
-Next.js App Router route handlers. One repo, one deploy target — no separate backend, no
-microservices.
+Next.js App Router route handlers. One repo, one deploy target — no separate backend.
 
 ## Expected routes
 
 | Route | Purpose |
 |---|---|
+| `GET  /api/cases` | Cases assigned to the signed-in caseworker |
+| `POST /api/cases` | Create a case: state pair, direction, family profile |
+| `GET  /api/workflow/[caseId]` | Composed `GraphModel` for the case |
 | `POST /api/upload` | Accept a document, store it in Supabase, kick off extraction |
-| `POST /api/automate` | The Automate action — extract, populate facts, run rules, recompute graph |
-| `POST /api/interview` | Voice/chat intake turn |
-| `GET  /api/graph` | Current `GraphModel` for a family |
-| `GET  /api/validity` | Current `ValidityReport` |
-| `GET  /api/delta` | `DeltaReport` for a state pair |
+| `POST /api/verify` | Extract → ontologize → run rules → green check or defect |
+| `POST /api/action` | Invoke an ontology verb (`verify`, `override`, `mark_filed`) |
 
 ## Rules
 
@@ -20,15 +19,20 @@ microservices.
 never exposed to the client. `.env` is gitignored — keep it that way.
 
 **2. Engines run here, not in the browser.** Route handlers call `/engines` and return plain
-data. This keeps the ontology off the wire and the logic in one place.
+data. Keeps the ontology off the wire and the logic in one place.
 
-**3. Validate at the boundary.** Parse every request body through Zod. The same discipline
-applied to extraction responses applies to client input.
+**3. Validate at the boundary.** Parse every request body through Zod. The discipline applied
+to extraction responses applies to client input.
 
-**4. No real PII, ever.** Hard boundary #3. Upload endpoints accept synthetic demo documents
-only. This is a hackathon demo with no compliance posture — do not build anything that could
-tempt someone to put a real record through it.
+**4. `/api/action` writes an audit event, never a patched field.** Every invocation appends an
+`ActionEvent` with actor, timestamp, and prior/next state. Requirement state is *derived* by
+folding those events. An `override` requires a written note — someone will eventually ask who
+cleared a defect and why.
 
-**5. Automate is a multi-second call.** Stream or report per-stage progress
-(`extracting → checking → done`). A route that returns nothing for eight seconds reads as a
-hang on stage.
+**5. No real records.** Hard boundary #3. Upload accepts synthetic demo documents only. This
+is a hackathon demo with no compliance posture — do not build anything that tempts someone to
+put a real case file through it.
+
+**6. `/api/verify` is a multi-second AI call.** Stream or report per-stage progress
+(`reading → extracting → checking → done`). A route that returns nothing for eight seconds
+reads as a hang on stage.
