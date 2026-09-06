@@ -1,0 +1,61 @@
+[
+  {
+    "id": "action-verify",
+    "verb": "verify",
+    "applies_to": "requirement",
+    "preconditions": [
+      "inputs_present",
+      "no_blocking_defects"
+    ],
+    "effects": [
+      "append_verified_event"
+    ],
+    "requires_note": false
+  },
+  {
+    "id": "action-flag",
+    "verb": "flag",
+    "applies_to": "requirement",
+    "preconditions": [],
+    "effects": [
+      "append_defect_event"
+    ],
+    "requires_note": true
+  },
+  {
+    "id": "action-override",
+    "verb": "override",
+    "applies_to": "requirement",
+    "preconditions": [
+      "blocking_defect_present"
+    ],
+    "effects": [
+      "append_override_event"
+    ],
+    "requires_note": true
+  },
+  {
+    "id": "action-request-renewal",
+    "verb": "request_renewal",
+    "applies_to": "document",
+    "preconditions": [
+      "document_expired_or_at_risk"
+    ],
+    "effects": [
+      "append_renewal_requested_event"
+    ],
+    "requires_note": false
+  },
+  {
+    "id": "action-mark-filed",
+    "verb": "mark_filed",
+    "applies_to": "requirement",
+    "preconditions": [
+      "all_blocking_requirements_verified"
+    ],
+    "effects": [
+      "append_filed_event"
+    ],
+    "requires_note": false
+  }
+]

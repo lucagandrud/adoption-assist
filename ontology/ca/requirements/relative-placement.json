@@ -1,0 +1,725 @@
+[
+  {
+    "id": "req-ca-background-check-general",
+    "state": "CA",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-background-check-record"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [
+      "req-ca-rfa-application-form-general"
+    ],
+    "source_citation": {
+      "text": "A County shall conduct a background check for each applicant and all adults residing or regularly present in the home. [Edge added: the RFA-01(A) application citation (Section 5-03(a)(4)) explicitly frames the application as the consent vehicle for the background check under Section 6-03A -- this depends_on is near-explicit, not a guess.]",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 6-03A, p.26",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-criminal-records-statement",
+    "state": "CA",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-criminal-records-statement-rfa01b"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [],
+    "source_citation": {
+      "text": "Review of state and federal criminal record information...applicant must complete Form RFA-01(B) Criminal Records Statement.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 6-03A(b)(1), p.26",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-caci-check",
+    "state": "CA",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-caci-clearance"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [],
+    "source_citation": {
+      "text": "Consideration of all substantiated allegations of child abuse and severe neglect listed on the Child Abuse Central Index.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 6-03A(b)(2), p.26",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-out-of-state-abuse-registry-check",
+    "state": "CA",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-out-of-state-abuse-registry-check-lic198b"
+    ],
+    "satisfied_by_facts": [
+      "fact.residence.lived_out_of_state_within_5_years"
+    ],
+    "depends_on": [],
+    "source_citation": {
+      "text": "If applicant or adult in home lived in another state within 5 years: out-of state child abuse and neglect registry check using form LIC 198B.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 6-03A(b)(2)(A), p.26",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-megans-law-check",
+    "state": "CA",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-megans-law-check"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [],
+    "source_citation": {
+      "text": "A Megan's Law registered sex offender check.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 6-03A(b)(3), p.26",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-dmv-check",
+    "state": "CA",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-dmv-report"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [],
+    "source_citation": {
+      "text": "DMV check on applicant and any adults residing or regularly present in the home who may frequently transport a child or nonminor dependent.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 6-03A(b)(4), p.26",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-laars-check",
+    "state": "CA",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-laars-check"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [],
+    "source_citation": {
+      "text": "A check for prior licensing-related administrative actions contained in the Legal Administrative Action Records System (LAARS) database.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 6-03A(b)(5), p.26",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-lis-check",
+    "state": "CA",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-lis-check"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [],
+    "source_citation": {
+      "text": "A check for prior licensing history and criminal record exemption denial or rescission actions contained in the Licensing Information System (LIS) database.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 6-03A(b)(6), p.26",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-criminal-record-clearance-required",
+    "state": "CA",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-criminal-record-clearance-or-exemption"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [],
+    "source_citation": {
+      "text": "An individual shall be required to obtain a criminal record clearance, or criminal record exemption pursuant to Section 6-03B, prior to approval, residency, or regular presence in the home of a Resource Family.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 6-03A(c), p.26",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-conviction-investigation-records",
+    "state": "CA",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-certified-court-records",
+      "doc-law-enforcement-clearance-letter"
+    ],
+    "satisfied_by_facts": [
+      "fact.criminal_history.has_qualifying_conviction_or_arrest"
+    ],
+    "depends_on": [],
+    "source_citation": {
+      "text": "If criminal record shows any conviction of a crime other than a minor traffic violation or any arrest for an offense specified in Health and Safety Code section 1522(e), applicant must provide certified court records, crime reports, or letter from law enforcement confirming no report exists.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 6-03A(c)(1), p.26-27",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-clearance-blocked-pending-investigation",
+    "state": "CA",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [],
+    "satisfied_by_facts": [
+      "fact.criminal_history.investigation_completed"
+    ],
+    "depends_on": [
+      "req-ca-conviction-investigation-records"
+    ],
+    "source_citation": {
+      "text": "A County may not grant the individual a clearance or exemption until an investigation has been completed.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 6-03A(c)(1)(A), p.27",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-disqualifying-convictions-no-exemption",
+    "state": "CA",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [],
+    "satisfied_by_facts": [
+      "fact.criminal_history.no_1522g_disqualifying_conviction"
+    ],
+    "depends_on": [],
+    "source_citation": {
+      "text": "A County may not grant a criminal record clearance for an individual whose criminal record indicates a conviction for any of the offenses specified in Health and Safety Code section 1522(g)(1)(A) through (g)(1)(C).",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 6-03A(c)(3), p.27",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-rap-back-enrollment",
+    "state": "CA",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-rap-back-enrollment-confirmation"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [],
+    "source_citation": {
+      "text": "A County shall verify that a subsequent arrest notification (rap back) service, as specified in Penal Code section 11105.2, is in place for each applicant and all adults residing or regularly present in the home of a Resource Family.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 6-03A(c)(5), p.27",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-criminal-exemption-request-process",
+    "state": "CA",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-exemption-request-form",
+      "doc-rehabilitation-evidence"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [],
+    "source_citation": {
+      "text": "Exemption requires: (1) individual request, (2) substantial evidence of rehabilitation and good character, (3) conviction not listed in Health and Safety Code section 1522(g)(1)(A)-(C).",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 6-03B(c), p.30",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-criminal-record-clearance-transfer",
+    "state": "CA",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-clearance-transfer-request",
+      "doc-doj-live-scan-id-proof"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [],
+    "source_citation": {
+      "text": "County may accept transfer of criminal record exemption issued by same County, another County, or Department for prior approved relative/NREFM/licensed foster family home; transfer requires written request and proof of ID per DOJ Live Scan standards.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 6-03B(m)(1), p.32",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-home-health-safety-assessment",
+    "state": "CA",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-home-health-safety-assessment-report"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [],
+    "source_citation": {
+      "text": "health and safety assessment of the home and grounds, outdoor activity space, and storage areas for compliance with Article 11.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 6-02(a)(2), p.25",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-fire-clearance-conditional",
+    "state": "CA",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-fire-clearance"
+    ],
+    "satisfied_by_facts": [
+      "fact.child.is_nonambulatory"
+    ],
+    "depends_on": [],
+    "source_citation": {
+      "text": "Required for homes providing care to a child or nonminor dependent who is non-ambulatory, or more than six children or nonminor dependents; applicant must obtain a fire clearance from the city or county fire department, district providing fire protection services, or State Fire Marshal's Office.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 6-02(b)(1)-(2) and 6-02(c), p.26",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-home-physical-description-capacity",
+    "state": "CA",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-home-physical-description"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [],
+    "source_citation": {
+      "text": "A description of the physical features of the home, including available living space and the number of bedrooms and bathrooms, for use in making a capacity determination.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 6-02(a)(4), p.25-26",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-psychosocial-interviews-applicant",
+    "state": "CA",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-psychosocial-interview-log"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [],
+    "source_citation": {
+      "text": "minimum of three face-to-face interviews of an applicant.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 6-05(a)(1), p.33",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-psychosocial-interviews-household-members",
+    "state": "CA",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-psychosocial-interview-log"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [],
+    "source_citation": {
+      "text": "minimum of one separate face-to-face interview of all other persons, including children and nonminor dependents, residing in the home.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 6-05(a)(2), p.33",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-psychosocial-interview-location",
+    "state": "CA",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-psychosocial-interview-log"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [],
+    "source_citation": {
+      "text": "majority of interviews shall take place in the home of an applicant and shall include observation of the family environment.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 6-05(c), p.34",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-psychosocial-financial-capacity",
+    "state": "CA",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-psychosocial-assessment-report"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [],
+    "source_citation": {
+      "text": "Ability to ensure the stability and financial security of the family and understanding of legal and financial responsibilities when caring for a child or nonminor dependent.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 6-05(d)(12)(A)-(B), p.34",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-psychosocial-criminal-history-discussion",
+    "state": "CA",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-psychosocial-assessment-report"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [],
+    "source_citation": {
+      "text": "Discussion of the applicant's criminal record history.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 6-05(d)(9), p.34",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-health-screening-physical",
+    "state": "CA",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-health-screening-form"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [],
+    "source_citation": {
+      "text": "Good physical health shall be verified by a health screening performed by a health professional issued not more than one year prior to the date of the application and a screening or test for tuberculosis not more than one year old.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 5-02, p.23",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-tb-screening-all-adults",
+    "state": "CA",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-tb-test-result"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [],
+    "source_citation": {
+      "text": "Verification of good physical health including a health screening by a health professional that was issued not more than one year prior to the date of application and a screening or test for tuberculosis not more than one year old for all adults residing in the home.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 5-03(d), p.24",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-pre-approval-training-hours",
+    "state": "CA",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-pre-approval-training-certificate"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [],
+    "source_citation": {
+      "text": "A County shall ensure that each applicant completes a minimum of 12 hours of pre-approval training prior to Resource Family Approval.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 6-06, p.35",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-pre-approval-training-icpc-timing-exception",
+    "state": "CA",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-pre-approval-training-certificate"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [],
+    "source_citation": {
+      "text": "Pre-approval training, as specified in Section 6-06, may be completed after the 60 day timeframe.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 4-06(a)(1), p.21-22",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-income-verification",
+    "state": "CA",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-income-verification",
+      "doc-expense-disclosure"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [],
+    "source_citation": {
+      "text": "Verification of the applicant's current income and disclosure of expenses.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 5-03(d)(5), p.24",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-arc-funding-benefits-discussion",
+    "state": "CA",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-benefits-disclosure-acknowledgment"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [],
+    "source_citation": {
+      "text": "Discussion of benefits associated with foster care, Adoption Assistance Program (AAP), Kin-GAP, Approved Relative Caregiver (ARC) funding, and any other assistance that may apply.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 5-03(f)(1), p.25",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-rfa-application-form-general",
+    "state": "CA",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-rfa-application-form-rfa01a"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [],
+    "source_citation": {
+      "text": "Consent for a County to conduct a background check pursuant to Section 6-03A, including submitting a completed form RFA-01(B): Resource Family Criminal Records Statement, and if applicable, form LIC 198B: Out-of-State Child Abuse/Neglect Report Request.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 5-03(a)(4), p.23",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-icpc-incoming-60-day-assessment",
+    "state": "CA",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-comprehensive-assessment-report"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [],
+    "source_citation": {
+      "text": "Upon receipt of a complete incoming ICPC request, a County shall complete a Comprehensive Assessment of an applicant for Resource Family Approval within 60 calendar days, except as provided in paragraph (1). A report shall be submitted to the sending agency within 60 calendar days pursuant to Family Code section 7901.1.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 4-06, p.21-22",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-icpc-100a-hold-until-approval",
+    "state": "CA",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-icpc-100a-form",
+      "doc-written-approval-report"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [
+      "req-ca-icpc-incoming-60-day-assessment"
+    ],
+    "source_citation": {
+      "text": "A signed Interstate Compact Placement Request form (ICPC 100A) recommending that a placement of the child be made shall not be returned to the sending state until a County has completed the Comprehensive Assessment of the applicant pursuant to Section 6-01 and has approved the Resource Family as evidenced through the issuance of a Written Report as specified in Section 6-07.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 4-06, p.21-22",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-emergency-placement-preconditions",
+    "state": "CA",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-background-check-record",
+      "doc-criminal-record-clearance-or-exemption",
+      "doc-home-health-safety-assessment-report"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [],
+    "source_citation": {
+      "text": "Prior to an emergency placement, a County shall complete all of the following: (1) Conduct a background check pursuant to Section 6-03A for the applicant and all adults residing or regularly present in the home. (2) Obtain criminal record clearances or exemptions for the applicant and all adults residing or regularly present in the home prior to placement. (3) Conduct a health and safety assessment of the home and grounds, outdoor activity space, and storage areas pursuant to Section 6-02(a)(2).",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 7-01(b), p.39",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-emergency-placement-application-deadline",
+    "state": "CA",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-rfa-application-form-rfa01a"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [
+      "req-ca-emergency-placement-preconditions"
+    ],
+    "source_citation": {
+      "text": "A County shall require the applicant to complete, sign, and submit form RFA-01(A): Resource Family Application, within five business days of the date the child or nonminor dependent was placed in the home, as specified in Section 5-03(c).",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 7-01(c), p.39",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-emergency-placement-full-assessment-90-days",
+    "state": "CA",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-comprehensive-assessment-report",
+      "doc-psychosocial-assessment-report",
+      "doc-pre-approval-training-certificate"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [],
+    "source_citation": {
+      "text": "A County shall complete the Comprehensive Assessment, including the psychosocial assessment and pre-approval training, within 90 calendar days of the date of placement.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 7-01(d), p.39",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  }
+]

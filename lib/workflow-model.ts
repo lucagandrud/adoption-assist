@@ -1,79 +1,191 @@
 /**
  * THE SWAP POINT (handoff-frontend.md, Step 6).
  *
- * Today this returns demo/fixtures/graph-model.example.json — the contract
- * file — with the real case's identity stamped onto it, tagged
- * `source: "fixture"` so the dashboard can say out loud that the workflow is
- * placeholder structure and not regulation-derived output.
- *
- * When /engines/graph.ts emits valid contract JSON, graphModelForCase becomes:
- *
- *   import { buildGraphModel } from "@/engines/graph";
- *   const model = buildGraphModel({
- *     sending_state: record.sending_state,
- *     receiving_state: record.receiving_state,
- *     profile: { ... },
- *     window_start: record.window_start,
- *   });
- *   return { ...model, source: "engine" };
- *
- * Nothing in /app or /components changes. That is the point of the contract.
- *
- * ONE ADDITION ON TOP OF THE FIXTURE: `overlayCaseFacts` flips `satisfied`
- * on `inputs[]` entries of kind "fact" that an ACCEPTED interview fact
- * covers, and attaches defects from the stand-in comparator in
- * lib/interview-consistency.ts. When /engines/consistency.ts lands, the
- * comparator call below is replaced and the overlay's job shrinks to the
- * satisfied flags — or disappears, if the engine reads the fact store itself.
+ * This module is the server-side integration boundary. The dashboard stays
+ * coupled only to GraphModel while the deterministic engine owns selection,
+ * dependency edges, node state, and critical-path math.
  */
 
-import fixture from "@/demo/fixtures/graph-model.example.json";
-import { findCase } from "@/lib/store";
-import { directionOf } from "@/lib/states";
+import { runConsistencyChecks } from "@/engines/consistency";
+import { computeDelta } from "@/engines/delta";
+import {
+  buildGraphModel,
+  selectApplicableRequirements,
+} from "@/engines/graph";
+import { computeValidity } from "@/engines/validity";
+import {
+  configuredExtractionModel,
+  liveExtractionConfigured,
+} from "@/extraction/pipeline";
+import { findCase, listCaseDocuments } from "@/lib/store";
 import { readCaseFacts, type CaseFact } from "@/lib/fact-store";
 import { checkInterviewConsistency } from "@/lib/interview-consistency";
 import type {
   CaseRecord,
   Defect,
-  Direction,
   GraphModel,
   GraphNode,
   NodeState,
 } from "@/lib/types";
+import { FactSchema, loadOntology } from "@/ontology/schema";
 
-const base = fixture as unknown as GraphModel;
+export async function graphModelForCase(record: CaseRecord): Promise<GraphModel> {
+  const ontology = loadOntology();
+  const evidence = await listCaseDocuments(record.owner_user_id, record.id);
+  const facts = FactSchema.array().parse(evidence.flatMap(({ facts }) => facts));
+  const defects = runConsistencyChecks(facts, ontology.rules, ontology);
+  const selectedRequirements = selectApplicableRequirements(
+    ontology,
+    record.sending_state,
+    record.receiving_state,
+    record.relationship,
+  );
+  const factById = new Map(facts.map((fact) => [fact.id, fact]));
+  const documentsById = new Map(
+    ontology.documents.map((document) => [document.id, document]),
+  );
+  const defectsByRequirement = Object.fromEntries(
+    selectedRequirements.map((requirement) => {
+      const acceptedFactTypes = new Set([
+        ...requirement.satisfied_by_facts,
+        ...requirement.satisfied_by_documents.flatMap(
+          (id) => documentsById.get(id)?.yields_facts ?? [],
+        ),
+      ]);
+      const requirementDefects = defects.filter((defect) =>
+        defect.conflicting.some((source) => {
+          const fact = factById.get(source.fact_id);
+          return (
+            requirement.satisfied_by_documents.includes(source.document_id) ||
+            (fact ? acceptedFactTypes.has(fact.type) : false)
+          );
+        }),
+      );
+      return [requirement.id, requirementDefects];
+    }),
+  );
 
-export function graphModelForCase(record: CaseRecord): GraphModel {
-  return {
-    ...base,
-    source: "fixture",
-    case: {
+  const model = buildGraphModel(ontology, {
+    id: record.id,
+    label: record.label,
+    sending_state: record.sending_state,
+    receiving_state: record.receiving_state,
+    profile: {
+      relationship: record.relationship,
+      children_count: record.children_count,
+      placement_type: record.placement_type,
+    },
+    window_start: record.window_start,
+    provided_document_ids: evidence.map(({ definition_id }) => definition_id),
+    facts,
+    defects_by_requirement: defectsByRequirement,
+  });
+
+  const validity = computeValidity(
+    evidence.map((document) => ({
+      id: document.id,
+      document_id: document.definition_id,
+      document_name: document.file_name,
+      issue_date: document.issue_date,
+    })),
+    ontology,
+    record.window_start,
+    model.case.projected_decision,
+  );
+  const delta = computeDelta(
+    ontology,
+    record.sending_state,
+    record.receiving_state,
+    record.relationship,
+  );
+
+  const humanize = (value: string) =>
+    value
+      .replace(/^(doc-|fact\.)/, "")
+      .replace(/[._-]+/g, " ")
+      .replace(/\b\w/g, (letter) => letter.toUpperCase());
+  const evidenceDocuments = evidence.map((record) => {
+    const definition = documentsById.get(record.definition_id);
+    return {
       id: record.id,
-      label: record.label,
-      sending_state: record.sending_state,
-      receiving_state: record.receiving_state,
-      direction: directionOf(
-        record.sending_state,
-        record.receiving_state,
-      ) as Direction,
-      profile: {
-        relationship: record.relationship,
-        children_count: record.children_count,
-        placement_type: record.placement_type,
-      },
-      window_start: record.window_start,
-      // Dates below stay as authored in the fixture. Deriving them is
-      // /engines/validity.ts work — no date math in the UI layer.
-      projected_decision: base.case.projected_decision,
+      definition_id: record.definition_id,
+      label: humanize(definition?.type ?? record.definition_id),
+      file_name: record.file_name,
+      issue_date: record.issue_date,
+      extraction_mode: record.extraction_mode,
+      uploaded_at: record.uploaded_at,
+      facts: record.facts.map((fact) => {
+        const source = fact.provenance.find(
+          ({ source_kind }) => source_kind === "document",
+        );
+        return {
+          id: fact.id,
+          type: fact.type,
+          label: humanize(fact.type),
+          value:
+            typeof fact.value === "string"
+              ? fact.value
+              : JSON.stringify(fact.value),
+          confidence: fact.confidence,
+          page: source?.page ?? null,
+          field: source?.field ?? null,
+        };
+      }),
+    };
+  });
+
+  return {
+    ...model,
+    validity,
+    delta: {
+      surprise_count: delta.surprise_count,
+      total_items: delta.items.length,
+      inferred_match_count: delta.items.filter(
+        ({ match_confidence }) => match_confidence === "inferred",
+      ).length,
+    },
+    data_quality: {
+      unknown_turnaround_count: ontology.dataQualityWarnings.length,
+      warnings: ontology.dataQualityWarnings,
+    },
+    evidence: {
+      documents: evidenceDocuments,
+      total_facts: evidenceDocuments.reduce(
+        (total, document) => total + document.facts.length,
+        0,
+      ),
+      live_count: evidenceDocuments.filter(
+        ({ extraction_mode }) => extraction_mode === "live_anthropic",
+      ).length,
+      cached_count: evidenceDocuments.filter(
+        ({ extraction_mode }) => extraction_mode === "synthetic_cache",
+      ).length,
+    },
+    extraction: {
+      live_available: liveExtractionConfigured(),
+      model: configuredExtractionModel(),
+      sample_live_supported: [
+        "doc-rfa-application-form-rfa01a",
+        "doc-home-health-safety-assessment-report",
+      ].every((id) =>
+        selectedRequirements.some(({ satisfied_by_documents }) =>
+          satisfied_by_documents.includes(id),
+        ),
+      ),
+    },
+    research_status: {
+      verified_requirements: selectedRequirements.filter(({ verified }) => verified)
+        .length,
+      total_requirements: selectedRequirements.length,
+      verified_documents: ontology.documents.filter(({ verified }) => verified).length,
+      total_documents: ontology.documents.length,
     },
   };
 }
 
 /**
- * Which node a defect belongs on: any node whose inputs name one of the
- * facts involved, or the document one of the sources came from. That puts an
- * interview-vs-tax-return contradiction on both the interview node and the
- * financial node, so neither side looks clean.
+ * Defects raised by the interview comparator that this node should own:
+ * unseen rules that name one of the node's own inputs.
  */
 function attachDefects(node: GraphNode, defects: Defect[]): Defect[] {
   const inputIds = new Set(node.inputs.map((i) => i.id));
@@ -124,13 +236,19 @@ export function overlayCaseFacts(model: GraphModel, facts: CaseFact[]): GraphMod
   return { ...model, nodes };
 }
 
-/** The fixture model with the case's accepted facts overlaid. */
+/**
+ * The engine-built model with the case's accepted interview facts overlaid.
+ *
+ * Interview facts satisfy `inputs[]` entries of kind "fact" and can raise a
+ * defect against a document fact. Kept separate from buildGraphModel so the
+ * engine stays a pure function of the ontology and the case.
+ */
 export async function graphModelWithFacts(
   userId: string,
   record: CaseRecord,
 ): Promise<GraphModel> {
   const facts = await readCaseFacts(userId, record.id);
-  return overlayCaseFacts(graphModelForCase(record), facts);
+  return overlayCaseFacts(await graphModelForCase(record), facts);
 }
 
 export async function loadGraphModel(

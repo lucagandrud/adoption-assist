@@ -7,7 +7,7 @@
  * backend directly, so swapping is a config change rather than a refactor.
  */
 
-import type { CaseRecord, UserRecord } from "@/lib/types";
+import type { CaseRecord, StoredFact, UserRecord } from "@/lib/types";
 
 /**
  * Fields a caller supplies when opening a case. The rest — docket id, owner,
@@ -24,6 +24,15 @@ export type CaseInput = Omit<
   | "next_deadline"
   | "next_deadline_label"
 >;
+
+export interface DocumentInput {
+  definition_id: string;
+  file_name: string;
+  mime_type: string;
+  issue_date: string | null;
+  extraction_mode: "synthetic_cache" | "live_anthropic";
+  facts: StoredFact[];
+}
 
 export interface SignUpInput {
   name: string;

@@ -1,0 +1,49 @@
+{
+  "rfa-application-rivera.pdf": {
+    "definition_id": "doc-rfa-application-form-rfa01a",
+    "issue_date": "2026-09-05",
+    "facts": [
+      {
+        "type": "fact.person.legal_name",
+        "value": "Maria Elena Rivera",
+        "page": 1,
+        "field": "Legal name"
+      },
+      {
+        "type": "fact.residence.address",
+        "value": "1442 Oak Street, Sacramento, CA 95814",
+        "page": 1,
+        "field": "Residence address"
+      }
+    ]
+  },
+  "home-safety-assessment-conflict.pdf": {
+    "definition_id": "doc-home-health-safety-assessment-report",
+    "issue_date": "2026-09-14",
+    "facts": [
+      {
+        "type": "fact.residence.address",
+        "value": "88 Cedar Avenue, Sacramento, CA 95818",
+        "page": 1,
+        "field": "Residence address"
+      }
+    ]
+  },
+  "home-safety-assessment-corrected.pdf": {
+    "definition_id": "doc-home-health-safety-assessment-report",
+    "issue_date": "2026-09-14",
+    "facts": [
+      {
+        "type": "fact.residence.address",
+        "value": "1442 Oak Street, Sacramento, CA 95814",
+        "page": 1,
+        "field": "Residence address"
+      }
+    ]
+  },
+  "health-screening-rivera.pdf": {
+    "definition_id": "doc-health-screening-form",
+    "issue_date": "2025-11-10",
+    "facts": []
+  }
+}

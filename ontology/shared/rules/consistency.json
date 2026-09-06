@@ -1,0 +1,68 @@
+[
+  {
+    "id": "rule-address-consistency",
+    "expression": "addresses_match",
+    "facts_involved": [
+      "fact.residence.address"
+    ],
+    "severity": "blocking",
+    "defect_message": "The address on {source_a} differs from the address on {source_b}. Which is current? If the household moved, record the change before filing.",
+    "source_citation": {
+      "text": "Project-authored deterministic administrative consistency check; not a legal eligibility rule.",
+      "url": null,
+      "page_or_section": "CLAUDE.md, F2 administrative consistency scope",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "rule-name-consistency",
+    "expression": "names_match",
+    "facts_involved": [
+      "fact.person.legal_name"
+    ],
+    "severity": "warning",
+    "defect_message": "The legal name on {source_a} differs from the name on {source_b}. Which is current, and is a name-change document needed?",
+    "source_citation": {
+      "text": "Project-authored deterministic administrative consistency check; not a legal eligibility rule.",
+      "url": null,
+      "page_or_section": "CLAUDE.md, F2 administrative consistency scope",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "rule-household-size-consistency",
+    "expression": "household_size_consistent",
+    "facts_involved": [
+      "fact.household.size"
+    ],
+    "severity": "warning",
+    "defect_message": "The household size on {source_a} differs from the household size on {source_b}. Which count is current?",
+    "source_citation": {
+      "text": "Project-authored deterministic administrative consistency check; not a legal eligibility rule.",
+      "url": null,
+      "page_or_section": "CLAUDE.md, F2 administrative consistency scope",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "rule-bedroom-capacity-consistency",
+    "expression": "bedrooms_support_child_count",
+    "facts_involved": [
+      "fact.home.bedroom_count",
+      "fact.home.child_count",
+      "fact.home.children_per_bedroom"
+    ],
+    "severity": "warning",
+    "defect_message": "The bedroom count in {source_a} does not support the recorded child count in {source_b} under the documented occupancy limit. Which value is current?",
+    "source_citation": {
+      "text": "Project-authored deterministic administrative consistency check; not a legal eligibility rule.",
+      "url": null,
+      "page_or_section": "CLAUDE.md, F2 administrative consistency scope",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  }
+]

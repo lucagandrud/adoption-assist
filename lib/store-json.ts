@@ -19,8 +19,14 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { randomUUID, randomBytes, scryptSync, timingSafeEqual } from "node:crypto";
-import type { CaseRecord, UserRecord } from "@/lib/types";
-import type { AuthResult, CaseInput, SignInInput, SignUpInput } from "@/lib/store-types";
+import type { CaseDocumentRecord, CaseRecord, UserRecord } from "@/lib/types";
+import type {
+  AuthResult,
+  CaseInput,
+  DocumentInput,
+  SignInInput,
+  SignUpInput,
+} from "@/lib/store-types";
 import {
   SEED_CASES,
   addDays,
@@ -34,9 +40,10 @@ interface StoredUser extends UserRecord {
 }
 
 interface Database {
-  version: 1;
+  version: 2;
   users: StoredUser[];
   cases: CaseRecord[];
+  documents: CaseDocumentRecord[];
   next_case_seq: number;
 }
 
@@ -44,9 +51,10 @@ const DATA_DIR = path.join(process.cwd(), ".data");
 const DATA_FILE = path.join(DATA_DIR, "workbench.json");
 
 const EMPTY: Database = {
-  version: 1,
+  version: 2,
   users: [],
   cases: [],
+  documents: [],
   next_case_seq: FIRST_CASE_SEQ,
 };
 
@@ -64,7 +72,7 @@ async function read(): Promise<Database> {
     const raw = await fs.readFile(DATA_FILE, "utf8");
     const parsed = JSON.parse(raw) as Partial<Database>;
     return {
-      version: 1,
+      version: 2,
       users: parsed.users ?? [],
       // Backfill fields added after a store file was first written, so an
       // existing .data/ keeps working instead of rendering NaN.
@@ -74,6 +82,7 @@ async function read(): Promise<Database> {
         next_deadline: c.next_deadline ?? addDays(c.window_start, 30),
         next_deadline_label: c.next_deadline_label ?? "Initial packet assembly",
       })),
+      documents: parsed.documents ?? [],
       next_case_seq: parsed.next_case_seq ?? EMPTY.next_case_seq,
     };
   } catch {
@@ -282,6 +291,68 @@ export async function deleteCase(
     );
     if (index === -1) return false;
     db.cases.splice(index, 1);
+    db.documents = db.documents.filter((document) => document.case_id !== caseId);
+    await write(db);
+    return true;
+  });
+}
+
+/* ------------------------------- documents ------------------------------ */
+
+export async function listCaseDocuments(
+  userId: string,
+  caseId: string,
+): Promise<CaseDocumentRecord[]> {
+  const db = await read();
+  const ownsCase = db.cases.some(
+    (record) => record.id === caseId && record.owner_user_id === userId,
+  );
+  if (!ownsCase) return [];
+  return db.documents
+    .filter((document) => document.case_id === caseId)
+    .sort((left, right) => left.uploaded_at.localeCompare(right.uploaded_at));
+}
+
+export async function saveCaseDocument(
+  userId: string,
+  caseId: string,
+  input: DocumentInput,
+): Promise<CaseDocumentRecord | null> {
+  return serialize(async () => {
+    const db = await read();
+    const ownsCase = db.cases.some(
+      (record) => record.id === caseId && record.owner_user_id === userId,
+    );
+    if (!ownsCase) return null;
+
+    db.documents = db.documents.filter(
+      (document) =>
+        document.case_id !== caseId ||
+        document.definition_id !== input.definition_id,
+    );
+    const record: CaseDocumentRecord = {
+      id: `case-doc-${randomUUID().slice(0, 8)}`,
+      case_id: caseId,
+      uploaded_at: now(),
+      ...input,
+    };
+    db.documents.push(record);
+    await write(db);
+    return record;
+  });
+}
+
+export async function clearCaseDocuments(
+  userId: string,
+  caseId: string,
+): Promise<boolean> {
+  return serialize(async () => {
+    const db = await read();
+    const ownsCase = db.cases.some(
+      (record) => record.id === caseId && record.owner_user_id === userId,
+    );
+    if (!ownsCase) return false;
+    db.documents = db.documents.filter((document) => document.case_id !== caseId);
     await write(db);
     return true;
   });

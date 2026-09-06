@@ -1,0 +1,225 @@
+[
+  {
+    "id": "req-ca-sending-court-order",
+    "state": "CA",
+    "direction": "sending",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-ca-signed-minute-order"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [],
+    "source_citation": {
+      "text": "A copy of the signed minute order initiating ICPC. [...] Obtain the signed minute order [before submitting the ICPC packet].",
+      "url": "https://policy.dcfs.lacounty.gov/Policy?id=5843",
+      "page_or_section": "LA County DCFS Policy 0100-525.10, 'Out-of-State Placement in a Family Home' > 'Case-Carrying CSW Responsibilities'. NOTE ON SOURCE TYPE: this is a COUNTY-level policy manual (Los Angeles County), not a statewide CDSS regulation or written directive -- California administers child welfare at the county level, so implementation specifics can vary by county even though all counties operate under the same state/federal ICPC framework. Treat this as representative, illustrative county practice, not binding statewide text. If your demo names a specific California county, prefer that county's own policy manual if reachable; otherwise this is a reasonable, real, cited stand-in.",
+      "retrieved": "2026-09-06"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-sending-icpc-packet-core-documents",
+    "state": "CA",
+    "direction": "sending",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-ca-case-plan",
+      "doc-ca-most-recent-court-report",
+      "doc-child-ssn-card",
+      "doc-child-birth-certificate",
+      "doc-ca-child-medical-dental-developmental-educational-mental-health-records"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [
+      "req-ca-sending-court-order"
+    ],
+    "source_citation": {
+      "text": "Case plan. Most recent court report. A copy of the child's Social Security card. Birth certificate. Supporting medical, dental, developmental, educational, and mental health documents.",
+      "url": "https://policy.dcfs.lacounty.gov/Policy?id=5843",
+      "page_or_section": "LA County DCFS Policy 0100-525.10, same section as above. Same county-vs-state caveat applies.",
+      "retrieved": "2026-09-06"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-sending-fc3-afdc-fc-eligibility",
+    "state": "CA",
+    "direction": "sending",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-fc3-afdc-fc-eligibility-determination"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [
+      "req-ca-sending-court-order"
+    ],
+    "source_citation": {
+      "text": "FC 3, Determination of Federal AFDC-FC Eligibility.",
+      "url": "https://policy.dcfs.lacounty.gov/Policy?id=5843",
+      "page_or_section": "LA County DCFS Policy 0100-525.10. Same county-vs-state caveat applies.",
+      "retrieved": "2026-09-06"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-sending-financial-medical-plan",
+    "state": "CA",
+    "direction": "sending",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-icpc-financial-medical-plan"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [
+      "req-ca-sending-court-order"
+    ],
+    "source_citation": {
+      "text": "ICPC Financial/Medical Plan. [...corroborated statewide:] generate the Financial/Medical Plan document.",
+      "url": "https://policy.dcfs.lacounty.gov/Policy?id=5843",
+      "page_or_section": "LA County DCFS Policy 0100-525.10 (document requirement), corroborated by CDSS All County Information Notice I-95-06, Attachment A / Data Entry Instructions, p.9 (https://www.cdss.ca.gov/getinfo/acin06/pdf/I-95_06.pdf) -- this is the one sending-side item confirmed at BOTH the county-policy and statewide-CDSS level, so it carries more confidence than the county-only items above.",
+      "retrieved": "2026-09-06"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-sending-icpc-fact-sheet",
+    "state": "CA",
+    "direction": "sending",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-dcfs710-icpc-fact-sheet"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [
+      "req-ca-sending-court-order"
+    ],
+    "source_citation": {
+      "text": "DCFS 710, Interstate Compact on Placement of Children (ICPC) Fact Sheet, and supporting medical psychological and academic documents.",
+      "url": "https://policy.dcfs.lacounty.gov/Policy?id=5843",
+      "page_or_section": "LA County DCFS Policy 0100-525.10. This specific form number (DCFS 710) is an LA County form -- another county would use its own form number for the same underlying fact-sheet content. County-vs-state caveat applies.",
+      "retrieved": "2026-09-06"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-sending-icpc-100a-generation",
+    "state": "CA",
+    "direction": "sending",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-icpc-100a-form",
+      "doc-ca-dcfs711-regular-request",
+      "doc-ca-dcfs712-expedited-request"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [
+      "req-ca-sending-icpc-packet-core-documents",
+      "req-ca-sending-financial-medical-plan"
+    ],
+    "source_citation": {
+      "text": "Complete the ICPC 100A page and generate the 100A form to send to the receiving state. Be sure to complete all mandatory fields. [County-level: use] DCFS 711 if a regular ICPC request or the DCFS 712 if an expedited ICPC request.",
+      "url": "https://www.cdss.ca.gov/getinfo/acin06/pdf/I-95_06.pdf",
+      "page_or_section": "CDSS All County Information Notice I-95-06, 'Outgoing Requests' section, p.2 (statewide CWS/CMS data-entry instruction) -- the DCFS 711/712 form numbers are LA County's own cover-sheet forms layered on top of the statewide ICPC-100A, corroborated by https://policy.dcfs.lacounty.gov/Policy?id=5843.",
+      "retrieved": "2026-09-06"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-sending-expedited-3-day-timeline",
+    "state": "CA",
+    "direction": "sending",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [],
+    "satisfied_by_facts": [
+      "fact.placement.is_expedited_request"
+    ],
+    "depends_on": [
+      "req-ca-sending-court-order"
+    ],
+    "source_citation": {
+      "text": "For expedited requests, submit the required paperwork within three (3) business days [of receiving the court order].",
+      "url": "https://policy.dcfs.lacounty.gov/Policy?id=5843",
+      "page_or_section": "LA County DCFS Policy 0100-525.10, 'Case-Carrying CSW Responsibilities'. COUNTY-LEVEL TIMELINE, not confirmed as a statewide CDSS requirement in this pass -- flag before treating as CA-wide.",
+      "retrieved": "2026-09-06"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-sending-regular-5-day-forwarding",
+    "state": "CA",
+    "direction": "sending",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [],
+    "satisfied_by_facts": [],
+    "depends_on": [
+      "req-ca-sending-icpc-100a-generation"
+    ],
+    "source_citation": {
+      "text": "[The county Out-of-County Services unit must,] within five (5) business days of the receipt of all necessary ICPC packet information, forward the complete packet to the receiving state.",
+      "url": "https://policy.dcfs.lacounty.gov/Policy?id=5843",
+      "page_or_section": "LA County DCFS Policy 0100-525.10, 'Out-of-County Services (OCS) Outgoing Unit Responsibilities'. COUNTY-LEVEL TIMELINE, same caveat as above.",
+      "retrieved": "2026-09-06"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-sending-icpc-100b-on-placement-or-status-change",
+    "state": "CA",
+    "direction": "sending",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-icpc-100b-form"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [
+      "req-ca-sending-icpc-100a-generation"
+    ],
+    "source_citation": {
+      "text": "[Generate an ICPC-100B] when the child is placed pursuant to receipt of written approval, [or] when there is a change in the placement status.",
+      "url": "https://www.cdss.ca.gov/getinfo/acin06/pdf/I-95_06.pdf",
+      "page_or_section": "CDSS All County Information Notice I-95-06, Attachment A / Data Entry Instructions, p.9. Statewide.",
+      "retrieved": "2026-09-06"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-sending-post-placement-supervision",
+    "state": "CA",
+    "direction": "sending",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-monthly-contact-log"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [
+      "req-ca-sending-icpc-100b-on-placement-or-status-change"
+    ],
+    "source_citation": {
+      "text": "Remain responsible for all aspects of the child's case planning and implementation. Maintain monthly telephone contact with the caregiver and child.",
+      "url": "https://policy.dcfs.lacounty.gov/Policy?id=5843",
+      "page_or_section": "LA County DCFS Policy 0100-525.10. This is an ongoing, ICPC-adjacent standard of care rather than a pre-placement compliance checkbox -- may not fit your F2 'green check' model the same way as the packet-compilation requirements above; flag for a design decision rather than treating it identically.",
+      "retrieved": "2026-09-06"
+    },
+    "verified": false
+  }
+]

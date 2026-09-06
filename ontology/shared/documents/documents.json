@@ -1,0 +1,171 @@
+[
+  {
+    "id": "doc-icpc-100a-form",
+    "type": "icpc_100a",
+    "states_accepted": [
+      "CA",
+      "TX",
+      "FEDERAL"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "note": "Shared federal form -- same id used by CA and federal drafts intentionally. The cited 180-day figure is the receiving-state final-decision deadline, not the time required to obtain or complete this form, so it is not encoded as external_turnaround_days.",
+    "source_citation": {
+      "text": "An ICPC-100A (DSS-1837) fully completed is required documentation for placement requests, along with case history, court order, and financial/medical plan.",
+      "url": "https://policies.ncdhhs.gov/wp-content/uploads/icpc.pdf",
+      "page_or_section": "ICPC Regulation 2, p.10 (NC DHHS compiled mirror). RESOLVED regulation number: confirmed via TWO independent sources (CDSS ACL 11-79 and this NC DHHS document) that Regulation 2 -- not Regulation 3 -- is what governs the 100A form and the deadlines below.",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-icpc-100b-form",
+    "type": "icpc_100b",
+    "states_accepted": [
+      "CA",
+      "TX",
+      "FEDERAL"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "source_citation": {
+      "text": "A Form ICPC-100B if the child is already placed without prior approval in the receiving state. The receiving state is not obligated to provide supervision.",
+      "url": "https://www.cdss.ca.gov/lettersnotices/entres/getinfo/acl/2011/11-79.pdf",
+      "page_or_section": "ICPC Regulation 2, Section 5(b) (per CDSS ACL 11-79). Regulation number confirmed as Regulation 2 by the same cross-check as the entries above; this specific 100B clause was not independently re-quoted from the second mirror.",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-case-history",
+    "type": "case_history",
+    "states_accepted": [
+      "FEDERAL"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "source_citation": {
+      "text": "An ICPC-100A (DSS-1837) fully completed is required documentation for placement requests, along with case history, court order, and financial/medical plan.",
+      "url": "https://policies.ncdhhs.gov/wp-content/uploads/icpc.pdf",
+      "page_or_section": "ICPC Regulation 2, p.10 (NC DHHS compiled mirror). RESOLVED regulation number: confirmed via TWO independent sources (CDSS ACL 11-79 and this NC DHHS document) that Regulation 2 -- not Regulation 3 -- is what governs the 100A form and the deadlines below.",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-court-order",
+    "type": "court_order",
+    "states_accepted": [
+      "FEDERAL"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "source_citation": {
+      "text": "An ICPC-100A (DSS-1837) fully completed is required documentation for placement requests, along with case history, court order, and financial/medical plan.",
+      "url": "https://policies.ncdhhs.gov/wp-content/uploads/icpc.pdf",
+      "page_or_section": "ICPC Regulation 2, p.10 (NC DHHS compiled mirror). RESOLVED regulation number: confirmed via TWO independent sources (CDSS ACL 11-79 and this NC DHHS document) that Regulation 2 -- not Regulation 3 -- is what governs the 100A form and the deadlines below.",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-financial-medical-plan",
+    "type": "financial_medical_plan",
+    "states_accepted": [
+      "FEDERAL"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [
+      "fact.income.annual_gross"
+    ],
+    "verified": false,
+    "source_citation": {
+      "text": "An ICPC-100A (DSS-1837) fully completed is required documentation for placement requests, along with case history, court order, and financial/medical plan.",
+      "url": "https://policies.ncdhhs.gov/wp-content/uploads/icpc.pdf",
+      "page_or_section": "ICPC Regulation 2, p.10 (NC DHHS compiled mirror). RESOLVED regulation number: confirmed via TWO independent sources (CDSS ACL 11-79 and this NC DHHS document) that Regulation 2 -- not Regulation 3 -- is what governs the 100A form and the deadlines below.",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-home-study-report",
+    "type": "home_study_report",
+    "states_accepted": [
+      "FEDERAL"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": 60,
+    "yields_facts": [],
+    "verified": false,
+    "note": "RECONCILE with doc-comprehensive-assessment-report (CA) and doc-home-screening-report (TX) -- likely the same real document.",
+    "source_citation": {
+      "text": "receiving state shall...complete a study of the home environment within 60 days. 'Safe and Timely' interim report deadline is 60 calendar days maximum.",
+      "url": "https://www.cdss.ca.gov/lettersnotices/entres/getinfo/acl/2011/11-79.pdf",
+      "page_or_section": "ICPC Regulation 2, Section 7(a). Cross-checked against ICPC Regulation 2 text via a second mirror (policies.ncdhhs.gov) for the 100A/180-day figures; this specific 60-day interim clause was not independently re-quoted from the second mirror this round, so it carries slightly less corroboration than the 180-day figure below.",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-child-ssn-card",
+    "type": "identity_proof",
+    "states_accepted": [
+      "CA",
+      "TX"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "note": "GENERALIZED this round: originally added as doc-ca-child-ssn-card, but a child's Social Security card isn't a state-specific artifact -- both CA (LA County DCFS Policy 0100-525.10) and TX (DFPS ICPC Resource Guide p.12) require the literal same document. Renamed and states_accepted expanded rather than creating a duplicate doc-tx- entry for the identical thing. If you find the two states' packets actually want it formatted/certified differently, split it back out -- this is a judgment call, not a sourced fact.",
+    "source_citation": {
+      "text": "Case plan. Most recent court report. A copy of the child's Social Security card. Birth certificate. Supporting medical, dental, developmental, educational, and mental health documents.",
+      "url": "https://policy.dcfs.lacounty.gov/Policy?id=5843",
+      "page_or_section": "LA County DCFS Policy 0100-525.10, same section as above. Same county-vs-state caveat applies.",
+      "retrieved": "2026-09-06"
+    }
+  },
+  {
+    "id": "doc-child-birth-certificate",
+    "type": "birth_certificate",
+    "states_accepted": [
+      "CA",
+      "TX"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [
+      "fact.person.date_of_birth"
+    ],
+    "verified": false,
+    "note": "GENERALIZED this round -- same reasoning as doc-child-ssn-card. Originally doc-ca-child-birth-certificate; TX's own ICPC Resource Guide (p.12) requires the same underlying document.",
+    "source_citation": {
+      "text": "Case plan. Most recent court report. A copy of the child's Social Security card. Birth certificate. Supporting medical, dental, developmental, educational, and mental health documents.",
+      "url": "https://policy.dcfs.lacounty.gov/Policy?id=5843",
+      "page_or_section": "LA County DCFS Policy 0100-525.10, same section as above. Same county-vs-state caveat applies.",
+      "retrieved": "2026-09-06"
+    }
+  },
+  {
+    "id": "doc-monthly-contact-log",
+    "type": "contact_log",
+    "states_accepted": [
+      "CA",
+      "TX"
+    ],
+    "validity_period_days": 30,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "note": "GENERALIZED this round: originally doc-ca-monthly-contact-log. TX's own sending-side post-placement duty (DFPS CPS Handbook 4515.2, referencing policy 6411.5) is the same underlying record-keeping concept -- monthly caseworker contact with the placed child. Ongoing post-placement record, not a pre-placement compliance document -- see the design-decision note on req-ca-sending-post-placement-supervision and req-tx-sending-post-placement-supervision.",
+    "source_citation": {
+      "text": "Remain responsible for all aspects of the child's case planning and implementation. Maintain monthly telephone contact with the caregiver and child.",
+      "url": "https://policy.dcfs.lacounty.gov/Policy?id=5843",
+      "page_or_section": "LA County DCFS Policy 0100-525.10. This is an ongoing, ICPC-adjacent standard of care rather than a pre-placement compliance checkbox -- may not fit your F2 'green check' model the same way as the packet-compilation requirements above; flag for a design decision rather than treating it identically.",
+      "retrieved": "2026-09-06"
+    }
+  }
+]

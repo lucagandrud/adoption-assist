@@ -21,15 +21,16 @@
 import { isSupabaseConfigured } from "@/lib/supabase";
 import * as json from "@/lib/store-json";
 import * as supa from "@/lib/store-supabase";
-import type { CaseRecord, UserRecord } from "@/lib/types";
+import type { CaseDocumentRecord, CaseRecord, UserRecord } from "@/lib/types";
 import type {
   AuthResult,
   CaseInput,
+  DocumentInput,
   SignInInput,
   SignUpInput,
 } from "@/lib/store-types";
 
-export type { CaseInput, SignInInput, SignUpInput, AuthResult };
+export type { AuthResult, CaseInput, DocumentInput, SignInInput, SignUpInput };
 export { isAuthError } from "@/lib/store-types";
 
 /** Which backend is live. Surfaced in the UI so the state is never a mystery. */
@@ -104,4 +105,34 @@ export async function deleteCase(
   return isSupabaseConfigured()
     ? supa.deleteCase(userId, caseId)
     : json.deleteCase(userId, caseId);
+}
+
+/* ------------------------------- documents ------------------------------ */
+
+export async function listCaseDocuments(
+  userId: string,
+  caseId: string,
+): Promise<CaseDocumentRecord[]> {
+  return isSupabaseConfigured()
+    ? supa.listCaseDocuments(userId, caseId)
+    : json.listCaseDocuments(userId, caseId);
+}
+
+export async function saveCaseDocument(
+  userId: string,
+  caseId: string,
+  input: DocumentInput,
+): Promise<CaseDocumentRecord | null> {
+  return isSupabaseConfigured()
+    ? supa.saveCaseDocument(userId, caseId, input)
+    : json.saveCaseDocument(userId, caseId, input);
+}
+
+export async function clearCaseDocuments(
+  userId: string,
+  caseId: string,
+): Promise<boolean> {
+  return isSupabaseConfigured()
+    ? supa.clearCaseDocuments(userId, caseId)
+    : json.clearCaseDocuments(userId, caseId);
 }

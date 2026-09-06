@@ -47,3 +47,14 @@ no consumer intake surface anywhere in this system.
 Before hour 24, cache extraction results for all three synthetic families behind a flag that
 serves them instead of calling the API, and **rehearse with the flag on.** A live extraction
 that hangs during judging costs more than the credit earned for doing it live.
+
+## Implemented modes
+
+- With no `ANTHROPIC_API_KEY`, or with `EXTRACTION_USE_CACHE=1`, the deterministic sample
+  replay remains available. Manual uploads are disabled instead of silently ignoring their bytes.
+- With a key and `EXTRACTION_USE_CACHE=0`, uploaded synthetic PDFs and images are sent to the
+  Anthropic Messages API using a document-specific structured-output schema. The response is
+  validated again locally; missing, null, extra, duplicate, wrongly typed, or invalid-enum
+  values fail closed, and one retry is allowed.
+- Uploaded bytes are never persisted by the local store. Only file metadata and extracted
+  synthetic facts are saved.

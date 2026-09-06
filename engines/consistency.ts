@@ -1,168 +1,203 @@
-/* =============================================================================
- * PSEUDOCODE — NOT IMPLEMENTED
- * =============================================================================
- * Nothing in this file executes. There are no imports, no exports, and no
- * runnable statements — only a commented design sketch.
- *
- * File:    engines/consistency.ts
- * Purpose: Engine 1 — cross-document consistency. Evaluate ConsistencyRules
- *          across the fact graph and emit defects that name BOTH conflicting
- *          sources.
- * Owner:   unassigned
- * Phase:   Hours 6–10
- * Status:  ⭐ NEVER CUT. With Engine 3, this is the project.
- *
- * Demo beat #2 depends entirely on this file — the tax-return address vs.
- * home-study address contradiction. That is the money shot.
- * ============================================================================= */
+import type {
+  ConsistencyRule,
+  Fact,
+  LoadedOntology,
+  Provenance,
+} from "../ontology/schema.ts";
+import type { Citation, Defect } from "../lib/types.ts";
 
-// ---------------------------------------------------------------------------
-// WHY THIS IS THE HIGHEST-VALUE ENGINE
-// ---------------------------------------------------------------------------
-// Most administrative defects are not missing documents. They are documents
-// that contradict each other. A checklist app cannot see these at all.
-//
-// ---------------------------------------------------------------------------
-// OUTPUT SHAPE
-// ---------------------------------------------------------------------------
-//
-// Defect           object:
-//                    rule_id          string
-//                    severity         Severity
-//                    message          string    rendered from the template
-//                    conflicting      ConflictSource[]   (min 2)
-//                    citation         Citation  the rule's source
-//
-// ConflictSource   object:
-//                    fact_id       string
-//                    value         unknown   the actual conflicting value
-//                    document_id   string?
-//                    document_name string?   human label for the UI
-//                    page          number?
-//                    field         string?
-//
-// A defect with fewer than two conflicting sources is a bug. The whole point
-// is that the family can see WHICH TWO papers disagree.
-//
-// ---------------------------------------------------------------------------
-// MAIN ENTRY
-// ---------------------------------------------------------------------------
-//
-// function runConsistencyChecks(facts, rules, ontology) -> Defect[]
-//
-//     index facts by fact type
-//         → factsByType: Map<factTypeKey, Fact[]>
-//
-//     defects = []
-//
-//     for each rule in rules:
-//
-//         gather the facts this rule needs:
-//             involved = rule.facts_involved.map(key => factsByType[key] ?? [])
-//
-//         if any required fact type has zero facts:
-//             SKIP this rule — do not emit a defect
-//             (absence is Engine 3's problem: it means an upstream node is
-//              incomplete. Reporting it here would double-report and would
-//              flood the family with noise on a half-filled packet.)
-//
-//         comparator = COMPARATOR_REGISTRY[rule.expression]
-//         if comparator is undefined:
-//             THROW at boot, not here — the registry check belongs in
-//             loadOntology() referential integrity. Reaching this branch at
-//             runtime means boot validation was skipped.
-//
-//         result = comparator(involved, rule)
-//
-//         if result.violated:
-//             defects.push({
-//                 rule_id:     rule.id,
-//                 severity:    rule.severity,
-//                 message:     render(rule.defect_message, result.bindings),
-//                 conflicting: result.sources,   // >= 2, each with provenance
-//                 citation:    rule.source_citation,
-//             })
-//
-//     sort defects: blocking → warning → info
-//     return defects
-//
-// ---------------------------------------------------------------------------
-// COMPARATOR REGISTRY
-// ---------------------------------------------------------------------------
-// Deterministic functions, keyed by ConsistencyRule.expression. No LLM in
-// this path — see CLAUDE.md principle #3. The rule SET is data; the
-// comparators are code.
-//
-// Each comparator receives the fact groups and returns:
-//     { violated: boolean, sources: ConflictSource[], bindings: object }
-//
-//   "names_match"
-//       Normalize then compare legal name across application, marriage
-//       certificate, government ID.
-//       NORMALIZATION IS THE HARD PART, not the comparison:
-//         - case and whitespace folding
-//         - punctuation in hyphenated and apostrophe names
-//         - middle name present in one document, absent in another
-//             → NOT a conflict. Very common and legitimate.
-//         - suffixes (Jr/Sr/III)
-//             → NOT a conflict on its own.
-//         - a genuinely different surname (maiden vs. married)
-//             → IS a conflict, but a soft one. Severity should be warning,
-//               not blocking, and the message should suggest the marriage
-//               certificate as the reconciling document rather than accusing
-//               the family of an error.
-//       Bias toward false negatives here. A false positive on a name tells a
-//       family their paperwork is wrong when it is fine, which is exactly the
-//       experience this project exists to remove.
-//
-//   "addresses_match"
-//       Residence address across tax return, ID, home study address.
-//       Normalize: "St"/"Street", "Apt"/"#"/"Unit", ZIP+4 vs. 5-digit,
-//       directionals ("N" vs "North"), casing.
-//       ⚠️ A legitimate move mid-process produces a real mismatch. The defect
-//       message must offer "we moved" as a resolution path, not just flag an
-//       error. Consider comparing issue dates: if the tax return predates the
-//       home study by a year, a move is the likely explanation.
-//       DRIVES DEMO BEAT #2 — make this one solid before any other rule.
-//
-//   "household_size_consistent"
-//       Declared household size vs. the count of DISTINCT individuals
-//       appearing across medical forms and background clearances.
-//       Distinctness is the hard part — the same person appears under
-//       slightly different names across forms. Reuse names_match
-//       normalization to dedupe before counting.
-//       A newborn or a person who joined the household mid-process is a real
-//       explanation. Severity: warning.
-//
-//   "employment_no_unexplained_gap"
-//       Sort employment facts by start date, walk the sequence, flag gaps
-//       exceeding a threshold that carry no explanation fact.
-//       THRESHOLD MUST COME FROM THE ONTOLOGY, not a constant here — it is
-//       plausibly state-specific and hardcoding it puts state logic in code.
-//
-//   "bedrooms_support_child_count"
-//       Bedroom count vs. number of children requested.
-//       The actual occupancy rule (children per bedroom, same-sex sharing,
-//       age cutoffs) is STATE-SPECIFIC and lives in the ontology. This
-//       comparator reads the threshold; it must not encode CA or TX policy.
-//
-//   "income_matches_tax_return"
-//       Declared income vs. tax return, within a tolerance.
-//       TOLERANCE FROM ONTOLOGY. Decide and document whether the comparison
-//       is gross or AGI — these differ substantially and comparing across
-//       them produces false defects on every self-employed family.
-//
-// ---------------------------------------------------------------------------
-// FALSE-POSITIVE POSTURE
-// ---------------------------------------------------------------------------
-// This system tells families their paperwork is defective. A false positive
-// causes real distress and real wasted effort, and it is the failure mode a
-// judge is most likely to probe.
-//
-// When a comparator is uncertain, prefer `warning` over `blocking`, and write
-// the defect message as a question ("these two documents show different
-// addresses — did you move?") rather than an accusation.
-//
-// This engine NEVER assesses fitness. It reports that two papers disagree.
-// It does not infer what the disagreement means about the family.
-// (CLAUDE.md hard boundary #1.)
+type ComparatorResult = {
+  violated: boolean;
+  facts: Fact[];
+};
+
+type Comparator = (
+  groups: Fact[][],
+  rule: ConsistencyRule,
+) => ComparatorResult;
+
+const ADDRESS_WORDS: Record<string, string> = {
+  STREET: "ST",
+  ROAD: "RD",
+  AVENUE: "AVE",
+  BOULEVARD: "BLVD",
+  DRIVE: "DR",
+  LANE: "LN",
+  COURT: "CT",
+  PLACE: "PL",
+  PARKWAY: "PKWY",
+  HIGHWAY: "HWY",
+  NORTH: "N",
+  SOUTH: "S",
+  EAST: "E",
+  WEST: "W",
+  APARTMENT: "UNIT",
+  APT: "UNIT",
+  SUITE: "UNIT",
+};
+
+function normalizedWords(value: unknown): string[] {
+  return String(value)
+    .normalize("NFKD")
+    .replace(/[’']/g, "")
+    .replace(/#/g, " UNIT ")
+    .replace(/[^a-zA-Z0-9\s-]/g, " ")
+    .replace(/-/g, " ")
+    .toUpperCase()
+    .split(/\s+/)
+    .filter(Boolean);
+}
+
+export function normalizeAddress(value: unknown): string {
+  const words = normalizedWords(value).map((word) => ADDRESS_WORDS[word] ?? word);
+  const zipIndex = words.findIndex((word) => /^\d{5}$/.test(word));
+  if (zipIndex >= 0 && /^\d{4}$/.test(words[zipIndex + 1] ?? "")) {
+    words.splice(zipIndex + 1, 1);
+  }
+  return words.join(" ");
+}
+
+const NAME_SUFFIXES = new Set(["JR", "SR", "II", "III", "IV", "V"]);
+
+export function normalizeName(value: unknown): { first: string; last: string } {
+  const parts = normalizedWords(value).filter((part) => !NAME_SUFFIXES.has(part));
+  return { first: parts[0] ?? "", last: parts.at(-1) ?? "" };
+}
+
+function firstMismatch(
+  facts: Fact[],
+  normalize: (value: unknown) => unknown,
+): Fact[] {
+  for (let left = 0; left < facts.length; left += 1) {
+    for (let right = left + 1; right < facts.length; right += 1) {
+      if (
+        JSON.stringify(normalize(facts[left].value)) !==
+        JSON.stringify(normalize(facts[right].value))
+      ) {
+        return [facts[left], facts[right]];
+      }
+    }
+  }
+  return [];
+}
+
+const comparators: Record<ConsistencyRule["expression"], Comparator> = {
+  addresses_match: ([facts]) => {
+    const mismatch = firstMismatch(facts, normalizeAddress);
+    return { violated: mismatch.length > 0, facts: mismatch };
+  },
+  names_match: ([facts]) => {
+    const mismatch = firstMismatch(facts, normalizeName);
+    return { violated: mismatch.length > 0, facts: mismatch };
+  },
+  household_size_consistent: ([facts]) => {
+    const mismatch = firstMismatch(facts, (value) => Number(value));
+    return { violated: mismatch.length > 0, facts: mismatch };
+  },
+  bedrooms_support_child_count: (groups) => {
+    const [bedroomFact] = groups[0];
+    const [childFact] = groups[1];
+    const [limitFact] = groups[2];
+    const bedroomCount = Number(bedroomFact.value);
+    const childCount = Number(childFact.value);
+    const childrenPerBedroom = Number(limitFact.value);
+    const validNumbers = [bedroomCount, childCount, childrenPerBedroom].every(
+      Number.isFinite,
+    );
+    return {
+      violated:
+        validNumbers && childCount > bedroomCount * childrenPerBedroom,
+      facts: validNumbers
+        ? [bedroomFact, childFact, limitFact]
+        : [],
+    };
+  },
+};
+
+function primaryProvenance(fact: Fact): Provenance {
+  return fact.provenance[0];
+}
+
+function documentLabel(documentId: string, ontology: LoadedOntology): string {
+  const document = ontology.documents.find(({ id }) => id === documentId);
+  return document ? humanize(document.type) : humanize(documentId);
+}
+
+function humanize(value: string): string {
+  return value
+    .replace(/^(doc|req|fact)-/, "")
+    .replace(/^fact\./, "")
+    .replace(/[._-]+/g, " ")
+    .replace(/\b\w/g, (letter) => letter.toUpperCase());
+}
+
+function toConflictSource(fact: Fact, ontology: LoadedOntology) {
+  const provenance = primaryProvenance(fact);
+  const documentId = provenance.document_id ?? "manual-entry";
+  return {
+    fact_id: fact.id,
+    value: String(fact.value),
+    document_id: documentId,
+    document_name:
+      provenance.document_name ??
+      (provenance.source_kind === "manual"
+        ? "Caseworker entry"
+        : documentLabel(documentId, ontology)),
+    page: provenance.page ?? null,
+    field: provenance.field ?? humanize(fact.type),
+  };
+}
+
+function renderMessage(template: string, sourceNames: string[]): string {
+  return template
+    .replaceAll("{source_a}", sourceNames[0] ?? "the first source")
+    .replaceAll("{source_b}", sourceNames[1] ?? "the second source");
+}
+
+const severityRank = { blocking: 0, warning: 1, info: 2 } as const;
+
+export function runConsistencyChecks(
+  facts: Fact[],
+  rules: ConsistencyRule[],
+  ontology: LoadedOntology,
+): Defect[] {
+  const factsByType = new Map<string, Fact[]>();
+  for (const fact of facts) {
+    const group = factsByType.get(fact.type) ?? [];
+    group.push(fact);
+    factsByType.set(fact.type, group);
+  }
+
+  const defects: Defect[] = [];
+  for (const rule of rules) {
+    const groups = rule.facts_involved.map(
+      (factType) => factsByType.get(factType) ?? [],
+    );
+    if (groups.some((group) => group.length === 0)) continue;
+    if (groups.length === 1 && groups[0].length < 2) continue;
+
+    const result = comparators[rule.expression](groups, rule);
+    if (!result.violated || result.facts.length < 2) continue;
+
+    const conflicting = result.facts.map((fact) =>
+      toConflictSource(fact, ontology),
+    );
+    const lowConfidence = result.facts.some(({ confidence }) => confidence < 0.8);
+    defects.push({
+      rule_id: rule.id,
+      severity: lowConfidence && rule.severity === "blocking" ? "warning" : rule.severity,
+      message: `${lowConfidence ? "One or more extracted values need human review. " : ""}${renderMessage(
+        rule.defect_message,
+        conflicting.map(({ document_name }) => document_name),
+      )}`,
+      citation: rule.source_citation as Citation,
+      conflicting,
+    });
+  }
+
+  return defects.sort(
+    (left, right) =>
+      (severityRank[left.severity as keyof typeof severityRank] ?? 99) -
+      (severityRank[right.severity as keyof typeof severityRank] ?? 99),
+  );
+}

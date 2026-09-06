@@ -1,0 +1,779 @@
+[
+  {
+    "id": "doc-background-check-record",
+    "type": "background_check",
+    "states_accepted": [
+      "CA"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "note": "General background check per RFA Sec 6-03A -- turnaround/validity not found in this pass.",
+    "source_citation": {
+      "text": "A County shall conduct a background check for each applicant and all adults residing or regularly present in the home. [Edge added: the RFA-01(A) application citation (Section 5-03(a)(4)) explicitly frames the application as the consent vehicle for the background check under Section 6-03A -- this depends_on is near-explicit, not a guess.]",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 6-03A, p.26",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-criminal-records-statement-rfa01b",
+    "type": "criminal_records_statement",
+    "states_accepted": [
+      "CA"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [
+      "fact.person.legal_name"
+    ],
+    "verified": false,
+    "note": "Form RFA-01(B).",
+    "source_citation": {
+      "text": "Review of state and federal criminal record information...applicant must complete Form RFA-01(B) Criminal Records Statement.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 6-03A(b)(1), p.26",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-caci-clearance",
+    "type": "child_abuse_registry_check",
+    "states_accepted": [
+      "CA"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "note": "Child Abuse Central Index check.",
+    "source_citation": {
+      "text": "Consideration of all substantiated allegations of child abuse and severe neglect listed on the Child Abuse Central Index.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 6-03A(b)(2), p.26",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-out-of-state-abuse-registry-check-lic198b",
+    "type": "child_abuse_registry_check",
+    "states_accepted": [
+      "CA"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "note": "Form LIC 198B, conditional on 5-year out-of-state residency.",
+    "source_citation": {
+      "text": "If applicant or adult in home lived in another state within 5 years: out-of state child abuse and neglect registry check using form LIC 198B.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 6-03A(b)(2)(A), p.26",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-megans-law-check",
+    "type": "sex_offender_registry_check",
+    "states_accepted": [
+      "CA"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "source_citation": {
+      "text": "A Megan's Law registered sex offender check.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 6-03A(b)(3), p.26",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-dmv-report",
+    "type": "dmv_record_check",
+    "states_accepted": [
+      "CA"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "source_citation": {
+      "text": "DMV check on applicant and any adults residing or regularly present in the home who may frequently transport a child or nonminor dependent.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 6-03A(b)(4), p.26",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-laars-check",
+    "type": "licensing_administrative_action_check",
+    "states_accepted": [
+      "CA"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "source_citation": {
+      "text": "A check for prior licensing-related administrative actions contained in the Legal Administrative Action Records System (LAARS) database.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 6-03A(b)(5), p.26",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-lis-check",
+    "type": "licensing_history_check",
+    "states_accepted": [
+      "CA"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "source_citation": {
+      "text": "A check for prior licensing history and criminal record exemption denial or rescission actions contained in the Licensing Information System (LIS) database.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 6-03A(b)(6), p.26",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-criminal-record-clearance-or-exemption",
+    "type": "fingerprint_clearance",
+    "states_accepted": [
+      "CA"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [
+      "fact.person.legal_name",
+      "fact.person.date_of_birth"
+    ],
+    "verified": false,
+    "note": "This is the CA equivalent of a fingerprint/Live Scan clearance -- likely the single most important document to reconcile with TX's equivalent.",
+    "source_citation": {
+      "text": "An individual shall be required to obtain a criminal record clearance, or criminal record exemption pursuant to Section 6-03B, prior to approval, residency, or regular presence in the home of a Resource Family.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 6-03A(c), p.26",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-certified-court-records",
+    "type": "court_record",
+    "states_accepted": [
+      "CA"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "source_citation": {
+      "text": "If criminal record shows any conviction of a crime other than a minor traffic violation or any arrest for an offense specified in Health and Safety Code section 1522(e), applicant must provide certified court records, crime reports, or letter from law enforcement confirming no report exists.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 6-03A(c)(1), p.26-27",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-law-enforcement-clearance-letter",
+    "type": "law_enforcement_letter",
+    "states_accepted": [
+      "CA"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "source_citation": {
+      "text": "If criminal record shows any conviction of a crime other than a minor traffic violation or any arrest for an offense specified in Health and Safety Code section 1522(e), applicant must provide certified court records, crime reports, or letter from law enforcement confirming no report exists.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 6-03A(c)(1), p.26-27",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-exemption-request-form",
+    "type": "exemption_request",
+    "states_accepted": [
+      "CA"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "source_citation": {
+      "text": "Exemption requires: (1) individual request, (2) substantial evidence of rehabilitation and good character, (3) conviction not listed in Health and Safety Code section 1522(g)(1)(A)-(C).",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 6-03B(c), p.30",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-rehabilitation-evidence",
+    "type": "rehabilitation_evidence",
+    "states_accepted": [
+      "CA"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "source_citation": {
+      "text": "Exemption requires: (1) individual request, (2) substantial evidence of rehabilitation and good character, (3) conviction not listed in Health and Safety Code section 1522(g)(1)(A)-(C).",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 6-03B(c), p.30",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-clearance-transfer-request",
+    "type": "clearance_transfer_request",
+    "states_accepted": [
+      "CA"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "source_citation": {
+      "text": "County may accept transfer of criminal record exemption issued by same County, another County, or Department for prior approved relative/NREFM/licensed foster family home; transfer requires written request and proof of ID per DOJ Live Scan standards.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 6-03B(m)(1), p.32",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-doj-live-scan-id-proof",
+    "type": "identity_proof",
+    "states_accepted": [
+      "CA"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [
+      "fact.person.legal_name"
+    ],
+    "verified": false,
+    "source_citation": {
+      "text": "County may accept transfer of criminal record exemption issued by same County, another County, or Department for prior approved relative/NREFM/licensed foster family home; transfer requires written request and proof of ID per DOJ Live Scan standards.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 6-03B(m)(1), p.32",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-rap-back-enrollment-confirmation",
+    "type": "rap_back_enrollment",
+    "states_accepted": [
+      "CA"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "source_citation": {
+      "text": "A County shall verify that a subsequent arrest notification (rap back) service, as specified in Penal Code section 11105.2, is in place for each applicant and all adults residing or regularly present in the home of a Resource Family.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 6-03A(c)(5), p.27",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-home-health-safety-assessment-report",
+    "type": "home_safety_assessment",
+    "states_accepted": [
+      "CA"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [
+      "fact.residence.address"
+    ],
+    "verified": false,
+    "source_citation": {
+      "text": "health and safety assessment of the home and grounds, outdoor activity space, and storage areas for compliance with Article 11.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 6-02(a)(2), p.25",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-fire-clearance",
+    "type": "fire_clearance",
+    "states_accepted": [
+      "CA"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "note": "Only required conditionally (non-ambulatory child or >6 children).",
+    "source_citation": {
+      "text": "Required for homes providing care to a child or nonminor dependent who is non-ambulatory, or more than six children or nonminor dependents; applicant must obtain a fire clearance from the city or county fire department, district providing fire protection services, or State Fire Marshal's Office.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 6-02(b)(1)-(2) and 6-02(c), p.26",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-home-physical-description",
+    "type": "home_physical_description",
+    "states_accepted": [
+      "CA"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [
+      "fact.home.bedroom_count"
+    ],
+    "verified": false,
+    "source_citation": {
+      "text": "A description of the physical features of the home, including available living space and the number of bedrooms and bathrooms, for use in making a capacity determination.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 6-02(a)(4), p.25-26",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-psychosocial-interview-log",
+    "type": "interview_log",
+    "states_accepted": [
+      "CA"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [
+      "fact.household.size"
+    ],
+    "verified": false,
+    "source_citation": {
+      "text": "minimum of three face-to-face interviews of an applicant.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 6-05(a)(1), p.33",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-psychosocial-assessment-report",
+    "type": "psychosocial_assessment",
+    "states_accepted": [
+      "CA"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "source_citation": {
+      "text": "Ability to ensure the stability and financial security of the family and understanding of legal and financial responsibilities when caring for a child or nonminor dependent.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 6-05(d)(12)(A)-(B), p.34",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-health-screening-form",
+    "type": "health_screening",
+    "states_accepted": [
+      "CA"
+    ],
+    "validity_period_days": 365,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "note": "validity_period_days=365 IS backed by a real quote ('not more than one year prior to the date of the application') -- still verified:false pending a human re-check of the exact source, but this is a stronger citation than most in this list.",
+    "source_citation": {
+      "text": "Good physical health shall be verified by a health screening performed by a health professional issued not more than one year prior to the date of the application and a screening or test for tuberculosis not more than one year old.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 5-02, p.23",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-tb-test-result",
+    "type": "tuberculosis_test",
+    "states_accepted": [
+      "CA"
+    ],
+    "validity_period_days": 365,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "note": "Same 1-year quote as health-screening-form.",
+    "source_citation": {
+      "text": "Verification of good physical health including a health screening by a health professional that was issued not more than one year prior to the date of application and a screening or test for tuberculosis not more than one year old for all adults residing in the home.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 5-03(d), p.24",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-pre-approval-training-certificate",
+    "type": "training_certificate",
+    "states_accepted": [
+      "CA"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "note": "12-hour minimum is cited; certificate validity period not found.",
+    "source_citation": {
+      "text": "A County shall ensure that each applicant completes a minimum of 12 hours of pre-approval training prior to Resource Family Approval.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 6-06, p.35",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-income-verification",
+    "type": "income_verification",
+    "states_accepted": [
+      "CA"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [
+      "fact.income.annual_gross"
+    ],
+    "verified": false,
+    "source_citation": {
+      "text": "Verification of the applicant's current income and disclosure of expenses.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 5-03(d)(5), p.24",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-expense-disclosure",
+    "type": "expense_disclosure",
+    "states_accepted": [
+      "CA"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "source_citation": {
+      "text": "Verification of the applicant's current income and disclosure of expenses.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 5-03(d)(5), p.24",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-benefits-disclosure-acknowledgment",
+    "type": "benefits_disclosure",
+    "states_accepted": [
+      "CA"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "source_citation": {
+      "text": "Discussion of benefits associated with foster care, Adoption Assistance Program (AAP), Kin-GAP, Approved Relative Caregiver (ARC) funding, and any other assistance that may apply.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 5-03(f)(1), p.25",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-rfa-application-form-rfa01a",
+    "type": "application_form",
+    "states_accepted": [
+      "CA"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [
+      "fact.person.legal_name",
+      "fact.residence.address"
+    ],
+    "verified": false,
+    "note": "Form RFA-01(A).",
+    "source_citation": {
+      "text": "Consent for a County to conduct a background check pursuant to Section 6-03A, including submitting a completed form RFA-01(B): Resource Family Criminal Records Statement, and if applicable, form LIC 198B: Out-of-State Child Abuse/Neglect Report Request.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 5-03(a)(4), p.23",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-comprehensive-assessment-report",
+    "type": "home_study_report",
+    "states_accepted": [
+      "CA"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": 60,
+    "yields_facts": [],
+    "verified": false,
+    "note": "This is very likely the SAME underlying document concept as TX's doc-home-screening-report and federal's doc-home-study-report -- reconcile into one canonical id before Step 3. external_turnaround_days=60 is backed by the 60-calendar-day quote.",
+    "source_citation": {
+      "text": "Upon receipt of a complete incoming ICPC request, a County shall complete a Comprehensive Assessment of an applicant for Resource Family Approval within 60 calendar days, except as provided in paragraph (1). A report shall be submitted to the sending agency within 60 calendar days pursuant to Family Code section 7901.1.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 4-06, p.21-22",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-written-approval-report",
+    "type": "approval_report",
+    "states_accepted": [
+      "CA"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "source_citation": {
+      "text": "A signed Interstate Compact Placement Request form (ICPC 100A) recommending that a placement of the child be made shall not be returned to the sending state until a County has completed the Comprehensive Assessment of the applicant pursuant to Section 6-01 and has approved the Resource Family as evidenced through the issuance of a Written Report as specified in Section 6-07.",
+      "url": "https://www.cpoc.org/sites/main/files/file-attachments/rfa_written_directives_version_4.pdf",
+      "page_or_section": "Section 4-06, p.21-22",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-ca-signed-minute-order",
+    "type": "court_order",
+    "states_accepted": [
+      "CA"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "note": "NEW (sending-side round): CA juvenile court's order authorizing the ICPC request -- the entry-point document for the whole CA sending-side chain.",
+    "source_citation": {
+      "text": "A copy of the signed minute order initiating ICPC. [...] Obtain the signed minute order [before submitting the ICPC packet].",
+      "url": "https://policy.dcfs.lacounty.gov/Policy?id=5843",
+      "page_or_section": "LA County DCFS Policy 0100-525.10, 'Out-of-State Placement in a Family Home' > 'Case-Carrying CSW Responsibilities'. NOTE ON SOURCE TYPE: this is a COUNTY-level policy manual (Los Angeles County), not a statewide CDSS regulation or written directive -- California administers child welfare at the county level, so implementation specifics can vary by county even though all counties operate under the same state/federal ICPC framework. Treat this as representative, illustrative county practice, not binding statewide text. If your demo names a specific California county, prefer that county's own policy manual if reachable; otherwise this is a reasonable, real, cited stand-in.",
+      "retrieved": "2026-09-06"
+    }
+  },
+  {
+    "id": "doc-ca-case-plan",
+    "type": "case_plan",
+    "states_accepted": [
+      "CA"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "source_citation": {
+      "text": "Case plan. Most recent court report. A copy of the child's Social Security card. Birth certificate. Supporting medical, dental, developmental, educational, and mental health documents.",
+      "url": "https://policy.dcfs.lacounty.gov/Policy?id=5843",
+      "page_or_section": "LA County DCFS Policy 0100-525.10, same section as above. Same county-vs-state caveat applies.",
+      "retrieved": "2026-09-06"
+    }
+  },
+  {
+    "id": "doc-ca-most-recent-court-report",
+    "type": "court_report",
+    "states_accepted": [
+      "CA"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "source_citation": {
+      "text": "Case plan. Most recent court report. A copy of the child's Social Security card. Birth certificate. Supporting medical, dental, developmental, educational, and mental health documents.",
+      "url": "https://policy.dcfs.lacounty.gov/Policy?id=5843",
+      "page_or_section": "LA County DCFS Policy 0100-525.10, same section as above. Same county-vs-state caveat applies.",
+      "retrieved": "2026-09-06"
+    }
+  },
+  {
+    "id": "doc-ca-child-medical-dental-developmental-educational-mental-health-records",
+    "type": "child_records_bundle",
+    "states_accepted": [
+      "CA"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "source_citation": {
+      "text": "Case plan. Most recent court report. A copy of the child's Social Security card. Birth certificate. Supporting medical, dental, developmental, educational, and mental health documents.",
+      "url": "https://policy.dcfs.lacounty.gov/Policy?id=5843",
+      "page_or_section": "LA County DCFS Policy 0100-525.10, same section as above. Same county-vs-state caveat applies.",
+      "retrieved": "2026-09-06"
+    }
+  },
+  {
+    "id": "doc-fc3-afdc-fc-eligibility-determination",
+    "type": "eligibility_determination",
+    "states_accepted": [
+      "CA"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "source_citation": {
+      "text": "FC 3, Determination of Federal AFDC-FC Eligibility.",
+      "url": "https://policy.dcfs.lacounty.gov/Policy?id=5843",
+      "page_or_section": "LA County DCFS Policy 0100-525.10. Same county-vs-state caveat applies.",
+      "retrieved": "2026-09-06"
+    }
+  },
+  {
+    "id": "doc-icpc-financial-medical-plan",
+    "type": "financial_medical_plan",
+    "states_accepted": [
+      "CA"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [
+      "fact.income.annual_gross"
+    ],
+    "verified": false,
+    "note": "Confirmed at both county and statewide level -- see req-ca-sending-financial-medical-plan.",
+    "source_citation": {
+      "text": "ICPC Financial/Medical Plan. [...corroborated statewide:] generate the Financial/Medical Plan document.",
+      "url": "https://policy.dcfs.lacounty.gov/Policy?id=5843",
+      "page_or_section": "LA County DCFS Policy 0100-525.10 (document requirement), corroborated by CDSS All County Information Notice I-95-06, Attachment A / Data Entry Instructions, p.9 (https://www.cdss.ca.gov/getinfo/acin06/pdf/I-95_06.pdf) -- this is the one sending-side item confirmed at BOTH the county-policy and statewide-CDSS level, so it carries more confidence than the county-only items above.",
+      "retrieved": "2026-09-06"
+    }
+  },
+  {
+    "id": "doc-dcfs710-icpc-fact-sheet",
+    "type": "icpc_fact_sheet",
+    "states_accepted": [
+      "CA"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "note": "LA County's own form number for this fact sheet -- another county would use a different form number for the same content.",
+    "source_citation": {
+      "text": "DCFS 710, Interstate Compact on Placement of Children (ICPC) Fact Sheet, and supporting medical psychological and academic documents.",
+      "url": "https://policy.dcfs.lacounty.gov/Policy?id=5843",
+      "page_or_section": "LA County DCFS Policy 0100-525.10. This specific form number (DCFS 710) is an LA County form -- another county would use its own form number for the same underlying fact-sheet content. County-vs-state caveat applies.",
+      "retrieved": "2026-09-06"
+    }
+  },
+  {
+    "id": "doc-ca-dcfs711-regular-request",
+    "type": "icpc_cover_sheet",
+    "states_accepted": [
+      "CA"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "note": "LA County-specific cover sheet for a regular-track ICPC request.",
+    "source_citation": {
+      "text": "Complete the ICPC 100A page and generate the 100A form to send to the receiving state. Be sure to complete all mandatory fields. [County-level: use] DCFS 711 if a regular ICPC request or the DCFS 712 if an expedited ICPC request.",
+      "url": "https://www.cdss.ca.gov/getinfo/acin06/pdf/I-95_06.pdf",
+      "page_or_section": "CDSS All County Information Notice I-95-06, 'Outgoing Requests' section, p.2 (statewide CWS/CMS data-entry instruction) -- the DCFS 711/712 form numbers are LA County's own cover-sheet forms layered on top of the statewide ICPC-100A, corroborated by https://policy.dcfs.lacounty.gov/Policy?id=5843.",
+      "retrieved": "2026-09-06"
+    }
+  },
+  {
+    "id": "doc-ca-dcfs712-expedited-request",
+    "type": "icpc_cover_sheet",
+    "states_accepted": [
+      "CA"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "note": "LA County-specific cover sheet for an expedited ICPC request.",
+    "source_citation": {
+      "text": "Complete the ICPC 100A page and generate the 100A form to send to the receiving state. Be sure to complete all mandatory fields. [County-level: use] DCFS 711 if a regular ICPC request or the DCFS 712 if an expedited ICPC request.",
+      "url": "https://www.cdss.ca.gov/getinfo/acin06/pdf/I-95_06.pdf",
+      "page_or_section": "CDSS All County Information Notice I-95-06, 'Outgoing Requests' section, p.2 (statewide CWS/CMS data-entry instruction) -- the DCFS 711/712 form numbers are LA County's own cover-sheet forms layered on top of the statewide ICPC-100A, corroborated by https://policy.dcfs.lacounty.gov/Policy?id=5843.",
+      "retrieved": "2026-09-06"
+    }
+  },
+  {
+    "id": "doc-capacity-determination-record",
+    "type": "capacity_determination",
+    "states_accepted": [
+      "CA"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [
+      "fact.home.child_count"
+    ],
+    "verified": false,
+    "note": "NEW (gap-closing round): CA's capacity determination per 22 CCR Section 89228 -- base 6-child cap, 8-child sibling group exception, or agency waiver above that.",
+    "source_citation": {
+      "text": "For licenses granted after January 1, 2010, this number shall not exceed six children, including a 'child' and biological, adoptive, and guardianship children.",
+      "url": "https://regulations.justia.com/states/california/title-22/division-6/chapter-9-5/article-2/section-89228",
+      "page_or_section": "22 Cal. Code Regs. Section 89228 (Capacity Determination), Division 6, Chapter 9.5, Article 2. This is the actual codified regulation implementing WIC Section 16519.5(d)(2)(C) -- a more authoritative and more reliably-fetchable source than the RFA Written Directives compilation PDF used for the first 32 entries. Recommend re-sourcing other capacity-adjacent entries against this same regulations.justia Title 22 mirror where possible.",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-capacity-waiver-request",
+    "type": "waiver_request",
+    "states_accepted": [
+      "CA"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "note": "NEW: request for the general capacity waiver above 6 (or above 8 for siblings) per 22 CCR Section 89228.",
+    "source_citation": {
+      "text": "If it is determined that the home can meet the needs of all children in the home, the licensing agency may grant a waiver or exception for the home to provide care to more than six children.",
+      "url": "https://regulations.justia.com/states/california/title-22/division-6/chapter-9-5/article-2/section-89228",
+      "page_or_section": "22 Cal. Code Regs. Section 89228.",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-financial-waiver-request",
+    "type": "waiver_request",
+    "states_accepted": [
+      "CA"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "note": "NEW: relative/NREFM-specific waiver of the household financial stability requirement per WIC Section 16519.5(c)(1)(D) -- CA's own relative-specific carve-out, analogous to TX's kinship minimum-standards waiver.",
+    "source_citation": {
+      "text": "This requirement may be waived for relative and nonrelative extended family member resource families on a case-by-case basis. [Referring to a household financial stability/self-sufficiency requirement -- applicants relying on foster care funding as part of household income cannot be denied approval solely for this reason.]",
+      "url": "https://california.public.law/codes/ca_welf_and_inst_code_section_16519.5",
+      "page_or_section": "WIC Section 16519.5(c)(1)(D). THIS IS A NEW FINDING NOT IN THE ORIGINAL 32: a genuine, statute-level, relative/NREFM-specific waiver provision -- the CA analogue to Texas's kinship non-safety waiver (req-tx-kinship-minstandards-waiver). Resolves part of the round-1 open question 'does CA have anything relative-specific' with a definitive yes, for this one requirement. Not independently confirmed against the official leginfo.legislature.ca.gov text (blocked by robots.txt in this session) -- corroborated instead by a second independent secondary source (public.law) reproducing the same subdivision letter and language; recommend a quick manual check against leginfo.legislature.ca.gov directly if you want the primary-official copy.",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-physical-environment-inspection-report",
+    "type": "home_physical_inspection",
+    "states_accepted": [
+      "CA"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [
+      "fact.home.bedroom_count",
+      "fact.home.children_per_bedroom",
+      "fact.home.has_pool"
+    ],
+    "verified": false,
+    "note": "NEW (gap-closing round): covers bedroom sharing/bed standards, bathroom, smoke/CO detectors, pool safety, and general condition per 22 CCR Section 89387 -- this is the physical-environment content that could not be read from the RFA Written Directives PDF (Article 11) directly.",
+    "source_citation": {
+      "text": "No more than two children shall share a bedroom. [Children of different sexes cannot share rooms unless both are under 5, one is an infant with parent, or the arrangement respects gender identity.]",
+      "url": "https://regulations.justia.com/states/california/title-22/division-6/chapter-9-5/article-3/section-89387",
+      "page_or_section": "22 Cal. Code Regs. Section 89387 (Buildings and Grounds), Division 6, Chapter 9.5, Article 3. THIS IS PART OF THE GAP-CLOSING FINDING for the physical-environment/Article-11 content that could not be read from the RFA Written Directives PDF directly -- found instead via the actual codified Title 22 regulation.",
+      "retrieved": "2026-09-05"
+    }
+  }
+]

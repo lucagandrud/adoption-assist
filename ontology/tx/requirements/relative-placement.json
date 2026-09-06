@@ -1,0 +1,430 @@
+[
+  {
+    "id": "req-tx-age-marital-eval",
+    "state": "TX",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-applicant-id-or-birth-certificate",
+      "doc-marriage-certificate-if-applicable"
+    ],
+    "satisfied_by_facts": [
+      "fact.person.age",
+      "fact.person.marital_status",
+      "fact.person.marriage_duration_years"
+    ],
+    "depends_on": [],
+    "source_citation": {
+      "text": "Applicants to foster or adopt must be at least 21 years of age. Age is evaluated in relation to the applicant's maturity. ... DFPS has a preference that couples should be married at least two years before adopting.",
+      "url": "https://www.law.cornell.edu/regulations/texas/40-Tex-Admin-Code-SS-700-1502",
+      "page_or_section": "40 Tex. Admin. Code Section 700.1502(2)(A)-(C) -- Title 40, Part 19 (DFPS), Ch. 700, Subchapter O. CONFIRMED still Title 40 (this chapter did not move).",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-tx-criminal-history-check-700",
+    "state": "TX",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-criminal-history-background-check-result"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [],
+    "source_citation": {
+      "text": "Criminal history background checks must be completed on all prospective foster and adoptive parents and the members of their households who are 14 years old or older and not under the legal conservatorship of DFPS.",
+      "url": "https://www.law.cornell.edu/regulations/texas/40-Tex-Admin-Code-SS-700-1502",
+      "page_or_section": "40 Tex. Admin. Code Section 700.1502(2)(L) -- Title 40, Part 19 (DFPS), Ch. 700. CONFIRMED current.",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-tx-family-member-definition",
+    "state": "TX",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [],
+    "satisfied_by_facts": [
+      "fact.relationship.degree_to_child"
+    ],
+    "depends_on": [],
+    "source_citation": {
+      "text": "An individual related to another individual within the third degree of consanguinity or affinity.",
+      "url": "https://regulations.justia.com/states/texas/title-26/part-1/chapter-749/subchapter-b/division-1/section-749-43/",
+      "page_or_section": "26 Tex. Admin. Code Section 749.43(27), Title 26, Part 1, HHSC. RESOLVED: renumbered from (21) in the stale 2014/Title-40 PDF to (27) under current Title 26 -- text itself is unchanged.",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-tx-foster-home-capacity-unified",
+    "state": "TX",
+    "direction": "receiving",
+    "applies_to": [
+      "general",
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-foster-home-verification-certificate"
+    ],
+    "satisfied_by_facts": [
+      "fact.home.child_count"
+    ],
+    "depends_on": [],
+    "source_citation": {
+      "text": "A home that is the primary residence of the foster parent(s) and provides care for six or fewer children or young adults, under the regulation of a child-placing agency. Also referred to as a 'foster home' in this chapter.",
+      "url": "https://www.hhs.texas.gov/sites/default/files/documents/chapter-749-revision-memo-apr-2022.pdf",
+      "page_or_section": "26 Tex. Admin. Code Section 749.43(29). RESOLVED, SUPERSEDES the old draft entry: the separate 'foster group home' (7-12 children) category from the 2014 PDF's Section 749.43(23)-(24) was DELETED in an April 2022 recodification -- confirmed via HHS's own revision memo. All foster homes are now capped at six children/young adults under one definition. Do not use the old two-tier size split.",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-tx-foster-adoptive-home-screening-definition",
+    "state": "TX",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-home-screening-report"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [],
+    "source_citation": {
+      "text": "A written evaluation, prior to the placement of a child in a foster home, of the prospective foster parent(s); family of the prospective foster parents; and environment of the foster parent(s) and their family in relation to their ability to meet the child's needs.",
+      "url": "https://www.circlesofcareinc.org/wp-content/uploads/Minimum-Standards-for-Child-Placing-Agencies-Dec.-2014-749_CPA_12-2014.pdf",
+      "page_or_section": "Section 749.43(26) and Section 749.43(5) (definitions) per the 2014 PDF. NOT independently re-confirmed under current Title 26 numbering this round -- lower priority than the entries above, spot-check before use.",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-tx-home-screening-required-before-verification",
+    "state": "TX",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-home-screening-report"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [],
+    "source_citation": {
+      "text": "(a) You must complete a foster home screening prior to verifying the foster home. (b) Your child placement management staff must review and approve each foster home screening.",
+      "url": "https://regulations.justia.com/states/texas/title-26/part-1/chapter-749/subchapter-m/division-2/section-749-2445/",
+      "page_or_section": "26 Tex. Admin. Code Section 749.2445(a)-(b), Title 26, Part 1 (HHSC), Ch. 749, Subchapter M, Division 2. CONFIRMED current, cross-checked against Cornell LII mirror.",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-tx-domestic-violence-history-disclosure",
+    "state": "TX",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-domestic-violence-history-disclosure"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [],
+    "source_citation": {
+      "text": "Regarding Section 749.2447(7) of Title 40, you must report to Licensing only the information obtained about the prospective foster family's domestic violence history, as applicable.",
+      "url": "https://regulations.justia.com/states/texas/title-26/part-1/chapter-749/subchapter-m/division-2/section-749-2445/",
+      "page_or_section": "26 Tex. Admin. Code Section 749.2445(d). RESOLVED: 'of Title 40' is a REAL, confirmed, uncorrected drafting error in the current official text (verified identically on two independent mirrors -- Justia and Cornell LII) left over from the 2022 move of Chapter 749 from Title 40 to Title 26. Section 749.2447(7) itself is still valid law under Title 26 despite the wrong label.",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-tx-home-screening-interviews",
+    "state": "TX",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-interview-log"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [],
+    "source_citation": {
+      "text": "Interviews for a foster home screening must be documented and must include at least: one individual interview with each prospective foster parent; one individual interview with each child three years old or older living in the home; ... a minimum of two interviews ... with neighbors, school personnel, clergy, or any other community member ... unrelated to the foster parents.",
+      "url": "https://regulations.justia.com/states/texas/title-26/part-1/chapter-749/subchapter-m/division-2/section-749-2449/",
+      "page_or_section": "26 Tex. Admin. Code Section 749.2449(a)(1)-(8), Title 26, Part 1, HHSC, Ch. 749. CONFIRMED current.",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-tx-home-visit-all-members-present",
+    "state": "TX",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-home-visit-report"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [],
+    "source_citation": {
+      "text": "You must visit the home at least once when all members of the household are present.",
+      "url": "https://regulations.justia.com/states/texas/title-26/part-1/chapter-749/subchapter-m/division-2/section-749-2449/",
+      "page_or_section": "26 Tex. Admin. Code Section 749.2449(b). CONFIRMED current.",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-tx-single-spouse-verification-conditions",
+    "state": "TX",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-household-roster",
+      "doc-marital-status-declaration"
+    ],
+    "satisfied_by_facts": [
+      "fact.household.spouse_cohabitation_status",
+      "fact.household.spouse_unsupervised_access_determination"
+    ],
+    "depends_on": [],
+    "source_citation": {
+      "text": "You may verify only one spouse if: the spouse whom you verify will be the only one involved in the care of any foster child in the home; the spouses have been living apart for at least two years; and ... you determine that the spouse will not have unsupervised access to foster children.",
+      "url": "https://regulations.justia.com/states/texas/title-26/part-1/chapter-749/subchapter-m/division-1/section-749-2401",
+      "page_or_section": "26 Tex. Admin. Code Section 749.2401(a)-(c), Title 26, Part 1, HHSC, Ch. 749. CONFIRMED current.",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-tx-screening-update-major-life-change",
+    "state": "TX",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-home-screening-update-addendum"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [
+      "req-tx-single-spouse-verification-conditions"
+    ],
+    "source_citation": {
+      "text": "You must complete a foster home screening update that is needed under the circumstances described in Section 749.307(a) of Title 40 before issuing a new verification certificate. ... complete the update within 30 days of the notification of the major life change.",
+      "url": "https://regulations.justia.com/states/texas/title-26/part-1/chapter-749/subchapter-m/division-2/section-749-2453",
+      "page_or_section": "26 Tex. Admin. Code Section 749.2453(c)-(d). Same 'of Title 40' drafting-error cross-reference as above -- RESOLVED as a real but harmless labeling error, section itself is in force.",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-tx-verification-floorplan-photos",
+    "state": "TX",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-floor-plan",
+      "doc-exterior-photo-or-sketch"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [],
+    "source_citation": {
+      "text": "Obtain the following: a floor plan of the home that shows the dimensions and purposes of all rooms in the home ...; and a sketch or photo of the outside areas.",
+      "url": "https://regulations.justia.com/states/texas/title-26/part-1/chapter-749/subchapter-m/division-3/section-749-2470/",
+      "page_or_section": "26 Tex. Admin. Code Section 749.2470(a)(3), Title 26, Part 1, HHSC, Ch. 749. CONFIRMED current.",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-tx-verification-health-fire-inspection",
+    "state": "TX",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-health-inspection-report",
+      "doc-fire-inspection-report"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [],
+    "source_citation": {
+      "text": "Inspect the home to ensure and document that the home meets the appropriate rules of this chapter ... including a: (i) Health inspection; and (ii) Fire inspection.",
+      "url": "https://regulations.justia.com/states/texas/title-26/part-1/chapter-749/subchapter-m/division-3/section-749-2470/",
+      "page_or_section": "26 Tex. Admin. Code Section 749.2470(a)(4)(B). CONFIRMED current.",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-tx-verification-certificate-capacity",
+    "state": "TX",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-household-roster"
+    ],
+    "satisfied_by_facts": [
+      "fact.capacity.total_household",
+      "fact.capacity.foster_care"
+    ],
+    "depends_on": [],
+    "source_citation": {
+      "text": "Issue a verification certificate that specifies the: Foster family home's total capacity ...; Foster family home's foster care capacity, a subset of the total capacity ...; Gender and ages of children for which the home is verified.",
+      "url": "https://regulations.justia.com/states/texas/title-26/part-1/chapter-749/subchapter-m/division-3/section-749-2470/",
+      "page_or_section": "26 Tex. Admin. Code Section 749.2470(a)(9)(C)-(E). CONFIRMED current.",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-tx-preservice-training-before-placement",
+    "state": "TX",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-preservice-training-certificate"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [
+      "req-tx-preservice-training-hours"
+    ],
+    "source_citation": {
+      "text": "You can verify a foster home before the foster parents complete the pre-service training. However, foster parents must comply with the training requirements described in Section 749.863 ... before you may place a child in the home.",
+      "url": "https://regulations.justia.com/states/texas/title-26/part-1/chapter-749/subchapter-m/division-3/section-749-2470/",
+      "page_or_section": "26 Tex. Admin. Code Section 749.2470(b). CONFIRMED current. Explicit ordering language: verification may precede training completion, but placement may not.",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-tx-preservice-training-hours",
+    "state": "TX",
+    "direction": "receiving",
+    "applies_to": [
+      "general",
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-preservice-training-certificate"
+    ],
+    "satisfied_by_facts": [
+      "fact.training.general_hours_completed",
+      "fact.training.normalcy_hours_completed"
+    ],
+    "depends_on": [],
+    "source_citation": {
+      "text": "General Pre-Service Training: 8 hours (all caregivers, one before placement, other(s) within 90 days). Normalcy: 2 hours (foster parents). Emergency Behavior Intervention: 8 hours, or 8-16 hours depending on population served, if agency allows use. Safe Sleeping and Administering Psychotropic Medication: content-based, no specified hour count.",
+      "url": "https://regulations.justia.com/resources/v2025071600/tx/admin/2025/202100608_1.pdf",
+      "page_or_section": "26 Tex. Admin. Code Section 749.863(a) table. UPDATED, SUPERSEDES the earlier inferred-only version: figures reproduced consistently across two independent fetches, but the table is graphic-rendered in the source and was NOT visually confirmed by a human -- this is the one figure in the TX set most worth a human eyeballing the actual PDF before trusting the exact hour counts.",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-tx-kinship-home-assessment",
+    "state": "TX",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-form-6588-kinship-home-assessment",
+      "doc-form-2049-risk-assessment"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [],
+    "source_citation": {
+      "text": "a written assessment of a kinship caregiver's home, using Form 6588 Kinship Caregiver Home Assessment Template; and a risk assessment, using Form 2049 Risk Assessment.",
+      "url": "https://www.dfps.texas.gov/handbooks/cps/files/CPS_pg_6600.asp",
+      "page_or_section": "CPS Policy Handbook Section 6623, referenced by 26 Tex. Admin. Code Section 749.2472. UPDATED, SUPERSEDES the earlier vaguer draft entry: this is now sourced with the actual named forms and the specific handbook provision, not just the regulation's cross-reference to an undefined 'kinship home assessment.'",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-tx-kinship-minstandards-waiver",
+    "state": "TX",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-ccl-waiver-variance-approval"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [
+      "req-tx-foster-home-capacity-unified"
+    ],
+    "source_citation": {
+      "text": "kinship caregivers must meet the minimum standards adopted by the DFPS Child Care Licensing Division, but on a case-by-case basis a caseworker may ask ... whether it is appropriate to request from Child Care Licensing a waiver or variance from minimum standards that are not related to safety.",
+      "url": "https://www.dfps.texas.gov/handbooks/cps/files/CPS_pg_6600.asp",
+      "page_or_section": "CPS Policy Handbook Section 6660. NEW: this is the ONE genuinely relative-specific divergence found across either state's rules in this research pass -- Texas allows a caseworker to seek a non-safety-related waiver from the standard foster-home minimum standards specifically because the caregiver is kin. This is the strongest candidate for making the CA vs TX direction genuinely differ for a relative placement case.",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-tx-weapons-firearms-storage",
+    "state": "TX",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-home-safety-inspection-report"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [],
+    "source_citation": {
+      "text": "Requires locked storage when not in use, agency notification of new weapons, per-child appropriateness determination; exempts inoperable/ornamental firearms.",
+      "url": "https://regulations.justia.com/states/texas/title-26/part-1/chapter-749/subchapter-o/division-3/section-749-2961/",
+      "page_or_section": "26 Tex. Admin. Code Section 749.2961. CONFIRMED current -- same section number as the 2014 PDF, cross-checked against Cornell LII.",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-tx-child-own-bed",
+    "state": "TX",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-home-safety-inspection-report"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [],
+    "source_citation": {
+      "text": "Each foster child shall have their own bed and mattress. This does not prevent a child receiving respite care or requiring closer supervision from sleeping on a couch, sleeping bag, etc. for fewer than seven days.",
+      "url": "https://regulations.justia.com/states/texas/title-26/part-1/chapter-749/subchapter-o/division-4/section-749-3031/",
+      "page_or_section": "26 Tex. Admin. Code Section 749.3031(a). RESOLVED, SUPERSEDES the earlier draft entry: renumbered from Section 749.2909 (which today is a smoke-detector rule, an unrelated subject) to Section 749.3031.",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  }
+]

@@ -1,17 +1,26 @@
-# ICPC Compliance Workbench
+# ICPC Preflight
 
-**AI tooling for caseworkers handling interstate foster care and adoption placements.**
+**Administrative readiness for interstate foster-care and adoption placement packets.**
 
-Interstate placement packets are rejected for administrative defects — a mismatched address,
-a clearance that lapsed, a document filed out of order. Each rejection costs caseworker hours
-and adds months to a child's time in care. This is a workbench that derives the correct
-document workflow from state regulations and verifies every upload against them
-automatically.
+Administrative defects in interstate placement packets — a mismatched address, an expiring
+clearance, or an incomplete record — can trigger avoidable review and rework. ICPC Preflight
+is a caseworker workbench that reads packet evidence, compares typed facts, and presents the
+encoded CA/TX workflow before submission. It supports administrative review; it does not make
+placement or legal-compliance decisions.
 
 Built for **DNHacks**, Health and Public Service category, in a 26-hour window.
 
-> **Status: pre-build.** No implementation. Every source file is comment-only and marked
-> `PSEUDOCODE — NOT IMPLEMENTED`.
+> **Status:** the case shell, task-centered preflight workspace, ontology-derived workflow,
+> synthetic evidence packet, and extraction evaluation are implemented. The
+> ontology currently contains 95 requirements, 81 document definitions, 31 fact types, and
+> four deterministic consistency rules. All researched regulatory entries remain
+> `verified: false` pending human review. Synthetic cached extraction works without keys;
+> optional live PDF/image extraction uses Anthropic when configured. Start with the
+> [demo and pitch guide](docs/DEMO_AND_PITCH_GUIDE.md).
+
+For the current product rationale and submission audit, see the
+[caseworker persona](docs/USER_PERSONA.md) and
+[judging-readiness map](docs/JUDGING_READINESS.md).
 
 ---
 
@@ -29,8 +38,8 @@ structurally different — California uses Resource Family Approval as a unified
 Texas uses DFPS home screening and licensing — so the composed workflow genuinely differs by
 direction rather than being a relabeled checklist.
 
-Architecture generalizes to 50 states. **Only ontology data is state-specific; no state
-logic in code.**
+The architecture can extend to additional states by adding reviewed ontology data. **Only
+ontology data is state-specific; no state logic is hard-coded in the workflow engine.**
 
 ---
 
@@ -48,15 +57,15 @@ logic in code.**
 Full citations in [`docs/SOURCES.md`](docs/SOURCES.md). These are the only statistics this
 project uses.
 
-**Where the cost is.** A defective packet is denied, there is no appeal, and the case starts
-over while a child waits. The defects that cause this are overwhelmingly administrative —
-they are catchable before submission by anything that actually reads the documents against
-the governing requirements.
+**Where the product intervenes.** Returned or denied packets can require additional review or
+refiling while a child waits. This prototype targets the narrower, testable subset of defects
+that can be found before submission: missing evidence, cross-document contradictions, and
+documents that may expire during the review window.
 
-**Why this doesn't already exist.** NEICE digitized the transport layer: 47 jurisdictions
-exchange ICPC packets electronically today, and the Family First Prevention Services Act
-requires universal participation by 2027. But NEICE is office-to-office document exchange.
-It moves packets. **Nothing evaluates whether a packet is correct before it enters the pipe.**
+**Where it fits.** NEICE digitized the transport layer: 47 jurisdictions exchange ICPC
+packets electronically today, and the Family First Prevention Services Act requires universal
+participation by 2027. This prototype explores a complementary pre-submission layer focused
+on administrative evidence quality.
 
 This is a pre-submission layer that feeds NEICE. It does not compete with it.
 
@@ -69,9 +78,9 @@ sign in
   └─ select case
        └─ select state pair          CA ⇄ TX, with direction
             └─ WORKFLOW DASHBOARD
-                 ├─ branching document graph, derived from both states' regulations
-                 ├─ upload a document → extract → ontologize → verify
-                 └─ green check when an item passes; defect when it does not
+                 ├─ issue-first case overview with evidence and next actions
+                 ├─ upload → extract → ontologize → deterministic checks
+                 └─ expert workflow map derived from both states' requirements
 ```
 
 Selecting the state pair is what composes the workflow. The applicable requirement set is
@@ -85,10 +94,11 @@ derived from that set.
 
 Everything else is supporting infrastructure or deferred.
 
-### F1 — Workflow dashboard
+### F1 — Preflight workspace and workflow map
 
-A branching, stepwise document workflow, **derived from regulation data rather than
-hand-authored**, showing what must be filed, in what order, and what is blocked by what.
+A task-centered preflight workspace backed by a branching workflow **derived from requirement
+data rather than hand-authored**, showing exceptions, evidence, what must be filed, and what
+is blocked by what.
 
 - DAG built from `Requirement.depends_on` edges — never a hand-written node list
 - Node states: `locked`, `available`, `in_progress`, `verified`, `defect`
@@ -100,7 +110,8 @@ hand-authored**, showing what must be filed, in what order, and what is blocked 
 direction, with every node traceable to a citation, and the graph changes when the direction
 flips.
 
-**This is the primary UI. Not sequential screens.**
+The overview is the primary task surface; the complete DAG remains available as an expert
+view and proof that workflow structure is derived rather than painted into the interface.
 
 ### F2 — AI verification with green checks
 
@@ -345,10 +356,12 @@ boundary between backend and frontend. The engines emit that shape; the dashboar
 Both people build against it from hour 0, so neither waits on the other. **Read it together
 before writing any code**, and never change it unilaterally — it breaks both sides at once.
 
-Find remaining pseudocode:
+Verify the ontology, deterministic engines, and frontend/backend contract:
 
 ```bash
-grep -rln "PSEUDOCODE — NOT IMPLEMENTED" --include="*.ts" .
+npm run verify:ontology
+npm run lint
+npx tsc --noEmit
 ```
 
 ---

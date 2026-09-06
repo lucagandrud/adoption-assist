@@ -68,6 +68,8 @@ the answer is one lookup away.
 
 ## Status
 
-❌ **No requirement data has been authored yet.** This is the first real work on the project
-and it should begin before the 26-hour window opens (research and data collection only —
-confirm DNHacks rules on advance work first).
+The ontology contains 95 requirements, 81 document definitions, 31 canonical fact types,
+four consistency rules, and five audited action definitions. `schema.ts` loads every JSON
+file, validates references and rule expressions, rejects cycles and duplicate ids, and
+reports unknown turnaround data. Every researched regulatory entry remains intentionally
+unverified until a person checks its cited source.

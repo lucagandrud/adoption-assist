@@ -1,0 +1,110 @@
+[
+  {
+    "id": "req-federal-documentation-submission",
+    "state": "FEDERAL",
+    "direction": "sending",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-icpc-100a-form",
+      "doc-case-history",
+      "doc-court-order",
+      "doc-financial-medical-plan"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [],
+    "source_citation": {
+      "text": "An ICPC-100A (DSS-1837) fully completed is required documentation for placement requests, along with case history, court order, and financial/medical plan.",
+      "url": "https://policies.ncdhhs.gov/wp-content/uploads/icpc.pdf",
+      "page_or_section": "ICPC Regulation 2, p.10 (NC DHHS compiled mirror). RESOLVED regulation number: confirmed via TWO independent sources (CDSS ACL 11-79 and this NC DHHS document) that Regulation 2 -- not Regulation 3 -- is what governs the 100A form and the deadlines below.",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-federal-home-study-60-days",
+    "state": "FEDERAL",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-home-study-report"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [
+      "req-federal-documentation-submission"
+    ],
+    "source_citation": {
+      "text": "receiving state shall...complete a study of the home environment within 60 days. 'Safe and Timely' interim report deadline is 60 calendar days maximum.",
+      "url": "https://www.cdss.ca.gov/lettersnotices/entres/getinfo/acl/2011/11-79.pdf",
+      "page_or_section": "ICPC Regulation 2, Section 7(a). Cross-checked against ICPC Regulation 2 text via a second mirror (policies.ncdhhs.gov) for the 100A/180-day figures; this specific 60-day interim clause was not independently re-quoted from the second mirror this round, so it carries slightly less corroboration than the 180-day figure below.",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-federal-icpc-100a-final-decision-180-days",
+    "state": "FEDERAL",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-icpc-100a-form"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [
+      "req-federal-home-study-60-days"
+    ],
+    "source_citation": {
+      "text": "Final approval or denial of the placement resource request shall be provided by Receiving State Compact Administrator in the form of a signed ICPC-100A, as soon as practical but no later than one hundred and eighty (180) calendar days from receipt of the initial home study request.",
+      "url": "https://policies.ncdhhs.gov/wp-content/uploads/icpc.pdf",
+      "page_or_section": "ICPC Regulation 2, p.12 (NC DHHS compiled mirror). RESOLVED and STRENGTHENED: this exact sentence was independently confirmed word-for-word across two unrelated mirrors (CDSS ACL 11-79 and this NC DHHS document) -- the strongest-sourced entry in the federal set.",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-federal-icpc-100b-already-placed-notice",
+    "state": "FEDERAL",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-icpc-100b-form"
+    ],
+    "satisfied_by_facts": [
+      "fact.placement.placed_without_prior_approval"
+    ],
+    "depends_on": [],
+    "source_citation": {
+      "text": "A Form ICPC-100B if the child is already placed without prior approval in the receiving state. The receiving state is not obligated to provide supervision.",
+      "url": "https://www.cdss.ca.gov/lettersnotices/entres/getinfo/acl/2011/11-79.pdf",
+      "page_or_section": "ICPC Regulation 2, Section 5(b) (per CDSS ACL 11-79). Regulation number confirmed as Regulation 2 by the same cross-check as the entries above; this specific 100B clause was not independently re-quoted from the second mirror.",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-federal-applicability-definitions",
+    "state": "FEDERAL",
+    "direction": "both",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [],
+    "satisfied_by_facts": [],
+    "depends_on": [],
+    "source_citation": {
+      "text": "Regulation 3 addresses 'DEFINITIONS AND PLACEMENT CATEGORIES, APPLICABILITY AND EXEMPTIONS.' It clarifies which interstate placements require ICPC compliance and provides definitions of terms like 'child,' 'placement,' 'home study,' and the four placement categories governed by the Compact.",
+      "url": "https://policies.ncdhhs.gov/wp-content/uploads/icpc.pdf",
+      "page_or_section": "ICPC Regulation 3, p.14 (NC DHHS compiled mirror).",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false,
+    "note": "CONTEXT ONLY, not a checkable requirement in this draft: Regulation 3 is the definitions/applicability/exemptions regulation. It matters for one open question we did not resolve -- some states treat certain relative placements as exempt from full ICPC processing under specific statutory carve-outs. We did not find the exact exemption text in the sources fetched this round. If your demo case needs to show 'this placement requires ICPC at all,' someone should read Regulation 3's actual exemption clauses directly before assuming full ICPC applies uniformly to every relative case."
+  }
+]

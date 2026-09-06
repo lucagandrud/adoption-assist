@@ -14,11 +14,13 @@
  * Server-only. Never import from a client component.
  */
 
+import { randomUUID } from "node:crypto";
 import { supabaseServerClient } from "@/lib/supabase";
-import type { CaseRecord, UserRecord } from "@/lib/types";
+import type { CaseDocumentRecord, CaseRecord, UserRecord } from "@/lib/types";
 import type {
   AuthResult,
   CaseInput,
+  DocumentInput,
   SignInInput,
   SignUpInput,
 } from "@/lib/store-types";
@@ -227,6 +229,69 @@ export async function deleteCase(
     .eq("owner_user_id", userId)
     .eq("id", caseId);
   return !error && (count ?? 0) > 0;
+}
+
+/* ------------------------------- documents ------------------------------ */
+
+export async function listCaseDocuments(
+  userId: string,
+  caseId: string,
+): Promise<CaseDocumentRecord[]> {
+  const ownsCase = await findCase(userId, caseId);
+  if (!ownsCase) return [];
+
+  const supabase = await supabaseServerClient();
+  const { data, error } = await supabase
+    .from("documents")
+    .select("*")
+    .eq("case_id", caseId)
+    .order("uploaded_at", { ascending: true });
+  if (error) throw new Error(`Could not load case documents: ${error.message}`);
+  return (data ?? []) as CaseDocumentRecord[];
+}
+
+export async function saveCaseDocument(
+  userId: string,
+  caseId: string,
+  input: DocumentInput,
+): Promise<CaseDocumentRecord | null> {
+  const ownsCase = await findCase(userId, caseId);
+  if (!ownsCase) return null;
+
+  const supabase = await supabaseServerClient();
+  const { data: existing } = await supabase
+    .from("documents")
+    .select("id")
+    .eq("case_id", caseId)
+    .eq("definition_id", input.definition_id)
+    .maybeSingle<{ id: string }>();
+
+  const row = {
+    id: existing?.id ?? `case-doc-${randomUUID().slice(0, 8)}`,
+    case_id: caseId,
+    uploaded_at: new Date().toISOString(),
+    ...input,
+  };
+  const { data, error } = await supabase
+    .from("documents")
+    .upsert(row, { onConflict: "case_id,definition_id" })
+    .select()
+    .single();
+  if (error) throw new Error(`Could not save case document: ${error.message}`);
+  return data as CaseDocumentRecord;
+}
+
+export async function clearCaseDocuments(
+  userId: string,
+  caseId: string,
+): Promise<boolean> {
+  const ownsCase = await findCase(userId, caseId);
+  if (!ownsCase) return false;
+
+  const supabase = await supabaseServerClient();
+  const { error } = await supabase.from("documents").delete().eq("case_id", caseId);
+  if (error) throw new Error(`Could not clear case documents: ${error.message}`);
+  return true;
 }
 
 /* --------------------------------- seed ----------------------------------- */
