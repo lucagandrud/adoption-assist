@@ -3,10 +3,21 @@
 This file is the standing context for this repository. Read it fully before writing code.
 
 > **Scope revision.** This project was originally specified with a family-facing intake
-> portal and a caseworker review surface. **The family side is cut.** The system is
-> caseworker-facing only and accepts no family-facing intake. If you find a reference to a
-> family portal, a voice/chat interview, or family document upload anywhere in this
-> repository, it is stale — fix it.
+> portal and a caseworker review surface. **The family-facing portal is cut.** There is no
+> family sign-in, no family case view, and no family document upload. If you find a
+> reference to a family portal or family document upload anywhere in this repository, it
+> is stale — fix it.
+>
+> **Amendment (supersedes the blanket ban on a voice interview).** The system now includes
+> one narrowly-scoped surface that a household member touches: a **caseworker-dispatched
+> intake interview**. The caseworker mints an expiring link per household member; the
+> member opens it, consents, and answers a **fixed, authored** question script by voice or
+> text. It produces a transcript and typed facts as a **draft the caseworker reviews**.
+>
+> This is not a reversal of the reasoning that cut the portal — it satisfies it. The
+> household member has no account, no case visibility, uploads no documents, and cannot
+> submit anything. They answer questions and leave. The caseworker remains the only user
+> of the workbench and the only actor who can accept a fact or file a packet. See §4a.
 
 ---
 
@@ -85,14 +96,16 @@ feeds NEICE.
 
 ## 4. Users and scope
 
-**Caseworker is the only user.** There is no family-facing surface.
+**Caseworker is the only user of the workbench.** A household member touches exactly one
+screen — the interview link the caseworker sends them — and nothing else.
 
 | Actor | Role |
 |---|---|
-| **Caseworker** | The user. Assembles the packet, uploads documents, works the workflow, resolves defects, files. |
+| **Caseworker** | The user. Assembles the packet, uploads documents, works the workflow, resolves defects, reviews interview drafts, accepts facts, files. |
+| **Household member** | Not a user of the workbench. Opens a link, consents, answers a fixed script, leaves. No account, no case visibility, no upload, no submission. |
 | **Agency** | The buyer. State or federal child welfare agency. |
 
-### Why the family side is cut
+### Why the family portal is cut
 
 1. **We do not want to handle family data upload.** No consumer intake means no consumer PII
    in the threat model, which is the right posture for a 26-hour build with no compliance
@@ -102,6 +115,53 @@ feeds NEICE.
 3. **Focus.** Two features built well beat six built thinly.
 
 Caseworkers already hold these records. The workbench operates on what the agency has.
+
+### 4a. The intake interview agent
+
+Psycho-social evaluation requires interviewing each adult in the household. In an interstate
+case the sending-state worker may be a flight away. The agent moves scripted fact-gathering
+off the caseworker's calendar; it does not move judgement anywhere.
+
+Full design: [`docs/interview-agent-spec.md`](docs/interview-agent-spec.md).
+
+**Rules. These are the product, not compliance decoration.**
+
+1. **The question set is authored data, never generated.** Questions live in a JSON script
+   keyed to fact ids. A deterministic state machine owns sequencing. The model may only
+   acknowledge an answer, ask at most one bounded clarification when an answer fails to
+   populate its target fact, and extract facts. It may never invent a substantive question,
+   never choose what comes next, and never skip.
+
+   This is what makes *"every household is asked the same questions in the same words"*
+   literally true rather than aspirational. **Claim the procedural property; never claim
+   measured bias reduction — there is no study.**
+
+2. **No scoring, rating, sentiment, tone, or affect analysis. Ever.** Not behind a flag, not
+   on a roadmap. This is enforced structurally: the extracted-fact response type has no field
+   capable of carrying an assessment. An agent that evaluates a family is the one thing that
+   would make this indefensible.
+
+3. **Everything is a draft until a human accepts it.** No output path writes to the case fact
+   store without caseworker review. The review surface says `DRAFT — NOT REVIEWED` until
+   every required field is accepted.
+
+4. **The verbatim transcript is retained and shown.** Every extracted fact links to the exact
+   utterance that produced it. A fact a caseworker cannot trace is a fact they will ignore.
+
+5. **Consent before the microphone.** Stated plainly: what is captured, that Chrome's speech
+   recognition transmits audio to Google for transcription, that a licensed caseworker reviews
+   everything, and that the interview decides nothing.
+
+6. **Camera preview only. No video is recorded, uploaded, or stored.** It exists so the
+   session feels like a call. A denied camera never blocks the interview — audio is the
+   artifact.
+
+7. **Synthetic subjects only.** Demo household members are fictional.
+
+Interview facts are **the same object as document facts**, carrying `provenance.source =
+"interview"` instead of `"document"`. They flow into the same consistency checking. An
+interview fact contradicting a document fact is an ordinary defect with both sides named —
+which is Engine 1 doing exactly what it was built for, on a new source.
 
 ### Scope: two states
 
@@ -320,8 +380,8 @@ the credit for doing it live.
 2. **No learned model on denial outcomes.** There is no public corpus of ICPC denial records.
    The rules are authored from published requirement text and are agency-editable. AI performs
    extraction at runtime; the rules are authored, not learned. Never claim otherwise.
-3. **No real records.** All demo data is synthetic. No family-facing intake, no real person's
-   documents.
+3. **No real records.** All demo data is synthetic — documents and interview subjects alike.
+   No family document upload, no real person's documents, no real person interviewed.
 4. **No invented requirements.** Unsourced → `verified: false` → visible in the UI. Fabricated
    regulatory content is the single fastest way to lose this.
 5. **Decision-support framing.** Supports caseworker review. Does not approve, deny, score, or
