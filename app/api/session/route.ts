@@ -1,17 +1,19 @@
 /**
- * Sign in / sign out / who am I.
- * Identify-or-create against lib/store; see lib/session.ts on why this is an
- * identity rather than authentication.
+ * Sign in / sign up / sign out / who am I.
+ *
+ * The storage backend decides what these mean: Supabase Auth when configured,
+ * the local JSON store otherwise. See lib/store.ts. Nothing in this file knows
+ * which is live.
  */
 
 import { NextResponse } from "next/server";
-import { signInSchema, fieldErrors } from "@/lib/validation";
-import { signInUser } from "@/lib/store";
+import { signInSchema, signUpSchema, fieldErrors } from "@/lib/validation";
+import { signIn, signUp, isAuthError, backendName } from "@/lib/store";
 import { clearSession, getSessionUser, setSession } from "@/lib/session";
 
 export async function GET() {
   const user = await getSessionUser();
-  return NextResponse.json({ user });
+  return NextResponse.json({ user, backend: backendName() });
 }
 
 export async function POST(request: Request) {
@@ -22,6 +24,29 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Malformed request." }, { status: 400 });
   }
 
+  const intent =
+    typeof body === "object" && body !== null && "intent" in body
+      ? (body as { intent?: string }).intent
+      : undefined;
+
+  if (intent === "signup") {
+    const parsed = signUpSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json(
+        { errors: fieldErrors(parsed.error) },
+        { status: 422 },
+      );
+    }
+
+    const result = await signUp({ ...parsed.data, agency: parsed.data.agency ?? "" });
+    if (isAuthError(result)) {
+      return NextResponse.json({ errors: { _form: result.error } }, { status: 401 });
+    }
+
+    await setSession(result.user.id);
+    return NextResponse.json({ user: result.user });
+  }
+
   const parsed = signInSchema.safeParse(body);
   if (!parsed.success) {
     return NextResponse.json(
@@ -30,9 +55,13 @@ export async function POST(request: Request) {
     );
   }
 
-  const user = await signInUser(parsed.data);
-  await setSession(user.id);
-  return NextResponse.json({ user });
+  const result = await signIn(parsed.data);
+  if (isAuthError(result)) {
+    return NextResponse.json({ errors: { _form: result.error } }, { status: 401 });
+  }
+
+  await setSession(result.user.id);
+  return NextResponse.json({ user: result.user });
 }
 
 export async function DELETE() {
