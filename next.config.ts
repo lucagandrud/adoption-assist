@@ -9,6 +9,9 @@ const nextConfig: NextConfig = {
   outputFileTracingIncludes: {
     "/*": ["./ontology/**/*.json"],
   },
+
+  // Hides the floating dev-tools badge in the bottom-left corner.
+  devIndicators: false,
 };
 
 export default nextConfig;

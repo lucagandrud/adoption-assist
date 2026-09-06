@@ -14,8 +14,17 @@ dist/
 *.tsbuildinfo
 next-env.d.ts
 
-# Environment — NEVER commit these
-.env
+# Environment
+#
+# `.env` IS TRACKED on purpose — it holds the shared Supabase project URL and
+# anon key so a teammate can clone and run with no setup. Both are public by
+# design: the anon key ships in browser JavaScript on every deploy, and
+# row-level security is what protects the data, not the key's secrecy.
+#
+# EVERY ACTUAL SECRET GOES IN .env.local, which is ignored below. Anything with
+# "key", "secret", or "token" in the name that is NOT the Supabase anon key
+# belongs there — ANTHROPIC_API_KEY especially, and the Supabase service_role
+# key, which bypasses RLS entirely and must never be committed.
 .env.local
 .env.development.local
 .env.test.local

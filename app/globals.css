@@ -65,6 +65,10 @@
   --color-beige-200: #f2ead9;
   --color-beige-300: #e6dbc3;
   --color-beige-400: #d6c7a8;
+  /* Rule colour for the caseload grid. Dark enough that a doubled border
+     between two tiles reads as a drawn division, not a drop shadow. */
+  --color-beige-500: #b9a77f;
+  --color-beige-600: #9c8a63;
   --color-gold: #a97f26;
   --color-gold-soft: #f4e9cf;
 
@@ -158,17 +162,6 @@
   h1, h2, h3 {
     font-family: var(--font-heading), Georgia, serif;
   }
-}
-
-/* Thin top rule that reads as a government letterhead. */
-.gov-rule {
-  background: linear-gradient(
-    90deg,
-    var(--color-navy-800) 0%,
-    var(--color-navy-700) 55%,
-    var(--color-gold) 55%,
-    var(--color-gold) 100%
-  );
 }
 
 /* React Flow surface: paper, not a dark canvas. */

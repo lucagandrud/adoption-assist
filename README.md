@@ -334,8 +334,10 @@ Read in order:
 
 1. [`CLAUDE.md`](CLAUDE.md) — the standing brief, read fully before writing code
 2. **Your handoff doc** — step-by-step for your half of the build:
-   - [`docs/handoff-ontology.md`](docs/handoff-ontology.md) — Christopher: `/ontology`, `/engines`
+   - [`docs/handoff-ontology.md`](docs/handoff-ontology.md) — Christopher: authoring `/ontology`
+   - [`docs/handoff-integration.md`](docs/handoff-integration.md) — Christopher: wiring the ontology into the app and Postgres
    - [`docs/handoff-frontend.md`](docs/handoff-frontend.md) — Luca: `/app`, `/extraction`, `/demo`
+   - [`docs/supabase-setup.md`](docs/supabase-setup.md) — provisioning the database
 3. [`docs/git-workflow.md`](docs/git-workflow.md) — branch, commit, merge, recovery
 
 ### The contract

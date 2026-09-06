@@ -141,6 +141,12 @@ export interface UserRecord {
 }
 
 export interface CaseRecord {
+  /**
+   * Human-readable docket number: ICPC-{year}-{4-digit sequence}, allocated
+   * from a per-year counter in the store. A caseworker reads this aloud on the
+   * phone and writes it on a folder, so it is sequential and pronounceable
+   * rather than a random hex slug.
+   */
   id: string;
   owner_user_id: string;
   label: string;
@@ -152,6 +158,22 @@ export interface CaseRecord {
   window_start: string;
   created_at: string;
   updated_at: string;
+
+  /**
+   * PLACEHOLDER until /engines/graph.ts lands. Percentage of the case's
+   * requirements that are verified. Once the engine emits a real GraphModel
+   * this is derived from nodes[] rather than stored:
+   *   verified nodes / total nodes
+   * Drives tile size on the caseload grid — less complete means more work
+   * remaining, so the tile is larger.
+   */
+  completion_pct: number;
+
+  /** PLACEHOLDER. ISO date of the next thing that comes due on this case. */
+  next_deadline: string;
+
+  /** PLACEHOLDER. What is due on that date. */
+  next_deadline_label: string;
 }
 
 export interface StoredProvenance {

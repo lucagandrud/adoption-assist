@@ -1,157 +1,91 @@
 /**
- * Persistence.
+ * Persistence facade.
  *
- * Deliberately a small JSON-file store, not Supabase, so the app runs with
- * zero configuration: clone, `npm run dev`, sign in, and your cases are still
- * there after a restart. Every read/write goes through this module, so the
- * swap to Supabase is one file (see lib/supabase.ts) and no caller changes.
+ * Picks a backend at runtime and re-exports one interface, so no screen or
+ * route handler knows which one is live:
+ *
+ *   Supabase  when NEXT_PUBLIC_SUPABASE_URL + ANON_KEY are set
+ *             Postgres, real auth, row-level security. See
+ *             docs/supabase-setup.md.
+ *
+ *   JSON file otherwise — the zero-config path. Clone, `npm run dev`, sign up,
+ *             and cases survive a restart with no project to provision.
+ *
+ * Keeping the JSON path alive is deliberate: the demo must still run if the
+ * Supabase project is unreachable on conference wifi, and a teammate cloning
+ * the repo should not need credentials to see the app work.
  *
  * Server-only. Never import this from a client component.
- *
- * NOTE: the file lives in .data/ and is gitignored. Per CLAUDE.md hard
- * boundary #3, only synthetic case data belongs here.
  */
 
-import { promises as fs } from "node:fs";
-import path from "node:path";
-import { randomUUID } from "node:crypto";
+import { isSupabaseConfigured } from "@/lib/supabase";
+import * as json from "@/lib/store-json";
+import * as supa from "@/lib/store-supabase";
+import type { CaseDocumentRecord, CaseRecord, UserRecord } from "@/lib/types";
 import type {
-  CaseDocumentRecord,
-  CaseRecord,
-  StoredFact,
-  UserRecord,
-} from "@/lib/types";
+  AuthResult,
+  CaseInput,
+  DocumentInput,
+  SignInInput,
+  SignUpInput,
+} from "@/lib/store-types";
 
-interface Database {
-  version: 2;
-  users: UserRecord[];
-  cases: CaseRecord[];
-  documents: CaseDocumentRecord[];
+export type { AuthResult, CaseInput, DocumentInput, SignInInput, SignUpInput };
+export { isAuthError } from "@/lib/store-types";
+
+/** Which backend is live. Surfaced in the UI so the state is never a mystery. */
+export function backendName(): "supabase" | "local" {
+  return isSupabaseConfigured() ? "supabase" : "local";
 }
 
-const DATA_DIR = path.join(process.cwd(), ".data");
-const DATA_FILE = path.join(DATA_DIR, "workbench.json");
+/* --------------------------------- auth ----------------------------------- */
 
-const EMPTY: Database = { version: 2, users: [], cases: [], documents: [] };
-
-/** Serializes read-modify-write cycles so two requests cannot clobber. */
-let queue: Promise<unknown> = Promise.resolve();
-
-function serialize<T>(work: () => Promise<T>): Promise<T> {
-  const next = queue.then(work, work);
-  queue = next.catch(() => undefined);
-  return next;
+export async function signUp(input: SignUpInput): Promise<AuthResult> {
+  return isSupabaseConfigured() ? supa.signUp(input) : json.signUp(input);
 }
 
-async function read(): Promise<Database> {
-  try {
-    const raw = await fs.readFile(DATA_FILE, "utf8");
-    const parsed = JSON.parse(raw) as Partial<Database>;
-    return {
-      version: 2,
-      users: parsed.users ?? [],
-      cases: parsed.cases ?? [],
-      documents: parsed.documents ?? [],
-    };
-  } catch {
-    return { ...EMPTY };
-  }
+export async function signIn(input: SignInInput): Promise<AuthResult> {
+  return isSupabaseConfigured() ? supa.signIn(input) : json.signIn(input);
 }
-
-async function write(db: Database): Promise<void> {
-  await fs.mkdir(DATA_DIR, { recursive: true });
-  await fs.writeFile(DATA_FILE, JSON.stringify(db, null, 2) + "\n", "utf8");
-}
-
-const now = () => new Date().toISOString();
-
-/* --------------------------------- users --------------------------------- */
 
 export async function findUserById(id: string): Promise<UserRecord | null> {
-  const db = await read();
-  return db.users.find((u) => u.id === id) ?? null;
+  return isSupabaseConfigured()
+    ? supa.findUserById(id)
+    : json.findUserById(id);
 }
 
-/**
- * Sign-in is identify-or-create: a caseworker types name + email and gets a
- * durable identity. Not authentication — there is no password and no secret.
- * Real auth is Supabase (handoff Step 4); this keeps the shell honest and
- * working in the meantime.
- */
-export async function signInUser(input: {
-  name: string;
-  email: string;
-  agency: string;
-}): Promise<UserRecord> {
-  return serialize(async () => {
-    const db = await read();
-    const email = input.email.trim().toLowerCase();
-    const existing = db.users.find((u) => u.email === email);
-
-    if (existing) {
-      existing.name = input.name.trim();
-      existing.agency = input.agency.trim() || existing.agency;
-      existing.last_seen_at = now();
-      await write(db);
-      return existing;
-    }
-
-    const user: UserRecord = {
-      id: randomUUID(),
-      name: input.name.trim(),
-      email,
-      agency: input.agency.trim(),
-      created_at: now(),
-      last_seen_at: now(),
-    };
-    db.users.push(user);
-    db.cases.push(seedCase(user.id));
-    await write(db);
-    return user;
-  });
+/** Supabase owns its own session cookies; the JSON backend uses lib/session.ts. */
+export async function signOutBackend(): Promise<void> {
+  if (isSupabaseConfigured()) await supa.signOut();
 }
 
-/* --------------------------------- cases --------------------------------- */
+/** The signed-in caseworker under Supabase Auth. Null on the JSON backend. */
+export async function currentSupabaseUser(): Promise<UserRecord | null> {
+  return isSupabaseConfigured() ? supa.currentUser() : null;
+}
+
+/* --------------------------------- cases ---------------------------------- */
 
 export async function listCases(userId: string): Promise<CaseRecord[]> {
-  const db = await read();
-  return db.cases
-    .filter((c) => c.owner_user_id === userId)
-    .sort((a, b) => b.updated_at.localeCompare(a.updated_at));
+  return isSupabaseConfigured() ? supa.listCases(userId) : json.listCases(userId);
 }
 
 export async function findCase(
   userId: string,
   caseId: string,
 ): Promise<CaseRecord | null> {
-  const db = await read();
-  return (
-    db.cases.find((c) => c.id === caseId && c.owner_user_id === userId) ?? null
-  );
+  return isSupabaseConfigured()
+    ? supa.findCase(userId, caseId)
+    : json.findCase(userId, caseId);
 }
-
-export type CaseInput = Omit<
-  CaseRecord,
-  "id" | "owner_user_id" | "created_at" | "updated_at"
->;
 
 export async function createCase(
   userId: string,
   input: CaseInput,
 ): Promise<CaseRecord> {
-  return serialize(async () => {
-    const db = await read();
-    const record: CaseRecord = {
-      id: `case-${randomUUID().slice(0, 8)}`,
-      owner_user_id: userId,
-      created_at: now(),
-      updated_at: now(),
-      ...input,
-    };
-    db.cases.push(record);
-    await write(db);
-    return record;
-  });
+  return isSupabaseConfigured()
+    ? supa.createCase(userId, input)
+    : json.createCase(userId, input);
 }
 
 export async function updateCase(
@@ -159,33 +93,18 @@ export async function updateCase(
   caseId: string,
   patch: Partial<CaseInput>,
 ): Promise<CaseRecord | null> {
-  return serialize(async () => {
-    const db = await read();
-    const record = db.cases.find(
-      (c) => c.id === caseId && c.owner_user_id === userId,
-    );
-    if (!record) return null;
-    Object.assign(record, patch, { updated_at: now() });
-    await write(db);
-    return record;
-  });
+  return isSupabaseConfigured()
+    ? supa.updateCase(userId, caseId, patch)
+    : json.updateCase(userId, caseId, patch);
 }
 
 export async function deleteCase(
   userId: string,
   caseId: string,
 ): Promise<boolean> {
-  return serialize(async () => {
-    const db = await read();
-    const index = db.cases.findIndex(
-      (c) => c.id === caseId && c.owner_user_id === userId,
-    );
-    if (index === -1) return false;
-    db.cases.splice(index, 1);
-    db.documents = db.documents.filter((document) => document.case_id !== caseId);
-    await write(db);
-    return true;
-  });
+  return isSupabaseConfigured()
+    ? supa.deleteCase(userId, caseId)
+    : json.deleteCase(userId, caseId);
 }
 
 /* ------------------------------- documents ------------------------------ */
@@ -194,86 +113,26 @@ export async function listCaseDocuments(
   userId: string,
   caseId: string,
 ): Promise<CaseDocumentRecord[]> {
-  const db = await read();
-  const ownsCase = db.cases.some(
-    (record) => record.id === caseId && record.owner_user_id === userId,
-  );
-  if (!ownsCase) return [];
-  return db.documents
-    .filter((document) => document.case_id === caseId)
-    .sort((left, right) => left.uploaded_at.localeCompare(right.uploaded_at));
+  return isSupabaseConfigured()
+    ? supa.listCaseDocuments(userId, caseId)
+    : json.listCaseDocuments(userId, caseId);
 }
 
 export async function saveCaseDocument(
   userId: string,
   caseId: string,
-  input: {
-    definition_id: string;
-    file_name: string;
-    mime_type: string;
-    issue_date: string | null;
-    extraction_mode: "synthetic_cache" | "live_anthropic";
-    facts: StoredFact[];
-  },
+  input: DocumentInput,
 ): Promise<CaseDocumentRecord | null> {
-  return serialize(async () => {
-    const db = await read();
-    const ownsCase = db.cases.some(
-      (record) => record.id === caseId && record.owner_user_id === userId,
-    );
-    if (!ownsCase) return null;
-
-    db.documents = db.documents.filter(
-      (document) =>
-        !(
-          document.case_id === caseId &&
-          document.definition_id === input.definition_id
-        ),
-    );
-    const record: CaseDocumentRecord = {
-      id: `case-doc-${randomUUID().slice(0, 8)}`,
-      case_id: caseId,
-      uploaded_at: now(),
-      ...input,
-    };
-    db.documents.push(record);
-    await write(db);
-    return record;
-  });
+  return isSupabaseConfigured()
+    ? supa.saveCaseDocument(userId, caseId, input)
+    : json.saveCaseDocument(userId, caseId, input);
 }
 
 export async function clearCaseDocuments(
   userId: string,
   caseId: string,
 ): Promise<boolean> {
-  return serialize(async () => {
-    const db = await read();
-    const ownsCase = db.cases.some(
-      (record) => record.id === caseId && record.owner_user_id === userId,
-    );
-    if (!ownsCase) return false;
-    db.documents = db.documents.filter((document) => document.case_id !== caseId);
-    await write(db);
-    return true;
-  });
-}
-
-/**
- * Every new caseworker gets one synthetic case so the workflow screen has
- * something to render immediately. Fictional family; see CLAUDE.md #3.
- */
-function seedCase(userId: string): CaseRecord {
-  return {
-    id: `case-${randomUUID().slice(0, 8)}`,
-    owner_user_id: userId,
-    label: "Demo Case — Rivera",
-    sending_state: "CA",
-    receiving_state: "TX",
-    relationship: "relative",
-    children_count: 2,
-    placement_type: "foster",
-    window_start: new Date().toISOString().slice(0, 10),
-    created_at: now(),
-    updated_at: now(),
-  };
+  return isSupabaseConfigured()
+    ? supa.clearCaseDocuments(userId, caseId)
+    : json.clearCaseDocuments(userId, caseId);
 }

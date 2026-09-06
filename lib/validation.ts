@@ -13,10 +13,25 @@ const jurisdiction = z
     message: "Select a US state or the District of Columbia.",
   });
 
+/**
+ * Supabase Auth rejects anything under 6 characters, so the form has to match
+ * or the caseworker gets a server error instead of a field error.
+ */
+const password = z
+  .string()
+  .min(8, "Use at least 8 characters.")
+  .max(72, "Passwords are capped at 72 characters.");
+
 export const signInSchema = z.object({
+  email: z.email("Enter a valid work email address."),
+  password: z.string().min(1, "Enter your password."),
+});
+
+export const signUpSchema = z.object({
   name: z.string().trim().min(2, "Enter your full name."),
   email: z.email("Enter a valid work email address."),
   agency: z.string().trim().max(120).optional().default(""),
+  password,
 });
 
 export const caseSchema = z
@@ -42,7 +57,8 @@ export const casePatchSchema = z.object({
   label: z.string().trim().min(3).optional(),
 });
 
-export type SignInInput = z.infer<typeof signInSchema>;
+export type SignInValidated = z.infer<typeof signInSchema>;
+export type SignUpValidated = z.infer<typeof signUpSchema>;
 export type CaseInputValidated = z.infer<typeof caseSchema>;
 
 /** Flattens a ZodError into { field: message } for form rendering. */
