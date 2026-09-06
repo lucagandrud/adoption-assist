@@ -24,7 +24,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Foster Supersonic",
+  title: "Foster Care Compliance AI",
   description:
     "Pre-submission verification for interstate placement packets under the Interstate Compact on the Placement of Children.",
 };
