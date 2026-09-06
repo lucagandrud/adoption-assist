@@ -39,7 +39,7 @@ export function InterviewFlow({
     return (
       <main className="mx-auto flex w-full max-w-lg flex-1 flex-col justify-center px-6 py-16">
         <p className="text-xs font-semibold uppercase tracking-[0.16em] text-gold">
-          Adoption Care AI
+          Adoption Assist
         </p>
         <h1 className="mt-2 text-3xl text-navy-900">Thank you. That is everything.</h1>
         <p className="mt-3 text-sm leading-relaxed text-navy-800/80">

@@ -425,7 +425,7 @@ export function InterviewRoom({
       <div className="flex flex-wrap items-end justify-between gap-4 border-b border-navy-800/15 pb-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-gold">
-            Adoption Care AI · Intake interview
+            Adoption Assist · Intake interview
           </p>
           <h1 className="mt-1 text-2xl text-navy-900">
             {session.subject_name || "Household member"}

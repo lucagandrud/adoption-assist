@@ -17,7 +17,7 @@ import { getScript } from "@/lib/interview-scripts";
 import { InterviewFlow } from "@/components/interview/interview-flow";
 
 export const dynamic = "force-dynamic";
-export const metadata = { title: "Intake interview · Adoption Care AI" };
+export const metadata = { title: "Intake interview · Adoption Assist" };
 
 export default async function InterviewPage({
   params,
@@ -56,7 +56,7 @@ function Notice({ title, body }: { title: string; body: string }) {
   return (
     <main className="mx-auto flex w-full max-w-lg flex-1 flex-col justify-center px-6 py-16">
       <p className="text-xs font-semibold uppercase tracking-[0.16em] text-gold">
-        Adoption Care AI
+        Adoption Assist
       </p>
       <h1 className="mt-2 text-3xl text-navy-900">{title}</h1>
       <p className="mt-3 text-sm leading-relaxed text-navy-800/80">{body}</p>

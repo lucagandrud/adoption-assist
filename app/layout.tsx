@@ -24,7 +24,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Adoption Care AI",
+  title: "ICPC Preflight · Adoption Assist",
   description:
     "Pre-submission verification for interstate placement packets under the Interstate Compact on the Placement of Children.",
 };

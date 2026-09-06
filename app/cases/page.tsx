@@ -6,7 +6,7 @@ import { AppHeader } from "@/components/app-header";
 import { NewCaseForm } from "@/components/new-case-form";
 import type { CaseRecord } from "@/lib/types";
 
-export const metadata = { title: "Case Verification · Adoption Care AI" };
+export const metadata = { title: "Case Verification · ICPC Preflight" };
 
 /**
  * The caseload grid.

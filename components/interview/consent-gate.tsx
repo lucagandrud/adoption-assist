@@ -23,7 +23,7 @@ export function ConsentGate({
   return (
     <main className="mx-auto w-full max-w-2xl flex-1 px-6 py-12">
       <p className="text-xs font-semibold uppercase tracking-[0.16em] text-gold">
-        Adoption Care AI · Intake interview
+        Adoption Assist · Intake interview
       </p>
       <h1 className="mt-2 text-3xl text-navy-900">
         Before we begin{subjectName ? `, ${subjectName}` : ""}

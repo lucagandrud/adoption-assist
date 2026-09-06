@@ -16,7 +16,7 @@ import { AppHeader } from "@/components/app-header";
 import { InterviewReview } from "@/components/interview/interview-review";
 
 export const dynamic = "force-dynamic";
-export const metadata = { title: "Interview review · Adoption Care AI" };
+export const metadata = { title: "Interview review · ICPC Preflight" };
 
 export default async function InterviewReviewPage({
   params,
