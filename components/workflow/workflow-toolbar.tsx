@@ -22,9 +22,12 @@ import type { CaseRecord } from "@/lib/types";
 export function WorkflowToolbar({
   cases,
   current,
+  actions,
 }: {
   cases: CaseRecord[];
   current: CaseRecord;
+  /** Case-level actions rendered at the right edge, e.g. Send AI Intern. */
+  actions?: React.ReactNode;
 }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -109,7 +112,9 @@ export function WorkflowToolbar({
           />
         </div>
 
-        <p className="ml-auto pb-1 text-xs text-muted-foreground" role="status">
+        <div className="ml-auto flex items-center gap-4 pb-0.5">
+          {actions}
+          <p className="text-xs text-muted-foreground" role="status">
           {saving === "saving" || isPending
             ? "Recomposing workflow…"
             : saving === "saved"
@@ -117,7 +122,8 @@ export function WorkflowToolbar({
               : saving === "error"
                 ? "Could not update the case."
                 : ""}
-        </p>
+          </p>
+        </div>
       </div>
     </div>
   );
