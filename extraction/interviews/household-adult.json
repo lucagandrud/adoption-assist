@@ -1,0 +1,104 @@
+{
+  "_README": [
+    "AUTHORED INTERVIEW SCRIPT — household adult (CLAUDE.md §4a.1).",
+    "",
+    "Every subject hears these prompts in these exact words, in this order.",
+    "lib/interview-machine.ts sequences them; the model may only acknowledge,",
+    "extract facts into target_facts, and ask at most one bounded clarification",
+    "where followup_policy allows. It never adds, reorders, or skips a question.",
+    "",
+    "EVERY CITATION IS A PLACEHOLDER AND EVERY BLOCK IS verified:false.",
+    "No citation below is sourced. The UI shows each block as unverified until",
+    "someone replaces the placeholder with an actual CA/TX/ICPC citation and",
+    "flips verified to true in the same commit. Do not invent a citation.",
+    "",
+    "Editing a prompt changes what every future subject is asked. Treat this",
+    "file like regulation data, not copy."
+  ],
+  "id": "household_adult_v1",
+  "label": "Household adult — intake interview",
+  "applies_to": "household_adult",
+  "blocks": [
+    {
+      "id": "household_composition",
+      "prompt": "To begin, please tell me who lives in your home. How many people live there in total, and what is each person's relationship to you?",
+      "target_facts": ["household_size", "household_members"],
+      "required": true,
+      "followup_policy": "clarify_once",
+      "citation": { "text": "PLACEHOLDER", "url": null, "retrieved": null },
+      "verified": false
+    },
+    {
+      "id": "adults_in_home",
+      "prompt": "Of the people who live in your home, which ones are eighteen or older? Please give me each adult's full name.",
+      "target_facts": ["adults_in_home"],
+      "required": true,
+      "followup_policy": "clarify_once",
+      "citation": { "text": "PLACEHOLDER", "url": null, "retrieved": null },
+      "verified": false
+    },
+    {
+      "id": "employment",
+      "prompt": "Please describe your current employment. Where do you work, what is your job, and how long have you been there?",
+      "target_facts": ["employment_status", "employer_name", "employment_start"],
+      "required": true,
+      "followup_policy": "clarify_once",
+      "citation": { "text": "PLACEHOLDER", "url": null, "retrieved": null },
+      "verified": false
+    },
+    {
+      "id": "residence_history",
+      "prompt": "Please list every address where you have lived during the past five years, starting with your current address, and roughly when you lived at each one.",
+      "target_facts": ["current_address", "residence_history_5yr"],
+      "required": true,
+      "followup_policy": "clarify_once",
+      "citation": { "text": "PLACEHOLDER", "url": null, "retrieved": null },
+      "verified": false
+    },
+    {
+      "id": "childcare_plan",
+      "prompt": "If a child is placed with you, who will care for the child while you are at work or otherwise away from home?",
+      "target_facts": ["childcare_plan"],
+      "required": true,
+      "followup_policy": "clarify_once",
+      "citation": { "text": "PLACEHOLDER", "url": null, "retrieved": null },
+      "verified": false
+    },
+    {
+      "id": "discipline",
+      "prompt": "In your own words, how do you handle discipline with a child in your care?",
+      "target_facts": ["discipline_approach"],
+      "required": true,
+      "followup_policy": "none",
+      "citation": { "text": "PLACEHOLDER", "url": null, "retrieved": null },
+      "verified": false
+    },
+    {
+      "id": "experience_with_children",
+      "prompt": "Please describe any experience you have caring for children, whether your own, relatives, foster children, or through your work.",
+      "target_facts": ["experience_with_children"],
+      "required": true,
+      "followup_policy": "none",
+      "citation": { "text": "PLACEHOLDER", "url": null, "retrieved": null },
+      "verified": false
+    },
+    {
+      "id": "references",
+      "prompt": "Please give me the names of three people, not related to you, who could speak about you as a caregiver, and how you know each of them.",
+      "target_facts": ["personal_references"],
+      "required": true,
+      "followup_policy": "clarify_once",
+      "citation": { "text": "PLACEHOLDER", "url": null, "retrieved": null },
+      "verified": false
+    },
+    {
+      "id": "additional_statement",
+      "prompt": "Finally, is there anything else you would like on the record for the caseworker reviewing this interview?",
+      "target_facts": ["additional_statement"],
+      "required": false,
+      "followup_policy": "none",
+      "citation": { "text": "PLACEHOLDER", "url": null, "retrieved": null },
+      "verified": false
+    }
+  ]
+}
