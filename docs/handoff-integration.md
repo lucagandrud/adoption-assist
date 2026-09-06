@@ -24,6 +24,15 @@ Sign up with any email and an 8-character password. You will land on a caseload 
 synthetic cases. Click one — that graph is the fixture, not your ontology. **Your job is to
 make it real.**
 
+**No Supabase setup.** The team project is already provisioned and its connection details are
+committed in [`.env`](../.env). You are on the shared database the moment the server starts —
+do not create your own project.
+
+⚠️ **Shared database: say something before you run DDL.** Your `0002` migration hits the same
+Postgres instance Luca is demoing against. A dropped column breaks his running app instantly.
+Additive migrations (new tables, new columns with defaults) are safe; destructive ones need a
+heads-up.
+
 ---
 
 ## The one thing to understand before you start

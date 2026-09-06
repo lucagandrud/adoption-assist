@@ -1,13 +1,53 @@
 # Supabase setup
 
-**You do not need this to run the app.** With no configuration it uses local JSON storage —
-sign up, get a caseload, and it survives a restart. Follow this when you want real auth and a
-real database.
+> ## The project already exists. You have nothing to do.
+>
+> The team's Supabase project is provisioned, the schema is applied, and the connection
+> details are committed in [`.env`](../.env). Clone the repo, `npm install`, `npm run dev`,
+> sign up — you are on the shared database.
+>
+> ```bash
+> git clone https://github.com/lucagandrud/icpc-compliance-engine.git
+> cd icpc-compliance-engine
+> npm install
+> npm run dev
+> ```
+>
+> **Do not create your own project.** Everyone points at the same one, so a migration applied
+> once works for both of you and either laptop can run the demo.
+>
+> The rest of this page is how that project was set up, plus troubleshooting. Read it if
+> something breaks or you are adding a migration.
 
-Everything that can be done in the repo is already done. What is left needs your browser,
-because only you can create a project under your account.
+---
 
-**Time: about 10 minutes.**
+## Why the keys are in the repo
+
+`.env` is tracked on purpose. The Supabase URL and **anon key are public by design** — the
+anon key is served to every visitor's browser on every deploy. Row-level security in
+[`supabase/migrations/`](../supabase/migrations/) is what protects the data, not the key being
+hidden.
+
+**Actual secrets go in `.env.local`,** which is gitignored: `ANTHROPIC_API_KEY`, and the
+Supabase `service_role` key if you ever need it. The service_role key bypasses RLS entirely
+and must never be committed.
+
+---
+
+## Adding a migration
+
+Do not edit `0001_init.sql` — it is already applied. Add a new numbered file
+(`0002_case_artifacts.sql`), paste it into the Supabase **SQL Editor**, and run it. Commit the
+file so the schema history lives in git.
+
+Since you share one database, **tell the other person before running DDL.** A dropped column
+breaks their running app instantly.
+
+---
+
+## How the project was set up
+
+**Time: about 10 minutes.** Only needed if you are rebuilding from scratch.
 
 ---
 
