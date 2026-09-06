@@ -107,6 +107,41 @@ export interface GraphModel {
     unknown_turnaround_count: number;
     warnings: string[];
   };
+  evidence?: EvidenceSummary;
+  research_status?: {
+    verified_requirements: number;
+    total_requirements: number;
+    verified_documents: number;
+    total_documents: number;
+  };
+}
+
+export interface EvidenceFact {
+  id: string;
+  type: string;
+  label: string;
+  value: string;
+  confidence: number;
+  page: number | null;
+  field: string | null;
+}
+
+export interface EvidenceDocument {
+  id: string;
+  definition_id: string;
+  label: string;
+  file_name: string;
+  issue_date: string | null;
+  extraction_mode: "synthetic_cache" | "live_anthropic";
+  uploaded_at: string;
+  facts: EvidenceFact[];
+}
+
+export interface EvidenceSummary {
+  documents: EvidenceDocument[];
+  total_facts: number;
+  live_count: number;
+  cached_count: number;
 }
 
 export interface ValidityStatus {

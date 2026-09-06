@@ -87,6 +87,41 @@ export async function graphModelForCase(record: CaseRecord): Promise<GraphModel>
     record.relationship,
   );
 
+  const humanize = (value: string) =>
+    value
+      .replace(/^(doc-|fact\.)/, "")
+      .replace(/[._-]+/g, " ")
+      .replace(/\b\w/g, (letter) => letter.toUpperCase());
+  const evidenceDocuments = evidence.map((record) => {
+    const definition = documentsById.get(record.definition_id);
+    return {
+      id: record.id,
+      definition_id: record.definition_id,
+      label: humanize(definition?.type ?? record.definition_id),
+      file_name: record.file_name,
+      issue_date: record.issue_date,
+      extraction_mode: record.extraction_mode,
+      uploaded_at: record.uploaded_at,
+      facts: record.facts.map((fact) => {
+        const source = fact.provenance.find(
+          ({ source_kind }) => source_kind === "document",
+        );
+        return {
+          id: fact.id,
+          type: fact.type,
+          label: humanize(fact.type),
+          value:
+            typeof fact.value === "string"
+              ? fact.value
+              : JSON.stringify(fact.value),
+          confidence: fact.confidence,
+          page: source?.page ?? null,
+          field: source?.field ?? null,
+        };
+      }),
+    };
+  });
+
   return {
     ...model,
     validity,
@@ -100,6 +135,26 @@ export async function graphModelForCase(record: CaseRecord): Promise<GraphModel>
     data_quality: {
       unknown_turnaround_count: ontology.dataQualityWarnings.length,
       warnings: ontology.dataQualityWarnings,
+    },
+    evidence: {
+      documents: evidenceDocuments,
+      total_facts: evidenceDocuments.reduce(
+        (total, document) => total + document.facts.length,
+        0,
+      ),
+      live_count: evidenceDocuments.filter(
+        ({ extraction_mode }) => extraction_mode === "live_anthropic",
+      ).length,
+      cached_count: evidenceDocuments.filter(
+        ({ extraction_mode }) => extraction_mode === "synthetic_cache",
+      ).length,
+    },
+    research_status: {
+      verified_requirements: selectedRequirements.filter(({ verified }) => verified)
+        .length,
+      total_requirements: selectedRequirements.length,
+      verified_documents: ontology.documents.filter(({ verified }) => verified).length,
+      total_documents: ontology.documents.length,
     },
   };
 }

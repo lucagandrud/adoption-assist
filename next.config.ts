@@ -7,7 +7,7 @@ const nextConfig: NextConfig = {
   // The ontology loader intentionally discovers JSON recursively so adding a
   // jurisdiction is data-only. Include those runtime files in server traces.
   outputFileTracingIncludes: {
-    "/*": ["./ontology/**/*.json"],
+    "/*": ["./ontology/**/*.json", "./demo/documents/*.pdf"],
   },
 
   // Hides the floating dev-tools badge in the bottom-left corner.

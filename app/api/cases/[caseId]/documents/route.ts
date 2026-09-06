@@ -185,9 +185,16 @@ export async function PUT(_request: Request, context: Context) {
     );
   }
 
-  const [first, second] = selectedDocuments.filter(({ yields_facts }) =>
-    yields_facts.includes(rule.facts_involved[0]),
-  );
+  const documentPriority: Record<string, number> = {
+    "doc-rfa-application-form-rfa01a": 0,
+    "doc-home-health-safety-assessment-report": 1,
+  };
+  const [first, second] = selectedDocuments
+    .filter(({ yields_facts }) => yields_facts.includes(rule.facts_involved[0]))
+    .sort(
+      (left, right) =>
+        (documentPriority[left.id] ?? 100) - (documentPriority[right.id] ?? 100),
+    );
   const expiring = selectedDocuments.find(
     (document) =>
       document.validity_period_days !== null &&
@@ -202,23 +209,48 @@ export async function PUT(_request: Request, context: Context) {
       : []),
   ];
 
+  const demoFileNames: Record<string, Record<"consistent" | "conflicting", string>> = {
+    "doc-rfa-application-form-rfa01a": {
+      consistent: "rfa-application-rivera.pdf",
+      conflicting: "rfa-application-rivera.pdf",
+    },
+    "doc-home-health-safety-assessment-report": {
+      consistent: "home-safety-assessment-corrected.pdf",
+      conflicting: "home-safety-assessment-conflict.pdf",
+    },
+    "doc-health-screening-form": {
+      consistent: "health-screening-rivera.pdf",
+      conflicting: "health-screening-rivera.pdf",
+    },
+  };
+  const demoIssueDates: Record<string, string> = {
+    "rfa-application-rivera.pdf": "2026-09-05",
+    "home-safety-assessment-conflict.pdf": "2026-09-14",
+    "home-safety-assessment-corrected.pdf": "2026-09-14",
+    "health-screening-rivera.pdf": "2025-11-10",
+  };
+
   await clearCaseDocuments(auth.user.id, auth.record.id);
   const saved = [];
   for (const item of bundle) {
+    const fileName =
+      demoFileNames[item.document.id]?.[item.variant] ??
+      `${item.variant}-${item.document.id}.pdf`;
     const result = extractSyntheticDocument(
-      { name: `${item.variant}-${item.document.id}.pdf`, type: "application/pdf", size: 1 },
+      { name: fileName, type: "application/pdf", size: 1 },
       item.document.id,
       ontology,
       item.variant,
     );
     const record = await saveCaseDocument(auth.user.id, auth.record.id, {
       definition_id: item.document.id,
-      file_name: `${item.variant}-${item.document.id}.pdf`,
+      file_name: fileName,
       mime_type: "application/pdf",
       issue_date:
-        item.document.validity_period_days === null
+        demoIssueDates[fileName] ??
+        (item.document.validity_period_days === null
           ? auth.record.window_start
-          : addCalendarDays(auth.record.window_start, -300),
+          : addCalendarDays(auth.record.window_start, -300)),
       extraction_mode: result.mode,
       facts: result.facts,
     });

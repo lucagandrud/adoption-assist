@@ -8,6 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "evaluate:extraction": "node --experimental-strip-types --experimental-specifier-resolution=node scripts/evaluate-extraction.mjs",
+    "evaluate:extraction:live": "node --experimental-strip-types --experimental-specifier-resolution=node scripts/evaluate-extraction.mjs --live",
     "verify:ontology": "node --experimental-strip-types --experimental-specifier-resolution=node scripts/verify-ontology.mjs"
   },
   "dependencies": {

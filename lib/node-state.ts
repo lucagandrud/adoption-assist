@@ -40,8 +40,8 @@ export const NODE_STATE_STYLE: Record<NodeState, StateStyle> = {
     dot: "bg-state-progress",
   },
   verified: {
-    label: "Documents verified",
-    hint: "Paperwork is complete and internally consistent.",
+    label: "Requirement complete",
+    hint: "The required evidence is present and internally consistent.",
     chip: "bg-state-verified-bg text-state-verified border-state-verified/35",
     card: "border-state-verified/50 bg-state-verified-bg",
     dot: "bg-state-verified",

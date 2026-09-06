@@ -24,9 +24,23 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Foster Care Compliance AI",
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+  ),
+  title: "ICPC Preflight",
   description:
     "Pre-submission verification for interstate placement packets under the Interstate Compact on the Placement of Children.",
+  openGraph: {
+    title: "ICPC Preflight",
+    description: "Administrative readiness for interstate foster-care placement packets.",
+    images: [{ url: "/social/icpc-preflight-og.png", width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ICPC Preflight",
+    description: "Administrative readiness for interstate foster-care placement packets.",
+    images: ["/social/icpc-preflight-og.png"],
+  },
 };
 
 export default function RootLayout({

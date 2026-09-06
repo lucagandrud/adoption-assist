@@ -6,7 +6,7 @@ import { AppHeader } from "@/components/app-header";
 import { WorkflowToolbar } from "@/components/workflow/workflow-toolbar";
 import { WorkflowDashboard } from "@/components/workflow/workflow-dashboard";
 
-export const metadata = { title: "Workflow · ICPC Compliance Workbench" };
+export const metadata = { title: "Case preflight · ICPC Preflight" };
 
 export default async function WorkflowPage({
   params,

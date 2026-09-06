@@ -1,6 +1,6 @@
-# ICPC Compliance Workbench
+# ICPC Preflight
 
-**AI tooling for caseworkers handling interstate foster care and adoption placements.**
+**Administrative readiness for interstate foster-care and adoption placement packets.**
 
 Interstate placement packets are rejected for administrative defects — a mismatched address,
 a clearance that lapsed, a document filed out of order. Each rejection costs caseworker hours
@@ -10,11 +10,13 @@ automatically.
 
 Built for **DNHacks**, Health and Public Service category, in a 26-hour window.
 
-> **Status:** the case shell and ontology-derived workflow dashboard are implemented. The
+> **Status:** the case shell, task-centered preflight workspace, ontology-derived workflow,
+> synthetic evidence packet, and extraction evaluation are implemented. The
 > ontology currently contains 95 requirements, 81 document definitions, 31 fact types, and
 > four deterministic consistency rules. All researched regulatory entries remain
 > `verified: false` pending human review. Synthetic cached extraction works without keys;
-> optional live PDF/image extraction uses Anthropic when configured.
+> optional live PDF/image extraction uses Anthropic when configured. Start with the
+> [demo and pitch guide](docs/DEMO_AND_PITCH_GUIDE.md).
 
 ---
 
@@ -72,9 +74,9 @@ sign in
   └─ select case
        └─ select state pair          CA ⇄ TX, with direction
             └─ WORKFLOW DASHBOARD
-                 ├─ branching document graph, derived from both states' regulations
-                 ├─ upload a document → extract → ontologize → verify
-                 └─ green check when an item passes; defect when it does not
+                 ├─ issue-first case overview with evidence and next actions
+                 ├─ upload → extract → ontologize → deterministic checks
+                 └─ expert workflow map derived from both states' requirements
 ```
 
 Selecting the state pair is what composes the workflow. The applicable requirement set is
@@ -88,10 +90,11 @@ derived from that set.
 
 Everything else is supporting infrastructure or deferred.
 
-### F1 — Workflow dashboard
+### F1 — Preflight workspace and workflow map
 
-A branching, stepwise document workflow, **derived from regulation data rather than
-hand-authored**, showing what must be filed, in what order, and what is blocked by what.
+A task-centered preflight workspace backed by a branching workflow **derived from requirement
+data rather than hand-authored**, showing exceptions, evidence, what must be filed, and what
+is blocked by what.
 
 - DAG built from `Requirement.depends_on` edges — never a hand-written node list
 - Node states: `locked`, `available`, `in_progress`, `verified`, `defect`
@@ -103,7 +106,8 @@ hand-authored**, showing what must be filed, in what order, and what is blocked 
 direction, with every node traceable to a citation, and the graph changes when the direction
 flips.
 
-**This is the primary UI. Not sequential screens.**
+The overview is the primary task surface; the complete DAG remains available as an expert
+view and proof that workflow structure is derived rather than painted into the interface.
 
 ### F2 — AI verification with green checks
 

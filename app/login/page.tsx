@@ -3,7 +3,7 @@ import { getSessionUser } from "@/lib/session";
 import { backendName } from "@/lib/store";
 import { SignInForm } from "@/components/sign-in-form";
 
-export const metadata = { title: "Sign in · Foster Care Compliance AI" };
+export const metadata = { title: "Sign in · ICPC Preflight" };
 
 /**
  * Deliberately bare. The statistics and the pitch live in the presentation —
@@ -21,7 +21,7 @@ export default async function LoginPage() {
             Interstate Compact on the Placement of Children
           </p>
           <h1 className="mt-2 text-2xl text-navy-900">
-            Foster Care Compliance AI
+            ICPC Preflight
           </h1>
         </div>
 

@@ -15,7 +15,7 @@ export function AppHeader({ user }: { user: UserRecord }) {
       <div className="mx-auto flex max-w-[1500px] items-center gap-6 px-6 py-3">
         <Link href="/cases" className="flex items-baseline gap-3">
           <span className="text-base font-semibold tracking-tight text-beige-50">
-            Foster Care Compliance AI
+            ICPC Preflight
           </span>
         </Link>
 
