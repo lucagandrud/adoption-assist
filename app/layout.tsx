@@ -24,7 +24,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ICPC Compliance Workbench",
+  title: "Foster Supersonic",
   description:
     "Pre-submission verification for interstate placement packets under the Interstate Compact on the Placement of Children.",
 };
@@ -40,7 +40,7 @@ export default function RootLayout({
       className={`${publicSans.variable} ${sourceSerif.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-background text-foreground">
-        <div className="gov-rule h-1 w-full shrink-0" />
+        <div className="h-1 w-full shrink-0 bg-navy-800" />
         {children}
       </body>
     </html>

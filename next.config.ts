@@ -4,6 +4,9 @@ const nextConfig: NextConfig = {
   // `next dev` otherwise appends its own agent-rules block to CLAUDE.md on
   // every start. CLAUDE.md is the team's project brief — leave it alone.
   agentRules: false,
+
+  // Hides the floating dev-tools badge in the bottom-left corner.
+  devIndicators: false,
 };
 
 export default nextConfig;
