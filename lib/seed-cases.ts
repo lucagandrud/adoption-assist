@@ -35,7 +35,7 @@ export const SEED_CASES: SeedCase[] = [
     children_count: 3,
     placement_type: "foster",
     window_offset_days: -12,
-    completion_pct: 12,
+    completion_pct: 8,
     deadline_offset_days: 6,
     next_deadline_label: "Fingerprint appointment",
   },
@@ -71,9 +71,9 @@ export const SEED_CASES: SeedCase[] = [
     children_count: 2,
     placement_type: "foster",
     window_offset_days: -104,
-    completion_pct: 81,
+    completion_pct: 100,
     deadline_offset_days: 27,
-    next_deadline_label: "Medical clearance renewal",
+    next_deadline_label: "Packet filed",
   },
   {
     label: "Rivera",
@@ -83,9 +83,9 @@ export const SEED_CASES: SeedCase[] = [
     children_count: 2,
     placement_type: "foster",
     window_offset_days: -149,
-    completion_pct: 100,
+    completion_pct: 76,
     deadline_offset_days: -3,
-    next_deadline_label: "Packet filed",
+    next_deadline_label: "Home study walkthrough",
   },
 ];
 

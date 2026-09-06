@@ -65,9 +65,15 @@ export default async function CasesPage() {
         documentCount: model.evidence?.documents.length ?? 0,
         attentionCount:
           uniqueIssueCount(model) + (model.validity?.at_risk_count ?? 0),
-        percent: model.nodes.length
-          ? Math.round((readyCount / model.nodes.length) * 100)
-          : 0,
+        // Seeded demo cases carry a completion figure so the caseload shows a
+        // realistic spread of progress. A case opened in the app has none, and
+        // falls through to the engine-derived percentage.
+        percent:
+          record.completion_pct > 0
+            ? record.completion_pct
+            : model.nodes.length
+              ? Math.round((readyCount / model.nodes.length) * 100)
+              : 0,
       };
     }),
   );
@@ -247,7 +253,7 @@ function CaseTile({
         </p>
 
         <div className="flex flex-wrap gap-1.5">
-          {attentionCount > 0 ? (
+          {finished ? null : attentionCount > 0 ? (
             <span className="inline-block border border-state-defect/50 bg-state-defect-bg px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide text-state-defect">
               {attentionCount} needs attention
             </span>
