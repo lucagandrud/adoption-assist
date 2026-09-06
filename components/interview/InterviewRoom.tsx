@@ -183,6 +183,16 @@ export function InterviewRoom({
 
   useEffect(() => {
     const run = { cancelled: false };
+    // Idempotent start. React strict mode mounts, unmounts, and remounts this
+    // effect in development; every ref the loop advances is reset here so the
+    // second run begins exactly where the first would have. Turn writes are
+    // idempotent on turn_index, so a write the first run got off before being
+    // cancelled is simply overwritten with the same content.
+    machineRef.current = resumeState(script, priorTurns);
+    turnIndexRef.current = nextTurnIndex(priorTurns);
+    emptyListensRef.current = 0;
+    setMachine(machineRef.current);
+    setTranscript(priorTurns);
     modeRef.current = mode;
     transportRef.current = buildTransport(modeRef.current);
 
