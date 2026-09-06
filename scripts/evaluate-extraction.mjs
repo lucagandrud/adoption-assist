@@ -7,6 +7,11 @@ import { loadOntology } from "../ontology/schema.ts";
 
 const root = process.cwd();
 const live = process.argv.includes("--live");
+if (live && !process.env.ANTHROPIC_API_KEY) {
+  throw new Error(
+    "Live evaluation requires ANTHROPIC_API_KEY in .env.local or the shell environment.",
+  );
+}
 const expected = JSON.parse(
   await readFile(path.join(root, "demo/fixtures/extraction/expected.json"), "utf8"),
 );
@@ -21,6 +26,9 @@ for (const [fileName, fixture] of Object.entries(expected)) {
   const extraction = live
     ? await extractDocument(metadata, bytes, fixture.definition_id, ontology)
     : extractSyntheticDocument(metadata, fixture.definition_id, ontology, variant);
+  if (live && fixture.facts.length > 0) {
+    assert.equal(extraction.mode, "live_anthropic", `${fileName}: did not use live AI`);
+  }
   const actual = new Map(extraction.facts.map((fact) => [fact.type, fact]));
   let correct = 0;
   for (const wanted of fixture.facts) {

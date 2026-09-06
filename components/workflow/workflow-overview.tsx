@@ -7,6 +7,8 @@ import {
   Clock3,
   FileSearch,
   FileText,
+  Play,
+  RotateCcw,
   Scale,
   ShieldCheck,
   Sparkles,
@@ -19,6 +21,10 @@ import type {
   GraphNode,
   NodeState,
 } from "@/lib/types";
+import type {
+  PreflightPending,
+  PreflightRun,
+} from "@/components/workflow/workflow-dashboard";
 
 type UniqueIssue = {
   key: string;
@@ -126,12 +132,20 @@ export function WorkflowOverview({
   model,
   onSelect,
   onResolveDemo,
-  resolving,
+  onRun,
+  onReset,
+  pending,
+  error,
+  lastRun,
 }: {
   model: GraphModel;
   onSelect: (requirementId: string) => void;
   onResolveDemo?: () => void;
-  resolving?: boolean;
+  onRun: (mode: "live" | "replay") => void;
+  onReset: () => void;
+  pending: PreflightPending;
+  error: string | null;
+  lastRun: PreflightRun | null;
 }) {
   const issues = uniqueIssues(model.nodes);
   const expiring = model.validity?.items.filter(
@@ -154,6 +168,14 @@ export function WorkflowOverview({
     <div className="min-h-0 flex-1 overflow-y-auto bg-beige-100">
       <div className="mx-auto grid max-w-[1500px] gap-5 px-5 py-5 xl:grid-cols-[minmax(0,1.45fr)_minmax(340px,0.75fr)]">
         <main className="space-y-5">
+          <PreflightLauncher
+            model={model}
+            pending={pending}
+            error={error}
+            lastRun={lastRun}
+            onRun={onRun}
+            onReset={onReset}
+          />
           <section className="rounded-xl border border-navy-800/12 bg-card shadow-sm">
             <div className="flex flex-wrap items-center justify-between gap-3 border-b border-navy-800/10 px-5 py-4">
               <div>
@@ -205,8 +227,8 @@ export function WorkflowOverview({
                           Review evidence <ArrowRight className="size-3" />
                         </button>
                         {defect.rule_id === "rule-address-consistency" && onResolveDemo ? (
-                          <button type="button" onClick={onResolveDemo} disabled={resolving} className="rounded-md bg-state-defect px-3 py-1.5 text-xs font-semibold text-white hover:brightness-110 disabled:opacity-50">
-                            {resolving ? "Replacing…" : "Use corrected demo document"}
+                          <button type="button" onClick={onResolveDemo} disabled={pending !== null} className="rounded-md bg-state-defect px-3 py-1.5 text-xs font-semibold text-white hover:brightness-110 disabled:opacity-50">
+                            {pending === "resolve" ? "Rechecking…" : "Replace with corrected sample"}
                           </button>
                         ) : null}
                       </div>
@@ -332,6 +354,125 @@ export function WorkflowOverview({
         </aside>
       </div>
     </div>
+  );
+}
+
+function PreflightLauncher({
+  model,
+  pending,
+  error,
+  lastRun,
+  onRun,
+  onReset,
+}: {
+  model: GraphModel;
+  pending: PreflightPending;
+  error: string | null;
+  lastRun: PreflightRun | null;
+  onRun: (mode: "live" | "replay") => void;
+  onReset: () => void;
+}) {
+  const files = model.evidence?.documents.length ?? 0;
+  const liveAvailable = Boolean(
+    model.extraction?.live_available && model.extraction.sample_live_supported,
+  );
+  const liveFiles = model.evidence?.live_count ?? 0;
+  const mode = lastRun?.mode ?? (liveFiles > 0 ? "live_anthropic" : "synthetic_cache");
+  const hasRun = files > 0;
+  const tokenTotal =
+    lastRun?.input_tokens != null && lastRun.output_tokens != null
+      ? lastRun.input_tokens + lastRun.output_tokens
+      : null;
+
+  return (
+    <section className="overflow-hidden rounded-xl border border-navy-800/15 bg-card shadow-sm">
+      <div className="grid md:grid-cols-[minmax(0,1fr)_280px]">
+        <div className="p-5 sm:p-6">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.12em] ${hasRun ? "bg-state-verified-bg text-state-verified" : "bg-navy-800 text-beige-50"}`}>
+              <span className={`size-1.5 rounded-full ${hasRun ? "bg-state-verified" : "bg-gold"}`} />
+              {hasRun ? "Preflight complete" : "Sample packet"}
+            </span>
+            {hasRun ? (
+              <span className="rounded-full border border-navy-800/15 px-2.5 py-1 text-[10px] font-semibold text-navy-700">
+                {mode === "live_anthropic" ? `Live AI · ${lastRun?.model ?? model.extraction?.model}` : "Deterministic replay"}
+              </span>
+            ) : null}
+          </div>
+
+          <h2 className="mt-3 text-2xl text-navy-900">
+            {hasRun ? "Review what the preflight found" : "Analyze a three-document sample packet"}
+          </h2>
+          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+            {hasRun
+              ? "The system extracted administrative facts, compared them across documents, and checked validity. Resolve the exceptions below before submission."
+              : "Use the actual synthetic PDFs to see extraction, provenance, deterministic consistency checks, and expiration review in one pass."}
+          </p>
+
+          <div className="mt-5 flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              onClick={() => onRun("live")}
+              disabled={!liveAvailable || pending !== null}
+              className="inline-flex min-h-11 items-center gap-2 rounded-lg bg-navy-800 px-4 py-2.5 text-sm font-semibold text-beige-50 shadow-sm transition hover:bg-navy-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-navy-700 disabled:cursor-not-allowed disabled:opacity-45"
+            >
+              <Sparkles className="size-4 text-gold" />
+              {pending === "live" ? "Reading the PDFs…" : hasRun ? "Run again with live AI" : "Analyze with live AI"}
+            </button>
+            <button
+              type="button"
+              onClick={() => onRun("replay")}
+              disabled={pending !== null}
+              className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-navy-700/25 bg-beige-50 px-4 py-2.5 text-sm font-semibold text-navy-800 transition hover:border-navy-700/45 hover:bg-beige-100 disabled:opacity-50"
+            >
+              <Play className="size-4" />
+              {pending === "replay" ? "Loading replay…" : "Use reliable replay"}
+            </button>
+            {hasRun ? (
+              <button type="button" onClick={onReset} disabled={pending !== null} className="inline-flex min-h-11 items-center gap-1.5 px-2 text-xs font-semibold text-muted-foreground hover:text-navy-800 disabled:opacity-50">
+                <RotateCcw className="size-3.5" /> {pending === "reset" ? "Resetting…" : "Reset packet"}
+              </button>
+            ) : null}
+          </div>
+
+          {!liveAvailable ? (
+            <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
+              Live AI is not enabled for this deployment or state direction. The replay remains fully interactive and uses the same rule engine.
+            </p>
+          ) : (
+            <p className="mt-3 text-xs text-state-verified">
+              Live document reading is ready · {model.extraction?.model}
+            </p>
+          )}
+          {error ? <p className="mt-3 rounded-md border border-state-defect/30 bg-state-defect-bg px-3 py-2 text-xs font-medium text-state-defect" role="alert">{error}</p> : null}
+        </div>
+
+        <div className="border-t border-navy-800/10 bg-beige-100 p-5 md:border-l md:border-t-0">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-navy-600">What happens</p>
+          <ol className="mt-4 space-y-3">
+            <LauncherStep number="1" text="Read three synthetic records" />
+            <LauncherStep number="2" text="Extract typed facts with provenance" />
+            <LauncherStep number="3" text="Run consistency and validity rules" />
+          </ol>
+          {lastRun ? (
+            <dl className="mt-4 grid grid-cols-3 gap-2 border-t border-navy-800/10 pt-4 text-xs">
+              <div><dt className="text-muted-foreground">Files</dt><dd className="mt-0.5 font-mono font-semibold text-navy-900">{lastRun.files_analyzed}</dd></div>
+              <div><dt className="text-muted-foreground">Time</dt><dd className="mt-0.5 font-mono font-semibold text-navy-900">{lastRun.duration_ms ? `${(lastRun.duration_ms / 1000).toFixed(1)}s` : "instant"}</dd></div>
+              <div><dt className="text-muted-foreground">Tokens</dt><dd className="mt-0.5 font-mono font-semibold text-navy-900">{tokenTotal?.toLocaleString() ?? "—"}</dd></div>
+            </dl>
+          ) : null}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function LauncherStep({ number, text }: { number: string; text: string }) {
+  return (
+    <li className="flex items-center gap-3 text-xs text-navy-900">
+      <span className="grid size-6 shrink-0 place-items-center rounded-full bg-card font-mono text-[10px] font-bold text-navy-700 shadow-sm">{number}</span>
+      <span>{text}</span>
+    </li>
   );
 }
 

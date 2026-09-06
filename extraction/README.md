@@ -50,10 +50,11 @@ that hangs during judging costs more than the credit earned for doing it live.
 
 ## Implemented modes
 
-- With no `ANTHROPIC_API_KEY`, or with `EXTRACTION_USE_CACHE=1`, uploads use deterministic
-  cached synthetic facts. This is the default-safe demo path.
+- With no `ANTHROPIC_API_KEY`, or with `EXTRACTION_USE_CACHE=1`, the deterministic sample
+  replay remains available. Manual uploads are disabled instead of silently ignoring their bytes.
 - With a key and `EXTRACTION_USE_CACHE=0`, uploaded synthetic PDFs and images are sent to the
-  Anthropic Messages API for constrained extraction. The response is validated, extra fact
-  types are dropped, nulls are retained as missing, and one retry is allowed.
+  Anthropic Messages API using a document-specific structured-output schema. The response is
+  validated again locally, extra or duplicate fact types are dropped, nulls remain missing,
+  and one retry is allowed.
 - Uploaded bytes are never persisted by the local store. Only file metadata and extracted
   synthetic facts are saved.

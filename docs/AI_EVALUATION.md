@@ -3,9 +3,10 @@
 ## What AI does
 
 The language model has one bounded job: convert a synthetic PDF or image into ontology-approved
-facts. Its response is schema-validated; facts outside the selected document contract are
-dropped. Every accepted value carries the source document, printed field, page, extraction
-time, and confidence.
+facts. The live Claude request uses a document-specific JSON Schema through structured output,
+so the model can return only the fact types allowed for that document. Zod validates the result
+again before persistence. Every accepted value carries the source document, printed field,
+page, extraction time, and confidence.
 
 AI does not determine applicability, satisfy requirements, compute deadlines, approve a
 family, or predict a case outcome. Those operations use deterministic TypeScript engines and
@@ -30,7 +31,7 @@ Its perfect score is **not a claim about model accuracy**.
 With `ANTHROPIC_API_KEY` and a currently supported `ANTHROPIC_MODEL` configured:
 
 ```bash
-EXTRACTION_USE_CACHE=0 npm run evaluate:extraction:live
+npm run evaluate:extraction:live
 ```
 
 Record the raw output, model identifier, prompt version/commit, and execution date. Do not
@@ -39,14 +40,27 @@ functional smoke test, not statistically meaningful validation.
 
 ## Reliability controls
 
-1. MIME type and 10 MB size limits before extraction.
-2. Constrained prompt with an explicit allow-list of fact types.
-3. Zod validation of structure, confidence, page, and field.
+1. Authentication plus MIME type and 10 MB size limits before extraction.
+2. Document-specific JSON Schema with an explicit enum of allowed fact types.
+3. Provider-side constrained decoding followed by Zod validation.
 4. Unknown fact types dropped before persistence.
-5. One retry for transient live-model failures; errors remain visible.
+5. A 45-second request timeout and one retry; errors remain visible and never silently become replay results.
 6. Values below 80% confidence are marked for human review and downgrade blocking defects to warnings.
 7. Deterministic rules include both sources and provenance in every defect.
-8. Explicit mode labels: **Live AI** or **Verified replay**.
+8. Explicit mode labels, model name, elapsed time, and token telemetry for live runs.
+
+`claude-sonnet-5` is the default because this task is bounded extraction rather than open-ended
+reasoning; it provides a better latency/cost posture than defaulting to the largest model. The
+model remains configurable through `ANTHROPIC_MODEL` and must be re-evaluated when changed.
+
+Run the mocked live-contract test without an API key:
+
+```bash
+npm run test:live-pipeline
+```
+
+This verifies PDF byte encoding, structured-output request shape, a transient-failure retry,
+usage telemetry, and provenance. It does not claim that an external model was contacted.
 
 ## Limitations and next validation
 
@@ -55,4 +69,3 @@ missing fields, OCR confusions, multilingual records, and adversarial text. Meas
 precision/recall, confidence calibration, false-negative rates, latency, cost, and reviewer
 correction rate. Use only approved synthetic or de-identified documents until security,
 retention, access-control, and agency agreements are complete.
-

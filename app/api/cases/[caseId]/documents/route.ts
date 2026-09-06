@@ -1,8 +1,11 @@
+import { readFile } from "node:fs/promises";
+import path from "node:path";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import {
   extractDocument,
   extractSyntheticDocument,
+  liveExtractionConfigured,
 } from "@/extraction/pipeline";
 import { selectApplicableRequirements } from "@/engines/graph";
 import { addCalendarDays } from "@/engines/validity";
@@ -26,7 +29,27 @@ const InputSchema = z.object({
   size: z.number().int().positive().max(10 * 1024 * 1024).default(1),
   issue_date: z.iso.date().nullable().optional(),
   variant: z.enum(["consistent", "conflicting"]).default("consistent"),
+  demo_file_name: z
+    .enum([
+      "rfa-application-rivera.pdf",
+      "home-safety-assessment-conflict.pdf",
+      "home-safety-assessment-corrected.pdf",
+      "health-screening-rivera.pdf",
+    ])
+    .optional(),
+  extraction_mode: z.enum(["replay", "live"]).default("replay"),
 });
+
+const DEMO_FILES: Record<string, string> = {
+  "rfa-application-rivera.pdf": "doc-rfa-application-form-rfa01a",
+  "home-safety-assessment-conflict.pdf": "doc-home-health-safety-assessment-report",
+  "home-safety-assessment-corrected.pdf": "doc-home-health-safety-assessment-report",
+  "health-screening-rivera.pdf": "doc-health-screening-form",
+};
+
+function demoDocumentBytes(name: string) {
+  return readFile(path.join(process.cwd(), "demo", "documents", name));
+}
 
 async function authenticatedCase(context: Context) {
   const user = await getSessionUser();
@@ -67,6 +90,7 @@ export async function POST(request: Request, context: Context) {
         file_name: file instanceof File ? file.name : "synthetic-demo.pdf",
         mime_type: file instanceof File ? file.type : "application/pdf",
         size: file instanceof File ? file.size : 1,
+        extraction_mode: "live",
       };
     } else {
       raw = await request.json();
@@ -84,11 +108,38 @@ export async function POST(request: Request, context: Context) {
   }
 
   try {
+    if (uploadedFile && !liveExtractionConfigured()) {
+      return NextResponse.json(
+        {
+          error:
+            "Live document reading is not configured. Use a demo replay or ask an administrator to enable live extraction.",
+        },
+        { status: 503 },
+      );
+    }
+    if (
+      parsed.data.demo_file_name &&
+      DEMO_FILES[parsed.data.demo_file_name] !== parsed.data.document_id
+    ) {
+      return NextResponse.json(
+        { error: "The selected sample does not match this document type." },
+        { status: 422 },
+      );
+    }
+    if (parsed.data.extraction_mode === "live" && !liveExtractionConfigured()) {
+      return NextResponse.json(
+        { error: "Live extraction is not configured on this deployment." },
+        { status: 503 },
+      );
+    }
     const metadata = {
       name: parsed.data.file_name,
       type: parsed.data.mime_type,
       size: parsed.data.size,
     };
+    const demoBytes = parsed.data.demo_file_name
+      ? await demoDocumentBytes(parsed.data.demo_file_name)
+      : null;
     const result = uploadedFile
       ? await extractDocument(
           metadata,
@@ -96,6 +147,13 @@ export async function POST(request: Request, context: Context) {
           parsed.data.document_id,
           loadOntology(),
         )
+      : demoBytes && parsed.data.extraction_mode === "live"
+        ? await extractDocument(
+            { ...metadata, size: demoBytes.byteLength },
+            demoBytes,
+            parsed.data.document_id,
+            loadOntology(),
+          )
       : extractSyntheticDocument(
           metadata,
           parsed.data.document_id,
@@ -119,7 +177,19 @@ export async function POST(request: Request, context: Context) {
       return NextResponse.json({ error: "Case not found." }, { status: 404 });
     }
     return NextResponse.json(
-      { document: saved, warnings: result.warnings },
+      {
+        document: saved,
+        warnings: result.warnings,
+        run: {
+          mode: result.mode,
+          model: result.telemetry.model,
+          duration_ms: result.telemetry.duration_ms,
+          input_tokens: result.telemetry.input_tokens,
+          output_tokens: result.telemetry.output_tokens,
+          attempts: result.telemetry.attempts,
+          facts_extracted: result.facts.length,
+        },
+      },
       { status: 201 },
     );
   } catch (error) {
@@ -140,10 +210,20 @@ export async function DELETE(_request: Request, context: Context) {
 }
 
 /** Load a deterministic, direction-aware demo bundle in one click. */
-export async function PUT(_request: Request, context: Context) {
+export async function PUT(request: Request, context: Context) {
   const auth = await authenticatedCase(context);
   if ("error" in auth) {
     return NextResponse.json({ error: auth.error }, { status: auth.status });
+  }
+  const requestedMode = new URL(request.url).searchParams.get("mode") ?? "replay";
+  if (requestedMode !== "replay" && requestedMode !== "live") {
+    return NextResponse.json({ error: "Unknown demo mode." }, { status: 400 });
+  }
+  if (requestedMode === "live" && !liveExtractionConfigured()) {
+    return NextResponse.json(
+      { error: "Live extraction is not configured on this deployment." },
+      { status: 503 },
+    );
   }
   const ontology = loadOntology();
   const requirements = selectApplicableRequirements(
@@ -230,18 +310,70 @@ export async function PUT(_request: Request, context: Context) {
     "health-screening-rivera.pdf": "2025-11-10",
   };
 
+  const preparedBundle = bundle.map((item) => ({
+    ...item,
+    fileName:
+      demoFileNames[item.document.id]?.[item.variant] ??
+      `${item.variant}-${item.document.id}.pdf`,
+  }));
+  const unsupportedLiveItem = preparedBundle.find(
+    ({ document, fileName }) =>
+      requestedMode === "live" &&
+      !DEMO_FILES[fileName] &&
+      document.yields_facts.length > 0,
+  );
+  if (unsupportedLiveItem) {
+    return NextResponse.json(
+      { error: "The live sample packet is available for the TX to CA demo case." },
+      { status: 422 },
+    );
+  }
+
+  const runStartedAt = Date.now();
+  // Finish every extraction before replacing the saved packet. A provider
+  // failure must leave the case's prior evidence intact, not half-updated.
+  let extractionFailure: unknown;
+  const extractedBundle = await Promise.all(
+    preparedBundle.map(async (item) => {
+      const { fileName } = item;
+      const canReadLive = requestedMode === "live" && DEMO_FILES[fileName];
+      const bytes = canReadLive ? await demoDocumentBytes(fileName) : null;
+      const result = canReadLive
+        ? await extractDocument(
+            { name: fileName, type: "application/pdf", size: bytes!.byteLength },
+            bytes,
+            item.document.id,
+            ontology,
+          )
+        : extractSyntheticDocument(
+            { name: fileName, type: "application/pdf", size: 1 },
+            item.document.id,
+            ontology,
+            item.variant,
+          );
+      return { ...item, result };
+    }),
+  ).catch((error: unknown) => {
+    extractionFailure = error;
+    return null;
+  });
+  if (!extractedBundle) {
+    return NextResponse.json(
+      {
+        error: `Live analysis failed; the previous packet was left unchanged. ${
+          extractionFailure instanceof Error
+            ? extractionFailure.message
+            : "Please try again or use the reliable replay."
+        }`,
+      },
+      { status: 502 },
+    );
+  }
+
   await clearCaseDocuments(auth.user.id, auth.record.id);
   const saved = [];
-  for (const item of bundle) {
-    const fileName =
-      demoFileNames[item.document.id]?.[item.variant] ??
-      `${item.variant}-${item.document.id}.pdf`;
-    const result = extractSyntheticDocument(
-      { name: fileName, type: "application/pdf", size: 1 },
-      item.document.id,
-      ontology,
-      item.variant,
-    );
+  for (const item of extractedBundle) {
+    const { fileName, result } = item;
     const record = await saveCaseDocument(auth.user.id, auth.record.id, {
       definition_id: item.document.id,
       file_name: fileName,
@@ -256,6 +388,21 @@ export async function PUT(_request: Request, context: Context) {
     });
     if (record) saved.push(record);
   }
+  const telemetry = extractedBundle.map(({ result }) => result.telemetry);
+  const warnings = extractedBundle.flatMap(({ result }) => result.warnings);
 
-  return NextResponse.json({ documents: saved, rule_id: rule.id });
+  return NextResponse.json({
+    documents: saved,
+    rule_id: rule.id,
+    run: {
+      mode: requestedMode === "live" ? "live_anthropic" : "synthetic_cache",
+      model: telemetry.find(({ model }) => model)?.model ?? null,
+      duration_ms: Date.now() - runStartedAt,
+      input_tokens: telemetry.reduce((total, item) => total + (item.input_tokens ?? 0), 0),
+      output_tokens: telemetry.reduce((total, item) => total + (item.output_tokens ?? 0), 0),
+      files_analyzed: saved.length,
+      facts_extracted: saved.reduce((total, item) => total + item.facts.length, 0),
+      warnings,
+    },
+  });
 }

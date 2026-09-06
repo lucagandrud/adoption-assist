@@ -17,7 +17,7 @@ minutes per preflight, rework cycles, and days from packet start to submission.
 
 ## What was implemented
 
-- A task-centered overview that puts unique exceptions, expiry risk, phase progress, and next actions before the expert dependency map.
+- A task-centered overview that puts packet analysis, unique exceptions, expiry risk, phase progress, and next actions before the expert dependency map.
 - Clear separation of uploaded files, completed requirements, and unique issues.
 - Evidence cards with values, page/field provenance, confidence, and honest Live-AI-versus-replay labels.
 - An ontology-derived CA↔TX workflow, deterministic consistency rules, validity calculations, state-pair differences, critical path, and full graph view.
@@ -45,12 +45,16 @@ decision system.”
 
 ### 0:45–1:25 — Central product moment
 
-Click **Start guided demo**. Pause on **Needs attention**. Explain that one inconsistency is
+Click **Analyze with live AI**. The app reads the actual bundled synthetic PDFs and reports the
+model and elapsed time. If the provider or network is unavailable, click **Use reliable replay**
+and say explicitly that it uses recorded extraction through the same downstream rules.
+
+Pause on **Needs attention**. Explain that one inconsistency is
 deduplicated even when it affects several requirements. Open it and show both source values,
 page, and field. Point out the expiration risk and that extraction is labeled **Verified
 replay**, never passed off as a live model call.
 
-Click **Use corrected demo document** and show that the address exception clears while the
+Click **Replace with corrected sample** and show that the address exception clears while the
 expiration warning remains. This is the complete detect → inspect → correct → recheck loop.
 
 Say: “AI reads bounded fields. Versioned rules compare them. The caseworker decides what to correct.”

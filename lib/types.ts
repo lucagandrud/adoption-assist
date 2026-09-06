@@ -108,6 +108,11 @@ export interface GraphModel {
     warnings: string[];
   };
   evidence?: EvidenceSummary;
+  extraction?: {
+    live_available: boolean;
+    model: string;
+    sample_live_supported: boolean;
+  };
   research_status?: {
     verified_requirements: number;
     total_requirements: number;

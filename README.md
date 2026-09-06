@@ -2,11 +2,11 @@
 
 **Administrative readiness for interstate foster-care and adoption placement packets.**
 
-Interstate placement packets are rejected for administrative defects — a mismatched address,
-a clearance that lapsed, a document filed out of order. Each rejection costs caseworker hours
-and adds months to a child's time in care. This is a workbench that derives the correct
-document workflow from state regulations and verifies every upload against them
-automatically.
+Administrative defects in interstate placement packets — a mismatched address, an expiring
+clearance, or an incomplete record — can trigger avoidable review and rework. ICPC Preflight
+is a caseworker workbench that reads packet evidence, compares typed facts, and presents the
+encoded CA/TX workflow before submission. It supports administrative review; it does not make
+placement or legal-compliance decisions.
 
 Built for **DNHacks**, Health and Public Service category, in a 26-hour window.
 
@@ -17,6 +17,10 @@ Built for **DNHacks**, Health and Public Service category, in a 26-hour window.
 > `verified: false` pending human review. Synthetic cached extraction works without keys;
 > optional live PDF/image extraction uses Anthropic when configured. Start with the
 > [demo and pitch guide](docs/DEMO_AND_PITCH_GUIDE.md).
+
+For the current product rationale and submission audit, see the
+[caseworker persona](docs/USER_PERSONA.md) and
+[judging-readiness map](docs/JUDGING_READINESS.md).
 
 ---
 
@@ -34,8 +38,8 @@ structurally different — California uses Resource Family Approval as a unified
 Texas uses DFPS home screening and licensing — so the composed workflow genuinely differs by
 direction rather than being a relabeled checklist.
 
-Architecture generalizes to 50 states. **Only ontology data is state-specific; no state
-logic in code.**
+The architecture can extend to additional states by adding reviewed ontology data. **Only
+ontology data is state-specific; no state logic is hard-coded in the workflow engine.**
 
 ---
 
@@ -53,15 +57,15 @@ logic in code.**
 Full citations in [`docs/SOURCES.md`](docs/SOURCES.md). These are the only statistics this
 project uses.
 
-**Where the cost is.** A defective packet is denied, there is no appeal, and the case starts
-over while a child waits. The defects that cause this are overwhelmingly administrative —
-they are catchable before submission by anything that actually reads the documents against
-the governing requirements.
+**Where the product intervenes.** Returned or denied packets can require additional review or
+refiling while a child waits. This prototype targets the narrower, testable subset of defects
+that can be found before submission: missing evidence, cross-document contradictions, and
+documents that may expire during the review window.
 
-**Why this doesn't already exist.** NEICE digitized the transport layer: 47 jurisdictions
-exchange ICPC packets electronically today, and the Family First Prevention Services Act
-requires universal participation by 2027. But NEICE is office-to-office document exchange.
-It moves packets. **Nothing evaluates whether a packet is correct before it enters the pipe.**
+**Where it fits.** NEICE digitized the transport layer: 47 jurisdictions exchange ICPC
+packets electronically today, and the Family First Prevention Services Act requires universal
+participation by 2027. This prototype explores a complementary pre-submission layer focused
+on administrative evidence quality.
 
 This is a pre-submission layer that feeds NEICE. It does not compete with it.
 

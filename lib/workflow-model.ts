@@ -13,6 +13,10 @@ import {
   selectApplicableRequirements,
 } from "@/engines/graph";
 import { computeValidity } from "@/engines/validity";
+import {
+  configuredExtractionModel,
+  liveExtractionConfigured,
+} from "@/extraction/pipeline";
 import { findCase, listCaseDocuments } from "@/lib/store";
 import type { CaseRecord, GraphModel } from "@/lib/types";
 import { FactSchema, loadOntology } from "@/ontology/schema";
@@ -148,6 +152,18 @@ export async function graphModelForCase(record: CaseRecord): Promise<GraphModel>
       cached_count: evidenceDocuments.filter(
         ({ extraction_mode }) => extraction_mode === "synthetic_cache",
       ).length,
+    },
+    extraction: {
+      live_available: liveExtractionConfigured(),
+      model: configuredExtractionModel(),
+      sample_live_supported: [
+        "doc-rfa-application-form-rfa01a",
+        "doc-home-health-safety-assessment-report",
+      ].every((id) =>
+        selectedRequirements.some(({ satisfied_by_documents }) =>
+          satisfied_by_documents.includes(id),
+        ),
+      ),
     },
     research_status: {
       verified_requirements: selectedRequirements.filter(({ verified }) => verified)
