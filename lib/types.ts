@@ -19,6 +19,7 @@ export type Direction = `${string}_to_${string}`;
 export interface Citation {
   text: string;
   url: string | null;
+  page_or_section?: string | null;
   retrieved: string | null;
 }
 
@@ -96,6 +97,37 @@ export interface GraphModel {
    * The UI must display this distinction — see hard boundary #4 in CLAUDE.md.
    */
   source?: "fixture" | "engine";
+  validity?: ValidityReport;
+  delta?: {
+    surprise_count: number;
+    total_items: number;
+    inferred_match_count: number;
+  };
+  data_quality?: {
+    unknown_turnaround_count: number;
+    warnings: string[];
+  };
+}
+
+export interface ValidityStatus {
+  document_id: string;
+  definition_id: string;
+  document_name: string;
+  issue_date: string | null;
+  expires_on: string | null;
+  days_remaining: number | null;
+  state: "valid" | "at_risk" | "expired" | "unknown";
+  renew_by: string | null;
+  lapses_on_day: number | null;
+  renewal_is_late: boolean;
+}
+
+export interface ValidityReport {
+  window_start: string;
+  window_end: string;
+  projected_decision: string;
+  items: ValidityStatus[];
+  at_risk_count: number;
 }
 
 /** Persisted records (see lib/store.ts). */
@@ -120,4 +152,34 @@ export interface CaseRecord {
   window_start: string;
   created_at: string;
   updated_at: string;
+}
+
+export interface StoredProvenance {
+  source_kind: "document" | "manual";
+  document_id?: string | null;
+  document_name?: string | null;
+  page?: number | null;
+  field?: string | null;
+  extracted_at: string;
+}
+
+export interface StoredFact {
+  id: string;
+  type: string;
+  value: unknown;
+  provenance: StoredProvenance[];
+  confidence: number;
+  extracted_at: string;
+}
+
+export interface CaseDocumentRecord {
+  id: string;
+  case_id: string;
+  definition_id: string;
+  file_name: string;
+  mime_type: string;
+  issue_date: string | null;
+  extraction_mode: "synthetic_cache" | "live_anthropic";
+  facts: StoredFact[];
+  uploaded_at: string;
 }

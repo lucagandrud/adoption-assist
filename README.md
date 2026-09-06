@@ -10,8 +10,11 @@ automatically.
 
 Built for **DNHacks**, Health and Public Service category, in a 26-hour window.
 
-> **Status: pre-build.** No implementation. Every source file is comment-only and marked
-> `PSEUDOCODE — NOT IMPLEMENTED`.
+> **Status:** the case shell and ontology-derived workflow dashboard are implemented. The
+> ontology currently contains 95 requirements, 81 document definitions, 31 fact types, and
+> four deterministic consistency rules. All researched regulatory entries remain
+> `verified: false` pending human review. Synthetic cached extraction works without keys;
+> optional live PDF/image extraction uses Anthropic when configured.
 
 ---
 
@@ -343,10 +346,12 @@ boundary between backend and frontend. The engines emit that shape; the dashboar
 Both people build against it from hour 0, so neither waits on the other. **Read it together
 before writing any code**, and never change it unilaterally — it breaks both sides at once.
 
-Find remaining pseudocode:
+Verify the ontology, deterministic engines, and frontend/backend contract:
 
 ```bash
-grep -rln "PSEUDOCODE — NOT IMPLEMENTED" --include="*.ts" .
+npm run verify:ontology
+npm run lint
+npx tsc --noEmit
 ```
 
 ---

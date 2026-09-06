@@ -48,6 +48,7 @@ whether a family is fit. A passing check means the paperwork is consistent — n
 
 ## Current state
 
-All four files are commented pseudocode marked `PSEUDOCODE — NOT IMPLEMENTED`, carrying the
-algorithm sketch, output shapes, and the open design questions worth settling before writing
-code.
+All four deterministic engines are implemented. `graph.ts` now supplies the live dashboard
+contract, `consistency.ts` reports two-sided provenance, `validity.ts` uses UTC calendar-day
+math, and `delta.ts` produces a deterministic state-pair comparison with explicit match
+confidence. Run `npm run verify:ontology` for the executable smoke test.

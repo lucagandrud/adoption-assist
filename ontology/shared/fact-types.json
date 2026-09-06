@@ -1,0 +1,166 @@
+{
+  "_note": "Step 2 deliverable: the fact-type registry. Every fact referenced anywhere in the CA, TX, and federal requirement files (round 1-3) is listed here under one consistent naming style: fact.<category>.<name>. Three earlier naming styles existed in the draft data (dot-namespaced, hyphenated-condition, and bare snake_case) -- all reconciled to this one before this file was written. See CLAUDE_CODE_HANDOFF.md for the full reasoning.",
+  "source_key_meaning": "Each fact carries a 'source' field: 'extracted' = read directly off a single uploaded document by the vision extraction pipeline. 'attested' = a caseworker or applicant states/confirms it directly (not reliably readable off one document, or requires a judgment call the project's hard boundaries say must stay human -- see note on spouse_unsupervised_access_determination and agency_determination_home_can_meet_needs). 'derived' = computed by engine code from other facts already in this registry -- never asked of the extraction pipeline directly, and never stored as raw input.",
+  "facts": {
+    "fact.person.legal_name": {
+      "value_type": "string",
+      "source": "extracted"
+    },
+    "fact.person.date_of_birth": {
+      "value_type": "date",
+      "source": "extracted"
+    },
+    "fact.person.age": {
+      "value_type": "integer",
+      "unit": "years",
+      "source": "derived",
+      "derivation": "computed from fact.person.date_of_birth as of the assessment date -- do not ask the extraction pipeline for age directly, ages go stale."
+    },
+    "fact.person.marital_status": {
+      "value_type": "string",
+      "enum": [
+        "single",
+        "married",
+        "divorced",
+        "widowed",
+        "separated"
+      ],
+      "source": "extracted"
+    },
+    "fact.person.marriage_duration_years": {
+      "value_type": "number",
+      "unit": "years",
+      "source": "derived",
+      "derivation": "computed from a marriage certificate date fact vs. today, or extracted directly if the certificate is the only source -- pick one, don't do both."
+    },
+    "fact.residence.address": {
+      "value_type": "address",
+      "source": "extracted"
+    },
+    "fact.residence.lived_out_of_state_within_5_years": {
+      "value_type": "boolean",
+      "source": "attested",
+      "note": "CA RFA Section 6-03A(b)(2)(A) trigger for the LIC 198B out-of-state registry check. Self-reported on the application; not something a single document proves on its own."
+    },
+    "fact.household.size": {
+      "value_type": "integer",
+      "source": "extracted"
+    },
+    "fact.household.has_child_under_10": {
+      "value_type": "boolean",
+      "source": "derived",
+      "derivation": "computed from the household roster's fact.person.date_of_birth entries -- do not extract this as a standalone fact, it goes stale and duplicates data already in the roster."
+    },
+    "fact.household.spouse_cohabitation_status": {
+      "value_type": "string",
+      "enum": [
+        "living_together",
+        "living_apart_2yr_plus",
+        "other"
+      ],
+      "source": "attested"
+    },
+    "fact.household.spouse_unsupervised_access_determination": {
+      "value_type": "boolean",
+      "source": "attested",
+      "note": "TX 26 TAC Section 749.2401 explicitly frames this as something 'you [the agency] determine' -- a judgment call, not an extractable fact. Keep it attested; do not let an engine infer this from other data, that would cross the project's own 'no substantive assessment' boundary."
+    },
+    "fact.income.annual_gross": {
+      "value_type": "money",
+      "unit": "USD/yr, GROSS not AGI",
+      "source": "extracted"
+    },
+    "fact.home.bedroom_count": {
+      "value_type": "integer",
+      "source": "extracted"
+    },
+    "fact.home.child_count": {
+      "value_type": "integer",
+      "source": "extracted",
+      "note": "Consolidates three previously-separate ad hoc names from the draft data (home_child_count, home_child_count_le_6, number_of_children_in_home) -- all the same underlying fact."
+    },
+    "fact.home.children_per_bedroom": {
+      "value_type": "integer",
+      "source": "derived",
+      "derivation": "fact.home.child_count / fact.home.bedroom_count, or read directly off a physical-environment inspection report if it states room assignments explicitly -- pick one source of truth, don't compute AND extract."
+    },
+    "fact.home.has_pool": {
+      "value_type": "boolean",
+      "source": "extracted"
+    },
+    "fact.home.each_child_has_own_bed_mattress": {
+      "value_type": "boolean",
+      "source": "extracted"
+    },
+    "fact.child.is_nonambulatory": {
+      "value_type": "boolean",
+      "source": "attested",
+      "note": "Medical/mobility status -- a caseworker or medical provider attestation, not something the extraction pipeline should infer from a document."
+    },
+    "fact.placement.is_sibling_group": {
+      "value_type": "boolean",
+      "source": "attested"
+    },
+    "fact.placement.sibling_diligent_effort_documented": {
+      "value_type": "boolean",
+      "source": "attested"
+    },
+    "fact.placement.placed_without_prior_approval": {
+      "value_type": "boolean",
+      "source": "attested"
+    },
+    "fact.relationship.degree_to_child": {
+      "value_type": "string",
+      "source": "attested",
+      "note": "e.g. 'grandparent', 'aunt/uncle', 'sibling' -- stated by the applicant/caseworker, used to determine third-degree-of-consanguinity-or-affinity eligibility under TX Section 749.43(27) (receiving side), and reused on the TX sending side as half of the expedited-ICPC eligibility test under DFPS CPS Handbook Section 4512 (see open item below -- the other half of that test, the 'qualifying circumstance,' isn't a registered fact yet)."
+    },
+    "fact.criminal_history.has_qualifying_conviction_or_arrest": {
+      "value_type": "boolean",
+      "source": "derived",
+      "derivation": "computed by comparing an extracted list of conviction/arrest codes (not yet a registered fact type -- see open item in CLAUDE_CODE_HANDOFF.md) against the offense list in Health and Safety Code Section 1522(e). DO NOT let the extraction pipeline assert this directly -- that would be an LLM making a legal determination, which violates the project's own hard boundary #2 ('no LLM in the engines... an LLM never decides whether a requirement is met')."
+    },
+    "fact.criminal_history.no_1522g_disqualifying_conviction": {
+      "value_type": "boolean",
+      "source": "derived",
+      "derivation": "same pattern as above, but against the DIFFERENT and narrower offense list in Health and Safety Code Section 1522(g)(1)(A)-(C) -- this is an absolute bar with no exemption path, while 1522(e) only triggers a documentation requirement. These two subsections are easy to conflate; keep them as two separate derived facts, not one."
+    },
+    "fact.criminal_history.investigation_completed": {
+      "value_type": "boolean",
+      "source": "attested"
+    },
+    "fact.capacity.total_household": {
+      "value_type": "integer",
+      "source": "extracted"
+    },
+    "fact.capacity.foster_care": {
+      "value_type": "integer",
+      "source": "extracted"
+    },
+    "fact.capacity.agency_determination_home_can_meet_needs": {
+      "value_type": "boolean",
+      "source": "attested",
+      "note": "22 CCR Section 89228's capacity waiver hinges on an agency determination -- explicitly a human judgment call, keep attested, never derived."
+    },
+    "fact.training.general_hours_completed": {
+      "value_type": "number",
+      "unit": "hours",
+      "source": "extracted",
+      "note": "Renamed from the draft's 'general_training_hours_ge_8' -- the old name baked a >=8 threshold into the fact itself. A fact should be the raw measured value; the >=8 comparison belongs in the requirement/rule logic, not the fact name. Same fix applied to normalcy_hours_completed below."
+    },
+    "fact.training.normalcy_hours_completed": {
+      "value_type": "number",
+      "unit": "hours",
+      "source": "extracted"
+    },
+    "fact.placement.is_expedited_request": {
+      "value_type": "boolean",
+      "source": "attested",
+      "note": "Whether the caseworker is filing this as an expedited ICPC request. Used on BOTH sending-side chains now: it drives 3-day vs. 5-day forwarding in the California sending-side chain (LA County DCFS Policy 0100-525.10), and 3-day vs. 15-day submission plus the whole eligibility-gated Section 4512 pathway in the Texas sending-side chain (DFPS CPS Handbook). A caseworker's own procedural/eligibility-confirmed choice, not something extracted from a document -- for Texas specifically, it should only be set true once the Section 4512 relationship+circumstance eligibility test (see fact.relationship.degree_to_child and the open item below) has actually been checked."
+    }
+  },
+  "open_items_for_whoever_builds_the_extraction_pipeline": [
+    "fact.criminal_history.has_qualifying_conviction_or_arrest and fact.criminal_history.no_1522g_disqualifying_conviction both need an underlying extracted fact type for 'list of offense codes/charges appearing on the background check report' -- that raw fact type was not designed in this research pass and needs to be added (something like fact.criminal_history.offense_codes, value_type: array of strings) before the derivation logic in engines/consistency.ts (or a dedicated eligibility engine) can actually compute these two booleans.",
+    "The Health & Safety Code Section 1522(e) and Section 1522(g)(1)(A)-(C) offense lists themselves need to be transcribed into a reference data file (e.g. ontology/ca/shared/hsc-1522-offense-codes.json) for the derivation logic to compare against -- this was flagged but not sourced in this research pass.",
+    "Texas's expedited-ICPC eligibility test (DFPS CPS Handbook Section 4512, see req-tx-sending-expedited-eligibility-and-3-day-submission) needs the same treatment: a reference table of qualifying relationship types (parent, stepparent, grandparent, adult sibling, adult aunt/uncle, guardian -- explicitly NOT cousins, great-aunts/uncles, or fictive kin) crossed with qualifying circumstances (sudden incarceration/incapacitation/death of parent, emergency placement, court-found substantial sibling relationship, child age 4 or under). The circumstance half in particular looks like it needs a human judgment call, not a pure lookup -- don't derive fact.placement.is_expedited_request automatically from this without a design decision on that point."
+  ]
+}

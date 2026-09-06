@@ -22,17 +22,15 @@ shadcn/ui, React Flow (`@xyflow/react`) with dagre layout, Zod, Supabase package
 |---|---|
 | Sign in, sign out, session cookie, persistence | Supabase Auth (`lib/supabase.ts` is wired but unused) |
 | Case list, create a case, all 51 jurisdictions | — |
-| State pair + direction, saved to the case | Direction actually changing the workflow (needs `/engines`) |
-| Graph from the contract fixture, dagre auto-layout | Graph from `/engines/graph.ts` (swap `lib/workflow-model.ts`) |
+| State pair + direction, saved to the case | — |
+| Regulation-derived graph from `/engines/graph.ts`, dagre auto-layout | — |
 | Five node states, critical path, node panel, citations, defects | — |
-| — | Upload → extract → verify (handoff Step 5) |
+| Synthetic cached upload → extract → verify, plus optional live extraction | — |
 
 ### Where the backend plugs in
 
-`lib/workflow-model.ts` is the single swap point. It returns the fixture stamped with the real
-case, tagged `source: "fixture"`, and the dashboard renders a banner saying so. When
-`/engines/graph.ts` composes a state pair, that function returns engine output tagged
-`source: "engine"` and no component changes.
+`lib/workflow-model.ts` is the integration point. It loads case evidence, runs consistency,
+validity, delta, and graph derivation, then returns engine output tagged `source: "engine"`.
 
 ### Note on the React Flow package
 

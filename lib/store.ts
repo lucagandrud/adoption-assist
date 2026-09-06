@@ -15,18 +15,24 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { randomUUID } from "node:crypto";
-import type { CaseRecord, UserRecord } from "@/lib/types";
+import type {
+  CaseDocumentRecord,
+  CaseRecord,
+  StoredFact,
+  UserRecord,
+} from "@/lib/types";
 
 interface Database {
-  version: 1;
+  version: 2;
   users: UserRecord[];
   cases: CaseRecord[];
+  documents: CaseDocumentRecord[];
 }
 
 const DATA_DIR = path.join(process.cwd(), ".data");
 const DATA_FILE = path.join(DATA_DIR, "workbench.json");
 
-const EMPTY: Database = { version: 1, users: [], cases: [] };
+const EMPTY: Database = { version: 2, users: [], cases: [], documents: [] };
 
 /** Serializes read-modify-write cycles so two requests cannot clobber. */
 let queue: Promise<unknown> = Promise.resolve();
@@ -42,9 +48,10 @@ async function read(): Promise<Database> {
     const raw = await fs.readFile(DATA_FILE, "utf8");
     const parsed = JSON.parse(raw) as Partial<Database>;
     return {
-      version: 1,
+      version: 2,
       users: parsed.users ?? [],
       cases: parsed.cases ?? [],
+      documents: parsed.documents ?? [],
     };
   } catch {
     return { ...EMPTY };
@@ -175,6 +182,77 @@ export async function deleteCase(
     );
     if (index === -1) return false;
     db.cases.splice(index, 1);
+    db.documents = db.documents.filter((document) => document.case_id !== caseId);
+    await write(db);
+    return true;
+  });
+}
+
+/* ------------------------------- documents ------------------------------ */
+
+export async function listCaseDocuments(
+  userId: string,
+  caseId: string,
+): Promise<CaseDocumentRecord[]> {
+  const db = await read();
+  const ownsCase = db.cases.some(
+    (record) => record.id === caseId && record.owner_user_id === userId,
+  );
+  if (!ownsCase) return [];
+  return db.documents
+    .filter((document) => document.case_id === caseId)
+    .sort((left, right) => left.uploaded_at.localeCompare(right.uploaded_at));
+}
+
+export async function saveCaseDocument(
+  userId: string,
+  caseId: string,
+  input: {
+    definition_id: string;
+    file_name: string;
+    mime_type: string;
+    issue_date: string | null;
+    extraction_mode: "synthetic_cache" | "live_anthropic";
+    facts: StoredFact[];
+  },
+): Promise<CaseDocumentRecord | null> {
+  return serialize(async () => {
+    const db = await read();
+    const ownsCase = db.cases.some(
+      (record) => record.id === caseId && record.owner_user_id === userId,
+    );
+    if (!ownsCase) return null;
+
+    db.documents = db.documents.filter(
+      (document) =>
+        !(
+          document.case_id === caseId &&
+          document.definition_id === input.definition_id
+        ),
+    );
+    const record: CaseDocumentRecord = {
+      id: `case-doc-${randomUUID().slice(0, 8)}`,
+      case_id: caseId,
+      uploaded_at: now(),
+      ...input,
+    };
+    db.documents.push(record);
+    await write(db);
+    return record;
+  });
+}
+
+export async function clearCaseDocuments(
+  userId: string,
+  caseId: string,
+): Promise<boolean> {
+  return serialize(async () => {
+    const db = await read();
+    const ownsCase = db.cases.some(
+      (record) => record.id === caseId && record.owner_user_id === userId,
+    );
+    if (!ownsCase) return false;
+    db.documents = db.documents.filter((document) => document.case_id !== caseId);
     await write(db);
     return true;
   });

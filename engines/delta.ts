@@ -1,145 +1,238 @@
-/* =============================================================================
- * PSEUDOCODE — NOT IMPLEMENTED
- * =============================================================================
- * Nothing in this file executes. There are no imports, no exports, and no
- * runnable statements — only a commented design sketch.
- *
- * File:    engines/delta.ts
- * Purpose: Engine 4 — state-pair requirements delta (CA ↔ TX).
- * Owner:   unassigned
- * Phase:   Hours 16–19
- * Status:  Cut #2 if behind schedule.
- *
- * Closes the demo. "Here is the machine-computed diff between two state
- * regimes" is a much stronger claim than "here is a checklist."
- * ============================================================================= */
+import type {
+  Citation,
+  DocumentDefinition,
+  LoadedOntology,
+  Requirement,
+} from "../ontology/schema.ts";
 
-// ---------------------------------------------------------------------------
-// WHY CA AND TX
-// ---------------------------------------------------------------------------
-// The regimes are structurally different, which is the point:
-//   California — Resource Family Approval (RFA), a unified process
-//   Texas      — DFPS home screening and licensing
-// The delta is where families get surprised. Computing it is a real result.
-//
-// ---------------------------------------------------------------------------
-// OUTPUT SHAPE
-// ---------------------------------------------------------------------------
-//
-// DeltaKind    enum:
-//                "only_in_receiving"   no sending-state equivalent — the
-//                                      family will be surprised by this
-//                "only_in_sending"     satisfied at home, not needed there
-//                "stricter_threshold"  same obligation, tighter number
-//                "different_form"      same obligation, different artifact
-//                "equivalent"          matched, no material difference
-//
-// DeltaItem    object:
-//                kind                 DeltaKind
-//                sending_requirement  Requirement | null
-//                receiving_requirement Requirement | null
-//                explanation          string
-//                threshold_delta      object | null   { field, from, to }
-//                citations            Citation[]      BOTH sides
-//                verified             boolean         false if EITHER side is
-//
-// DeltaReport  object:
-//                sending_state    StateCode
-//                receiving_state  StateCode
-//                items            DeltaItem[]
-//                surprise_count   number   count of only_in_receiving
-//
-// ---------------------------------------------------------------------------
-// MAIN ENTRY
-// ---------------------------------------------------------------------------
-//
-// function computeDelta(ontology, sendingState, receivingState, familyProfile)
-//         -> DeltaReport
-//
-//     sendingReqs   = requirements where state == sendingState
-//                     and direction == "sending"
-//                     and applies_to matches familyProfile
-//
-//     receivingReqs = requirements where state == receivingState
-//                     and direction == "receiving"
-//                     and applies_to matches familyProfile
-//
-//     // shared/federal requirements are excluded — they are identical by
-//     // definition and would pad the report with noise
-//
-//     pairs = matchRequirements(sendingReqs, receivingReqs)
-//
-//     for each pair:
-//         both present  → classify (see below)
-//         receiving only → "only_in_receiving"   ← THE VALUABLE CASE
-//         sending only   → "only_in_sending"
-//
-//     sort: only_in_receiving first, then stricter_threshold, then the rest
-//     return report
-//
-// ---------------------------------------------------------------------------
-// THE HARD PART — MATCHING REQUIREMENTS ACROSS STATES
-// ---------------------------------------------------------------------------
-// CA and TX do not share requirement IDs, and matching on label text is
-// fragile ("Home Study" vs "Home Screening" vs "RFA Written Report" are
-// arguably the same obligation with three names).
-//
-// Options considered:
-//
-//   (a) Shared taxonomy key. Add an optional `equivalence_key` to Requirement.
-//       Both states' entries for the same underlying obligation carry the same
-//       key. Matching is then a trivial group-by.
-//       + Deterministic, debuggable, zero runtime cost, no LLM in the path.
-//       - Requires ontology authors to assign keys by hand.
-//
-//   (b) Match on satisfied_by_facts overlap. Two requirements are equivalent
-//       if they produce substantially the same facts.
-//       + No extra authoring.
-//       - Fails when the same obligation is satisfied by differently-modeled
-//         documents, which is exactly the CA/TX case.
-//
-//   (c) LLM-based semantic matching at runtime.
-//       - Violates CLAUDE.md principle #3 (no LLM in the decision path where
-//         deterministic code will do) and makes the demo non-reproducible.
-//       REJECTED.
-//
-// RECOMMENDATION: (a), with (b) as a fallback that emits a LOW-CONFIDENCE
-// match the UI labels as unconfirmed. Assigning equivalence_key is a handful
-// of minutes of authoring for a two-state scope and it makes this engine
-// nearly free to implement.
-//
-// ⚠️ Decide this while authoring the ontology, NOT at hour 16. If
-// equivalence_key is not in the schema from the start, this engine gets cut.
-//
-// ---------------------------------------------------------------------------
-// CLASSIFYING A MATCHED PAIR
-// ---------------------------------------------------------------------------
-//
-// function classify(sendingReq, receivingReq) -> DeltaKind
-//
-//     compare numeric thresholds declared on each side
-//         (validity_period_days on satisfying documents, income floors,
-//          bedroom/occupancy limits, lookback periods on clearances)
-//         if receiving is strictly tighter → "stricter_threshold"
-//             record threshold_delta { field, from, to }
-//
-//     compare satisfying document types
-//         if disjoint → "different_form"
-//
-//     otherwise → "equivalent"
-//
-// Direction matters: a threshold that is LOOSER in the receiving state is not
-// a problem for the family and should classify as "equivalent" rather than
-// cluttering the report. Only report the tightening.
-//
-// ---------------------------------------------------------------------------
-// UI CONTRACT
-// ---------------------------------------------------------------------------
-// Two-column comparison view, sending state left, receiving state right.
-//   - only_in_receiving rows highlighted — these are the surprises
-//   - threshold deltas show both numbers side by side
-//   - EVERY row displays both citations
-//   - any row where either side is verified:false is badged unverified
-//
-// The headline number is surprise_count: "N requirements Texas imposes that
-// California never asked you for."
+export type DeltaKind =
+  | "only_in_receiving"
+  | "only_in_sending"
+  | "stricter_threshold"
+  | "different_form"
+  | "equivalent";
+
+export interface ThresholdDelta {
+  field: string;
+  from: number;
+  to: number;
+}
+
+export interface DeltaItem {
+  kind: DeltaKind;
+  sending_requirement: Requirement | null;
+  receiving_requirement: Requirement | null;
+  explanation: string;
+  threshold_delta: ThresholdDelta | null;
+  citations: Citation[];
+  verified: boolean;
+  match_confidence: "authored" | "inferred" | "none";
+}
+
+export interface DeltaReport {
+  sending_state: string;
+  receiving_state: string;
+  items: DeltaItem[];
+  surprise_count: number;
+}
+
+function intersects(left: Set<string>, right: Set<string>): boolean {
+  return [...left].some((value) => right.has(value));
+}
+
+function requirementDocumentTypes(
+  requirement: Requirement,
+  documents: Map<string, DocumentDefinition>,
+): Set<string> {
+  return new Set(
+    requirement.satisfied_by_documents
+      .map((id) => documents.get(id)?.type)
+      .filter((value): value is string => Boolean(value)),
+  );
+}
+
+function similarity(
+  left: Requirement,
+  right: Requirement,
+  documents: Map<string, DocumentDefinition>,
+): number {
+  if (
+    left.equivalence_key &&
+    right.equivalence_key &&
+    left.equivalence_key === right.equivalence_key
+  ) {
+    return 100;
+  }
+  const leftFacts = new Set(left.satisfied_by_facts);
+  const rightFacts = new Set(right.satisfied_by_facts);
+  const leftTypes = requirementDocumentTypes(left, documents);
+  const rightTypes = requirementDocumentTypes(right, documents);
+  let score = 0;
+  if (leftFacts.size > 0 && intersects(leftFacts, rightFacts)) score += 2;
+  if (leftTypes.size > 0 && intersects(leftTypes, rightTypes)) score += 1;
+  return score;
+}
+
+function validityFloor(
+  requirement: Requirement,
+  documents: Map<string, DocumentDefinition>,
+): number | null {
+  const periods = requirement.satisfied_by_documents
+    .map((id) => documents.get(id)?.validity_period_days)
+    .filter((value): value is number => typeof value === "number");
+  return periods.length > 0 ? Math.min(...periods) : null;
+}
+
+function classifyPair(
+  sending: Requirement,
+  receiving: Requirement,
+  documents: Map<string, DocumentDefinition>,
+  confidence: "authored" | "inferred",
+): DeltaItem {
+  const sendingValidity = validityFloor(sending, documents);
+  const receivingValidity = validityFloor(receiving, documents);
+  const sendingTypes = requirementDocumentTypes(sending, documents);
+  const receivingTypes = requirementDocumentTypes(receiving, documents);
+
+  let kind: DeltaKind = "equivalent";
+  let thresholdDelta: ThresholdDelta | null = null;
+  let explanation = "Matched administrative obligations have no encoded tightening.";
+
+  if (
+    sendingValidity !== null &&
+    receivingValidity !== null &&
+    receivingValidity < sendingValidity
+  ) {
+    kind = "stricter_threshold";
+    thresholdDelta = {
+      field: "validity_period_days",
+      from: sendingValidity,
+      to: receivingValidity,
+    };
+    explanation = `The receiving-side document validity period is ${receivingValidity} days instead of ${sendingValidity} days.`;
+  } else if (
+    sendingTypes.size > 0 &&
+    receivingTypes.size > 0 &&
+    !intersects(sendingTypes, receivingTypes)
+  ) {
+    kind = "different_form";
+    explanation = "The matched obligation is supported by different document types.";
+  }
+
+  return {
+    kind,
+    sending_requirement: sending,
+    receiving_requirement: receiving,
+    explanation,
+    threshold_delta: thresholdDelta,
+    citations: [sending.source_citation, receiving.source_citation],
+    verified: sending.verified && receiving.verified,
+    match_confidence: confidence,
+  };
+}
+
+const kindRank: Record<DeltaKind, number> = {
+  only_in_receiving: 0,
+  stricter_threshold: 1,
+  different_form: 2,
+  only_in_sending: 3,
+  equivalent: 4,
+};
+
+export function computeDelta(
+  ontology: LoadedOntology,
+  sendingState: string,
+  receivingState: string,
+  relationship: string,
+): DeltaReport {
+  const applies = (requirement: Requirement) =>
+    requirement.applies_to.includes(relationship) ||
+    requirement.applies_to.includes("general");
+  const sending = ontology.requirements.filter(
+    (requirement) =>
+      requirement.state === sendingState &&
+      requirement.direction === "sending" &&
+      applies(requirement),
+  );
+  const receiving = ontology.requirements.filter(
+    (requirement) =>
+      requirement.state === receivingState &&
+      requirement.direction === "receiving" &&
+      applies(requirement),
+  );
+  const documents = new Map(
+    ontology.documents.map((document) => [document.id, document]),
+  );
+  const unmatchedReceiving = new Set(receiving.map(({ id }) => id));
+  const items: DeltaItem[] = [];
+
+  for (const sendingRequirement of sending) {
+    const candidates = receiving
+      .filter(({ id }) => unmatchedReceiving.has(id))
+      .map((receivingRequirement) => ({
+        requirement: receivingRequirement,
+        score: similarity(sendingRequirement, receivingRequirement, documents),
+      }))
+      .filter(({ score }) => score > 0)
+      .sort(
+        (left, right) =>
+          right.score - left.score ||
+          left.requirement.id.localeCompare(right.requirement.id),
+      );
+    const match = candidates[0];
+    if (!match) {
+      items.push({
+        kind: "only_in_sending",
+        sending_requirement: sendingRequirement,
+        receiving_requirement: null,
+        explanation: "No receiving-side equivalent is encoded.",
+        threshold_delta: null,
+        citations: [sendingRequirement.source_citation],
+        verified: sendingRequirement.verified,
+        match_confidence: "none",
+      });
+      continue;
+    }
+
+    unmatchedReceiving.delete(match.requirement.id);
+    const confidence =
+      match.score === 100 ? ("authored" as const) : ("inferred" as const);
+    items.push(
+      classifyPair(
+        sendingRequirement,
+        match.requirement,
+        documents,
+        confidence,
+      ),
+    );
+  }
+
+  for (const receivingRequirement of receiving) {
+    if (!unmatchedReceiving.has(receivingRequirement.id)) continue;
+    items.push({
+      kind: "only_in_receiving",
+      sending_requirement: null,
+      receiving_requirement: receivingRequirement,
+      explanation: "No sending-side equivalent is encoded.",
+      threshold_delta: null,
+      citations: [receivingRequirement.source_citation],
+      verified: receivingRequirement.verified,
+      match_confidence: "none",
+    });
+  }
+
+  items.sort(
+    (left, right) =>
+      kindRank[left.kind] - kindRank[right.kind] ||
+      (left.receiving_requirement?.id ?? left.sending_requirement?.id ?? "").localeCompare(
+        right.receiving_requirement?.id ?? right.sending_requirement?.id ?? "",
+      ),
+  );
+
+  return {
+    sending_state: sendingState,
+    receiving_state: receivingState,
+    items,
+    surprise_count: items.filter(({ kind }) => kind === "only_in_receiving").length,
+  };
+}

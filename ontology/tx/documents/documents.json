@@ -1,0 +1,525 @@
+[
+  {
+    "id": "doc-applicant-id-or-birth-certificate",
+    "type": "identity_proof",
+    "states_accepted": [
+      "TX"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [
+      "fact.person.legal_name",
+      "fact.person.date_of_birth"
+    ],
+    "verified": false,
+    "source_citation": {
+      "text": "Applicants to foster or adopt must be at least 21 years of age. Age is evaluated in relation to the applicant's maturity. ... DFPS has a preference that couples should be married at least two years before adopting.",
+      "url": "https://www.law.cornell.edu/regulations/texas/40-Tex-Admin-Code-SS-700-1502",
+      "page_or_section": "40 Tex. Admin. Code Section 700.1502(2)(A)-(C) -- Title 40, Part 19 (DFPS), Ch. 700, Subchapter O. CONFIRMED still Title 40 (this chapter did not move).",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-marriage-certificate-if-applicable",
+    "type": "marriage_certificate",
+    "states_accepted": [
+      "TX"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "source_citation": {
+      "text": "Applicants to foster or adopt must be at least 21 years of age. Age is evaluated in relation to the applicant's maturity. ... DFPS has a preference that couples should be married at least two years before adopting.",
+      "url": "https://www.law.cornell.edu/regulations/texas/40-Tex-Admin-Code-SS-700-1502",
+      "page_or_section": "40 Tex. Admin. Code Section 700.1502(2)(A)-(C) -- Title 40, Part 19 (DFPS), Ch. 700, Subchapter O. CONFIRMED still Title 40 (this chapter did not move).",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-criminal-history-background-check-result",
+    "type": "background_check",
+    "states_accepted": [
+      "TX"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "note": "RECONCILE with CA's doc-criminal-record-clearance-or-exemption -- functionally the same concept, different names.",
+    "source_citation": {
+      "text": "Criminal history background checks must be completed on all prospective foster and adoptive parents and the members of their households who are 14 years old or older and not under the legal conservatorship of DFPS.",
+      "url": "https://www.law.cornell.edu/regulations/texas/40-Tex-Admin-Code-SS-700-1502",
+      "page_or_section": "40 Tex. Admin. Code Section 700.1502(2)(L) -- Title 40, Part 19 (DFPS), Ch. 700. CONFIRMED current.",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-home-screening-report",
+    "type": "home_study_report",
+    "states_accepted": [
+      "TX"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "note": "RECONCILE with CA's doc-comprehensive-assessment-report and federal's doc-home-study-report.",
+    "source_citation": {
+      "text": "A written evaluation, prior to the placement of a child in a foster home, of the prospective foster parent(s); family of the prospective foster parents; and environment of the foster parent(s) and their family in relation to their ability to meet the child's needs.",
+      "url": "https://www.circlesofcareinc.org/wp-content/uploads/Minimum-Standards-for-Child-Placing-Agencies-Dec.-2014-749_CPA_12-2014.pdf",
+      "page_or_section": "Section 749.43(26) and Section 749.43(5) (definitions) per the 2014 PDF. NOT independently re-confirmed under current Title 26 numbering this round -- lower priority than the entries above, spot-check before use.",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-domestic-violence-history-disclosure",
+    "type": "disclosure_form",
+    "states_accepted": [
+      "TX"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "source_citation": {
+      "text": "Regarding Section 749.2447(7) of Title 40, you must report to Licensing only the information obtained about the prospective foster family's domestic violence history, as applicable.",
+      "url": "https://regulations.justia.com/states/texas/title-26/part-1/chapter-749/subchapter-m/division-2/section-749-2445/",
+      "page_or_section": "26 Tex. Admin. Code Section 749.2445(d). RESOLVED: 'of Title 40' is a REAL, confirmed, uncorrected drafting error in the current official text (verified identically on two independent mirrors -- Justia and Cornell LII) left over from the 2022 move of Chapter 749 from Title 40 to Title 26. Section 749.2447(7) itself is still valid law under Title 26 despite the wrong label.",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-interview-log",
+    "type": "interview_log",
+    "states_accepted": [
+      "TX"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [
+      "fact.household.size"
+    ],
+    "verified": false,
+    "source_citation": {
+      "text": "Interviews for a foster home screening must be documented and must include at least: one individual interview with each prospective foster parent; one individual interview with each child three years old or older living in the home; ... a minimum of two interviews ... with neighbors, school personnel, clergy, or any other community member ... unrelated to the foster parents.",
+      "url": "https://regulations.justia.com/states/texas/title-26/part-1/chapter-749/subchapter-m/division-2/section-749-2449/",
+      "page_or_section": "26 Tex. Admin. Code Section 749.2449(a)(1)-(8), Title 26, Part 1, HHSC, Ch. 749. CONFIRMED current.",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-home-visit-report",
+    "type": "home_visit_report",
+    "states_accepted": [
+      "TX"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "source_citation": {
+      "text": "You must visit the home at least once when all members of the household are present.",
+      "url": "https://regulations.justia.com/states/texas/title-26/part-1/chapter-749/subchapter-m/division-2/section-749-2449/",
+      "page_or_section": "26 Tex. Admin. Code Section 749.2449(b). CONFIRMED current.",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-household-roster",
+    "type": "household_roster",
+    "states_accepted": [
+      "TX"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [
+      "fact.household.size"
+    ],
+    "verified": false,
+    "source_citation": {
+      "text": "You may verify only one spouse if: the spouse whom you verify will be the only one involved in the care of any foster child in the home; the spouses have been living apart for at least two years; and ... you determine that the spouse will not have unsupervised access to foster children.",
+      "url": "https://regulations.justia.com/states/texas/title-26/part-1/chapter-749/subchapter-m/division-1/section-749-2401",
+      "page_or_section": "26 Tex. Admin. Code Section 749.2401(a)-(c), Title 26, Part 1, HHSC, Ch. 749. CONFIRMED current.",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-marital-status-declaration",
+    "type": "marital_status_declaration",
+    "states_accepted": [
+      "TX"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "source_citation": {
+      "text": "You may verify only one spouse if: the spouse whom you verify will be the only one involved in the care of any foster child in the home; the spouses have been living apart for at least two years; and ... you determine that the spouse will not have unsupervised access to foster children.",
+      "url": "https://regulations.justia.com/states/texas/title-26/part-1/chapter-749/subchapter-m/division-1/section-749-2401",
+      "page_or_section": "26 Tex. Admin. Code Section 749.2401(a)-(c), Title 26, Part 1, HHSC, Ch. 749. CONFIRMED current.",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-home-screening-update-addendum",
+    "type": "home_study_addendum",
+    "states_accepted": [
+      "TX"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "source_citation": {
+      "text": "You must complete a foster home screening update that is needed under the circumstances described in Section 749.307(a) of Title 40 before issuing a new verification certificate. ... complete the update within 30 days of the notification of the major life change.",
+      "url": "https://regulations.justia.com/states/texas/title-26/part-1/chapter-749/subchapter-m/division-2/section-749-2453",
+      "page_or_section": "26 Tex. Admin. Code Section 749.2453(c)-(d). Same 'of Title 40' drafting-error cross-reference as above -- RESOLVED as a real but harmless labeling error, section itself is in force.",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-floor-plan",
+    "type": "floor_plan",
+    "states_accepted": [
+      "TX"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [
+      "fact.home.bedroom_count"
+    ],
+    "verified": false,
+    "source_citation": {
+      "text": "Obtain the following: a floor plan of the home that shows the dimensions and purposes of all rooms in the home ...; and a sketch or photo of the outside areas.",
+      "url": "https://regulations.justia.com/states/texas/title-26/part-1/chapter-749/subchapter-m/division-3/section-749-2470/",
+      "page_or_section": "26 Tex. Admin. Code Section 749.2470(a)(3), Title 26, Part 1, HHSC, Ch. 749. CONFIRMED current.",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-exterior-photo-or-sketch",
+    "type": "exterior_photo",
+    "states_accepted": [
+      "TX"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "source_citation": {
+      "text": "Obtain the following: a floor plan of the home that shows the dimensions and purposes of all rooms in the home ...; and a sketch or photo of the outside areas.",
+      "url": "https://regulations.justia.com/states/texas/title-26/part-1/chapter-749/subchapter-m/division-3/section-749-2470/",
+      "page_or_section": "26 Tex. Admin. Code Section 749.2470(a)(3), Title 26, Part 1, HHSC, Ch. 749. CONFIRMED current.",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-health-inspection-report",
+    "type": "health_inspection",
+    "states_accepted": [
+      "TX"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "source_citation": {
+      "text": "Inspect the home to ensure and document that the home meets the appropriate rules of this chapter ... including a: (i) Health inspection; and (ii) Fire inspection.",
+      "url": "https://regulations.justia.com/states/texas/title-26/part-1/chapter-749/subchapter-m/division-3/section-749-2470/",
+      "page_or_section": "26 Tex. Admin. Code Section 749.2470(a)(4)(B). CONFIRMED current.",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-fire-inspection-report",
+    "type": "fire_inspection",
+    "states_accepted": [
+      "TX"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "source_citation": {
+      "text": "Inspect the home to ensure and document that the home meets the appropriate rules of this chapter ... including a: (i) Health inspection; and (ii) Fire inspection.",
+      "url": "https://regulations.justia.com/states/texas/title-26/part-1/chapter-749/subchapter-m/division-3/section-749-2470/",
+      "page_or_section": "26 Tex. Admin. Code Section 749.2470(a)(4)(B). CONFIRMED current.",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-preservice-training-certificate",
+    "type": "training_certificate",
+    "states_accepted": [
+      "TX"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "note": "8-hour figure for general pre-service training is inferred, not directly confirmed -- see requirement note.",
+    "source_citation": {
+      "text": "You can verify a foster home before the foster parents complete the pre-service training. However, foster parents must comply with the training requirements described in Section 749.863 ... before you may place a child in the home.",
+      "url": "https://regulations.justia.com/states/texas/title-26/part-1/chapter-749/subchapter-m/division-3/section-749-2470/",
+      "page_or_section": "26 Tex. Admin. Code Section 749.2470(b). CONFIRMED current. Explicit ordering language: verification may precede training completion, but placement may not.",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-home-safety-inspection-report",
+    "type": "home_safety_inspection",
+    "states_accepted": [
+      "TX"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "source_citation": {
+      "text": "Requires locked storage when not in use, agency notification of new weapons, per-child appropriateness determination; exempts inoperable/ornamental firearms.",
+      "url": "https://regulations.justia.com/states/texas/title-26/part-1/chapter-749/subchapter-o/division-3/section-749-2961/",
+      "page_or_section": "26 Tex. Admin. Code Section 749.2961. CONFIRMED current -- same section number as the 2014 PDF, cross-checked against Cornell LII.",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-form-6588-kinship-home-assessment",
+    "type": "kinship_assessment",
+    "states_accepted": [
+      "TX"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "note": "RESOLVED this round: this is DFPS Form 6588, 'Kinship Caregiver Home Assessment Template,' per CPS Policy Handbook Section 6623. Content/standard now identified; the form itself was not retrieved.",
+    "source_citation": {
+      "text": "a written assessment of a kinship caregiver's home, using Form 6588 Kinship Caregiver Home Assessment Template; and a risk assessment, using Form 2049 Risk Assessment.",
+      "url": "https://www.dfps.texas.gov/handbooks/cps/files/CPS_pg_6600.asp",
+      "page_or_section": "CPS Policy Handbook Section 6623, referenced by 26 Tex. Admin. Code Section 749.2472. UPDATED, SUPERSEDES the earlier vaguer draft entry: this is now sourced with the actual named forms and the specific handbook provision, not just the regulation's cross-reference to an undefined 'kinship home assessment.'",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-form-2049-risk-assessment",
+    "type": "risk_assessment",
+    "states_accepted": [
+      "TX"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "note": "DFPS Form 2049, required alongside Form 6588 for kinship placements per CPS Policy Handbook Section 6623.",
+    "source_citation": {
+      "text": "a written assessment of a kinship caregiver's home, using Form 6588 Kinship Caregiver Home Assessment Template; and a risk assessment, using Form 2049 Risk Assessment.",
+      "url": "https://www.dfps.texas.gov/handbooks/cps/files/CPS_pg_6600.asp",
+      "page_or_section": "CPS Policy Handbook Section 6623, referenced by 26 Tex. Admin. Code Section 749.2472. UPDATED, SUPERSEDES the earlier vaguer draft entry: this is now sourced with the actual named forms and the specific handbook provision, not just the regulation's cross-reference to an undefined 'kinship home assessment.'",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-ccl-waiver-variance-approval",
+    "type": "waiver_approval",
+    "states_accepted": [
+      "TX"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "note": "NEW -- this is the concrete artifact behind the one genuinely relative-specific rule found in Texas: Child Care Licensing's case-by-case approval of a non-safety-related waiver/variance from standard minimum standards for a kinship caregiver, per CPS Policy Handbook Section 6660.",
+    "source_citation": {
+      "text": "kinship caregivers must meet the minimum standards adopted by the DFPS Child Care Licensing Division, but on a case-by-case basis a caseworker may ask ... whether it is appropriate to request from Child Care Licensing a waiver or variance from minimum standards that are not related to safety.",
+      "url": "https://www.dfps.texas.gov/handbooks/cps/files/CPS_pg_6600.asp",
+      "page_or_section": "CPS Policy Handbook Section 6660. NEW: this is the ONE genuinely relative-specific divergence found across either state's rules in this research pass -- Texas allows a caseworker to seek a non-safety-related waiver from the standard foster-home minimum standards specifically because the caregiver is kin. This is the strongest candidate for making the CA vs TX direction genuinely differ for a relative placement case.",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-foster-home-verification-certificate",
+    "type": "verification_certificate",
+    "states_accepted": [
+      "TX"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [
+      "fact.capacity.total_household",
+      "fact.capacity.foster_care"
+    ],
+    "verified": false,
+    "note": "The document TX issues confirming the 6-or-fewer capacity cap and other verified details -- see req-tx-foster-home-capacity-unified and req-tx-verification-certificate-capacity.",
+    "source_citation": {
+      "text": "A home that is the primary residence of the foster parent(s) and provides care for six or fewer children or young adults, under the regulation of a child-placing agency. Also referred to as a 'foster home' in this chapter.",
+      "url": "https://www.hhs.texas.gov/sites/default/files/documents/chapter-749-revision-memo-apr-2022.pdf",
+      "page_or_section": "26 Tex. Admin. Code Section 749.43(29). RESOLVED, SUPERSEDES the old draft entry: the separate 'foster group home' (7-12 children) category from the 2014 PDF's Section 749.43(23)-(24) was DELETED in an April 2022 recodification -- confirmed via HHS's own revision memo. All foster homes are now capped at six children/young adults under one definition. Do not use the old two-tier size split.",
+      "retrieved": "2026-09-05"
+    }
+  },
+  {
+    "id": "doc-tx-tmc-order",
+    "type": "court_order",
+    "states_accepted": [
+      "TX"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "note": "NEW (TX sending-side round): Temporary Managing Conservatorship (TMC) Order -- DFPS CPS Handbook / ICPC Resource Guide p.14 is explicit that an Emergency Order is NOT sufficient to submit an ICPC request; this must be a TMC order. This is TX's equivalent entry point to CA's doc-ca-signed-minute-order, but the underlying legal instrument is different (TMC vs. a minute order) so kept as its own id, not merged.",
+    "source_citation": {
+      "text": "Before submitting an ICPC request, DFPS must have a Temporary Managing Conservatorship Order (TMC). An Emergency Order is not sufficient.",
+      "url": "https://www.dfps.texas.gov/handbooks/CPS/Resource_Guides/ICPC_Resource_Guide.pdf",
+      "page_or_section": "DFPS ICPC Resource Guide, p.14, corroborated by DFPS CPS Handbook Section 4510-4511 (https://www.dfps.texas.gov/handbooks/cps/files/CPS_pg_4500.asp), which requires the caseworker to continue applying all standard substitute-care policies -- conservatorship being the threshold one -- before any interstate placement step.",
+      "retrieved": "2026-09-06"
+    }
+  },
+  {
+    "id": "doc-tx-conservatorship-order-most-recent",
+    "type": "court_order",
+    "states_accepted": [
+      "TX"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "note": "NEW: 'most recent conservatorship order,' listed alongside the TMC order in the packet -- ICPC Resource Guide p.12. Kept separate from doc-tx-tmc-order because the source lists them as two distinct packet items (the order establishing conservatorship in the first place vs. whatever is most current).",
+    "source_citation": {
+      "text": "Legal documents: court order appointing DFPS conservator, most recent conservatorship order, birth certificate, Social Security number. Additional materials: physical/dental exam documents, school records.",
+      "url": "https://www.dfps.texas.gov/handbooks/CPS/Resource_Guides/ICPC_Resource_Guide.pdf",
+      "page_or_section": "DFPS ICPC Resource Guide, p.12, 'Placement Request Packet Components.'",
+      "retrieved": "2026-09-06"
+    }
+  },
+  {
+    "id": "doc-tx-child-medical-dental-exam-records",
+    "type": "child_records_bundle",
+    "states_accepted": [
+      "TX"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "note": "NEW: 'physical/dental exam documents' -- ICPC Resource Guide p.12. NOT merged with CA's doc-ca-child-medical-dental-developmental-educational-mental-health-records bundle: TX's source lists physical/dental exams, the psych/developmental evaluation, and school records as three separate packet items, not one bundle -- that's a real structural difference in how the two states organize the same underlying information, same reasoning as the existing CA/TX 'home study' reconciliation decision below.",
+    "source_citation": {
+      "text": "Legal documents: court order appointing DFPS conservator, most recent conservatorship order, birth certificate, Social Security number. Additional materials: physical/dental exam documents, school records.",
+      "url": "https://www.dfps.texas.gov/handbooks/CPS/Resource_Guides/ICPC_Resource_Guide.pdf",
+      "page_or_section": "DFPS ICPC Resource Guide, p.12, 'Placement Request Packet Components.'",
+      "retrieved": "2026-09-06"
+    }
+  },
+  {
+    "id": "doc-tx-child-school-records",
+    "type": "educational_records",
+    "states_accepted": [
+      "TX"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "note": "NEW: 'school records' -- ICPC Resource Guide p.12, listed as its own packet item separate from the medical/dental bundle.",
+    "source_citation": {
+      "text": "Legal documents: court order appointing DFPS conservator, most recent conservatorship order, birth certificate, Social Security number. Additional materials: physical/dental exam documents, school records.",
+      "url": "https://www.dfps.texas.gov/handbooks/CPS/Resource_Guides/ICPC_Resource_Guide.pdf",
+      "page_or_section": "DFPS ICPC Resource Guide, p.12, 'Placement Request Packet Components.'",
+      "retrieved": "2026-09-06"
+    }
+  },
+  {
+    "id": "doc-tx-child-psych-developmental-eval",
+    "type": "psychological_evaluation",
+    "states_accepted": [
+      "TX"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "note": "NEW: 'psychological/developmental evaluation (if adoption or psychotropic medications)' -- ICPC Resource Guide p.12. Conditional, not always required -- see req-tx-sending-psych-developmental-eval-conditional.",
+    "source_citation": {
+      "text": "Additional materials: psychological/developmental evaluation (if adoption or psychotropic medications).",
+      "url": "https://www.dfps.texas.gov/handbooks/CPS/Resource_Guides/ICPC_Resource_Guide.pdf",
+      "page_or_section": "DFPS ICPC Resource Guide, p.12. Conditional requirement, like CA's fire-clearance-conditional -- only triggers when the placement is adoption-track or the child is on psychotropic medication. The triggering fact (adoption-track vs. foster placement, psychotropic medication status) is not yet a registered fact type; flagging as an open item rather than guessing a name for it.",
+      "retrieved": "2026-09-06"
+    }
+  },
+  {
+    "id": "doc-tx-icpc-cover-letter",
+    "type": "icpc_cover_letter",
+    "states_accepted": [
+      "TX"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "note": "NEW: must include caseworker contact info, child's name/DOB/SSN, caregiver details, child profile, and permanency plan -- ICPC Resource Guide p.13.",
+    "source_citation": {
+      "text": "Must include: contact information of the child's caseworker; the child's name, date of birth, and Social Security number, plus caregiver details, child profile, and permanency plan.",
+      "url": "https://www.dfps.texas.gov/handbooks/CPS/Resource_Guides/ICPC_Resource_Guide.pdf",
+      "page_or_section": "DFPS ICPC Resource Guide, p.13, 'Cover Letter Requirements.'",
+      "retrieved": "2026-09-06"
+    }
+  },
+  {
+    "id": "doc-tx-icpc-financial-medical-form-103",
+    "type": "financial_medical_plan",
+    "states_accepted": [
+      "TX"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [
+      "fact.income.annual_gross"
+    ],
+    "verified": false,
+    "note": "NEW: 'ICPC Financial/Medical Form (103)' -- ICPC Resource Guide p.12. Same underlying concept as CA's doc-icpc-financial-medical-plan and federal's doc-financial-medical-plan, but TX has its own numbered form (103) -- kept as a separate id rather than forced onto the CA/federal id, same reasoning as the home-study family below: real states, real different forms, don't erase the difference.",
+    "source_citation": {
+      "text": "ICPC Financial/Medical Form (103).",
+      "url": "https://www.dfps.texas.gov/handbooks/CPS/Resource_Guides/ICPC_Resource_Guide.pdf",
+      "page_or_section": "DFPS ICPC Resource Guide, p.12, 'Placement Request Packet Components.'",
+      "retrieved": "2026-09-06"
+    }
+  },
+  {
+    "id": "doc-tx-icpc-checklist",
+    "type": "checklist",
+    "states_accepted": [
+      "TX"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "note": "NEW: 'ICPC Checklist,' the caseworker's own packet-completeness checklist per DFPS CPS Handbook Section 4511.",
+    "source_citation": {
+      "text": "Submit to supervisor for approval within 15 calendar days of determining screening is necessary. Supervisor forwards to regional ICPC coordinator, then to Texas Interstate Compact Office (TICO).",
+      "url": "https://www.dfps.texas.gov/handbooks/cps/files/CPS_pg_4500.asp",
+      "page_or_section": "DFPS CPS Handbook, Section 4511, 'Documenting Placement Requests.' This is the REGULAR-track timeline -- the parallel expedited track (req-tx-sending-expedited-eligibility-and-3-day-submission) applies instead when fact.placement.is_expedited_request is true. Like the CA sending-side file, this ontology doesn't hard-code the either/or exclusivity between the two tracks -- that branching logic belongs in the engine, not the requirement data.",
+      "retrieved": "2026-09-06"
+    }
+  },
+  {
+    "id": "doc-tx-icpc105-priority-screening-criteria",
+    "type": "expedited_eligibility_form",
+    "states_accepted": [
+      "TX"
+    ],
+    "validity_period_days": null,
+    "external_turnaround_days": null,
+    "yields_facts": [],
+    "verified": false,
+    "note": "NEW: 'ICPC Criteria for Priority Home Screening (Form ICPC105),' required only for the expedited pathway per DFPS CPS Handbook Section 4512, alongside an 'Order of Compliance (Priority Court Order)' and a 'Priority Home Study Request' form (those two were not given separate ids here -- treat as bundled with this form unless a later pass finds reason to split them).",
+    "source_citation": {
+      "text": "Qualifying relationships: parent, stepparent, grandparent, adult sibling, adult aunt/uncle, guardian (cousins, great-aunts, great-uncles, and fictive kin do not meet criteria). Qualifying circumstances (at least one required): sudden incarceration, incapacitation, or death of parent/guardian; child currently in emergency placement; court finding of substantial sibling relationship; child age four or younger. Submit packet to ICPC administrator within 3 business days of court order.",
+      "url": "https://www.dfps.texas.gov/handbooks/cps/files/CPS_pg_4500.asp",
+      "page_or_section": "DFPS CPS Handbook, Section 4512, 'Expedited ICPC Home Screening.' OPEN ITEM, same treatment as the CA HSC 1522(e)/(g) offense lists: this eligibility test is a real relationship-type x circumstance-type combination rule, not yet transcribed into a reference table an engine could check deterministically. fact.relationship.degree_to_child alone is not sufficient to determine eligibility -- the qualifying-circumstance half (e.g., 'sudden incapacitation of parent') looks like a genuine caseworker judgment call, not something to derive automatically. Keep fact.placement.is_expedited_request as an attested, caseworker-confirmed flag rather than trying to derive it from this rule until someone builds that reference table.",
+      "retrieved": "2026-09-06"
+    }
+  }
+]

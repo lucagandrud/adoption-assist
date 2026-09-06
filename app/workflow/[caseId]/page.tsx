@@ -22,7 +22,7 @@ export default async function WorkflowPage({
   ]);
   if (!record) notFound();
 
-  const model = graphModelForCase(record);
+  const model = await graphModelForCase(record);
 
   return (
     // The workbench is an app shell, not a document: it fills the viewport and

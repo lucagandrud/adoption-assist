@@ -1,0 +1,292 @@
+[
+  {
+    "id": "req-tx-sending-tmc-order",
+    "state": "TX",
+    "direction": "sending",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-tx-tmc-order"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [],
+    "source_citation": {
+      "text": "Before submitting an ICPC request, DFPS must have a Temporary Managing Conservatorship Order (TMC). An Emergency Order is not sufficient.",
+      "url": "https://www.dfps.texas.gov/handbooks/CPS/Resource_Guides/ICPC_Resource_Guide.pdf",
+      "page_or_section": "DFPS ICPC Resource Guide, p.14, corroborated by DFPS CPS Handbook Section 4510-4511 (https://www.dfps.texas.gov/handbooks/cps/files/CPS_pg_4500.asp), which requires the caseworker to continue applying all standard substitute-care policies -- conservatorship being the threshold one -- before any interstate placement step.",
+      "retrieved": "2026-09-06"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-tx-sending-icpc-packet-core-documents",
+    "state": "TX",
+    "direction": "sending",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-tx-conservatorship-order-most-recent",
+      "doc-child-birth-certificate",
+      "doc-child-ssn-card",
+      "doc-tx-child-medical-dental-exam-records",
+      "doc-tx-child-school-records"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [
+      "req-tx-sending-tmc-order"
+    ],
+    "source_citation": {
+      "text": "Legal documents: court order appointing DFPS conservator, most recent conservatorship order, birth certificate, Social Security number. Additional materials: physical/dental exam documents, school records.",
+      "url": "https://www.dfps.texas.gov/handbooks/CPS/Resource_Guides/ICPC_Resource_Guide.pdf",
+      "page_or_section": "DFPS ICPC Resource Guide, p.12, 'Placement Request Packet Components.'",
+      "retrieved": "2026-09-06"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-tx-sending-psych-developmental-eval-conditional",
+    "state": "TX",
+    "direction": "sending",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-tx-child-psych-developmental-eval"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [
+      "req-tx-sending-tmc-order"
+    ],
+    "source_citation": {
+      "text": "Additional materials: psychological/developmental evaluation (if adoption or psychotropic medications).",
+      "url": "https://www.dfps.texas.gov/handbooks/CPS/Resource_Guides/ICPC_Resource_Guide.pdf",
+      "page_or_section": "DFPS ICPC Resource Guide, p.12. Conditional requirement, like CA's fire-clearance-conditional -- only triggers when the placement is adoption-track or the child is on psychotropic medication. The triggering fact (adoption-track vs. foster placement, psychotropic medication status) is not yet a registered fact type; flagging as an open item rather than guessing a name for it.",
+      "retrieved": "2026-09-06"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-tx-sending-icpc-cover-letter",
+    "state": "TX",
+    "direction": "sending",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-tx-icpc-cover-letter"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [
+      "req-tx-sending-tmc-order"
+    ],
+    "source_citation": {
+      "text": "Must include: contact information of the child's caseworker; the child's name, date of birth, and Social Security number, plus caregiver details, child profile, and permanency plan.",
+      "url": "https://www.dfps.texas.gov/handbooks/CPS/Resource_Guides/ICPC_Resource_Guide.pdf",
+      "page_or_section": "DFPS ICPC Resource Guide, p.13, 'Cover Letter Requirements.'",
+      "retrieved": "2026-09-06"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-tx-sending-financial-medical-form-103",
+    "state": "TX",
+    "direction": "sending",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-tx-icpc-financial-medical-form-103"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [
+      "req-tx-sending-tmc-order"
+    ],
+    "source_citation": {
+      "text": "ICPC Financial/Medical Form (103).",
+      "url": "https://www.dfps.texas.gov/handbooks/CPS/Resource_Guides/ICPC_Resource_Guide.pdf",
+      "page_or_section": "DFPS ICPC Resource Guide, p.12, 'Placement Request Packet Components.'",
+      "retrieved": "2026-09-06"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-tx-sending-regular-submission-15-days",
+    "state": "TX",
+    "direction": "sending",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-tx-icpc-checklist"
+    ],
+    "satisfied_by_facts": [
+      "fact.placement.is_expedited_request"
+    ],
+    "depends_on": [
+      "req-tx-sending-icpc-packet-core-documents",
+      "req-tx-sending-financial-medical-form-103",
+      "req-tx-sending-icpc-cover-letter"
+    ],
+    "source_citation": {
+      "text": "Submit to supervisor for approval within 15 calendar days of determining screening is necessary. Supervisor forwards to regional ICPC coordinator, then to Texas Interstate Compact Office (TICO).",
+      "url": "https://www.dfps.texas.gov/handbooks/cps/files/CPS_pg_4500.asp",
+      "page_or_section": "DFPS CPS Handbook, Section 4511, 'Documenting Placement Requests.' This is the REGULAR-track timeline -- the parallel expedited track (req-tx-sending-expedited-eligibility-and-3-day-submission) applies instead when fact.placement.is_expedited_request is true. Like the CA sending-side file, this ontology doesn't hard-code the either/or exclusivity between the two tracks -- that branching logic belongs in the engine, not the requirement data.",
+      "retrieved": "2026-09-06"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-tx-sending-tico-30-day-deadline",
+    "state": "TX",
+    "direction": "sending",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [],
+    "satisfied_by_facts": [],
+    "depends_on": [
+      "req-tx-sending-regular-submission-15-days"
+    ],
+    "source_citation": {
+      "text": "TICO deadline: 30 calendar days from date screening determined necessary.",
+      "url": "https://www.dfps.texas.gov/handbooks/cps/files/CPS_pg_4500.asp",
+      "page_or_section": "DFPS CPS Handbook, Section 4511. This is TICO's (the Texas Interstate Compact Office's) own internal deadline, not a step the case-carrying caseworker performs directly -- modeled as its own requirement the same way CA's OCS 5-day forwarding was, to keep institutional deadlines visible on the dashboard even when they're not the caseworker's personal to-do.",
+      "retrieved": "2026-09-06"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-tx-sending-expedited-eligibility-and-3-day-submission",
+    "state": "TX",
+    "direction": "sending",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-tx-icpc105-priority-screening-criteria"
+    ],
+    "satisfied_by_facts": [
+      "fact.placement.is_expedited_request",
+      "fact.relationship.degree_to_child"
+    ],
+    "depends_on": [
+      "req-tx-sending-tmc-order"
+    ],
+    "source_citation": {
+      "text": "Qualifying relationships: parent, stepparent, grandparent, adult sibling, adult aunt/uncle, guardian (cousins, great-aunts, great-uncles, and fictive kin do not meet criteria). Qualifying circumstances (at least one required): sudden incarceration, incapacitation, or death of parent/guardian; child currently in emergency placement; court finding of substantial sibling relationship; child age four or younger. Submit packet to ICPC administrator within 3 business days of court order.",
+      "url": "https://www.dfps.texas.gov/handbooks/cps/files/CPS_pg_4500.asp",
+      "page_or_section": "DFPS CPS Handbook, Section 4512, 'Expedited ICPC Home Screening.' OPEN ITEM, same treatment as the CA HSC 1522(e)/(g) offense lists: this eligibility test is a real relationship-type x circumstance-type combination rule, not yet transcribed into a reference table an engine could check deterministically. fact.relationship.degree_to_child alone is not sufficient to determine eligibility -- the qualifying-circumstance half (e.g., 'sudden incapacitation of parent') looks like a genuine caseworker judgment call, not something to derive automatically. Keep fact.placement.is_expedited_request as an attested, caseworker-confirmed flag rather than trying to derive it from this rule until someone builds that reference table.",
+      "retrieved": "2026-09-06"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-tx-sending-icpc-100a-generation",
+    "state": "TX",
+    "direction": "sending",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-icpc-100a-form"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [
+      "req-tx-sending-icpc-packet-core-documents",
+      "req-tx-sending-financial-medical-form-103"
+    ],
+    "source_citation": {
+      "text": "Prepare interstate placement request packet in IMPACT... Request home screening in receiving state. Request permission to place child. [The receiving state] completes Section IV of Placement Request (100A) form and sends: home screening copy, signed 100A with recommendation.",
+      "url": "https://www.dfps.texas.gov/handbooks/cps/files/CPS_pg_4500.asp",
+      "page_or_section": "DFPS CPS Handbook, Sections 4511 and 4514.1. Uses the shared doc-icpc-100a-form id (already used by CA and federal) -- this is the same ICPC-level form, not a TX-specific variant.",
+      "retrieved": "2026-09-06"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-tx-sending-receiving-state-approval-required",
+    "state": "TX",
+    "direction": "sending",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [],
+    "satisfied_by_facts": [],
+    "depends_on": [
+      "req-tx-sending-icpc-100a-generation"
+    ],
+    "source_citation": {
+      "text": "If permission is denied: DFPS must not recommend placement (violates law -- Class B misdemeanor). Caseworker must notify court of denial. If permission is granted: seek court approval to proceed. Approval is valid for 6 months from date receiving state approves and signs the 100A.",
+      "url": "https://www.dfps.texas.gov/handbooks/cps/files/CPS_pg_4500.asp",
+      "page_or_section": "DFPS CPS Handbook, Sections 4514.2 and 4514.3. This is a hard legal gate, not a soft best practice -- the source states placing a child before receiving-state approval is a criminal offense under Texas law. Model this as a blocking requirement the same way CA's clearance-blocked-pending-investigation blocks placement pending a criminal-history investigation. The 6-month approval validity is a property of the doc-icpc-100a-form instance once approved, not a separate fact -- flagging here rather than inventing a new fact type for it.",
+      "retrieved": "2026-09-06"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-tx-sending-pre-placement-notification-30-days",
+    "state": "TX",
+    "direction": "sending",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [],
+    "satisfied_by_facts": [],
+    "depends_on": [
+      "req-tx-sending-receiving-state-approval-required"
+    ],
+    "source_citation": {
+      "text": "Notify regional well-being specialist at least 30 days prior (when possible) [to placement, to arrange for the child's medical needs].",
+      "url": "https://www.dfps.texas.gov/handbooks/cps/files/CPS_pg_4500.asp",
+      "page_or_section": "DFPS CPS Handbook, Section 4515. Qualified 'when possible' in the source -- not an absolute deadline the way the 3-day/15-day/30-day filing deadlines are; flag this softness in any consistency rule built against it rather than treating a late notification as an automatic failure.",
+      "retrieved": "2026-09-06"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-tx-sending-100b-generation-and-transmission-chain",
+    "state": "TX",
+    "direction": "sending",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-icpc-100b-form"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [
+      "req-tx-sending-receiving-state-approval-required"
+    ],
+    "source_citation": {
+      "text": "Document placement in IMPACT by 7 p.m. next business day. Complete Form 2261 Compact Report ICPC (100B) within 3 business days. Submit 100B to supervisor for approval. Supervisor submits approved 100B to regional ICPC coordinator within 2 business days. Regional coordinator submits to Texas ICPC within 2 business days. Texas ICPC signs and dates 100B, sends to receiving state's compact office within 24 hours.",
+      "url": "https://www.dfps.texas.gov/handbooks/cps/files/CPS_pg_4500.asp",
+      "page_or_section": "DFPS CPS Handbook, Section 4515.1. 'Form 2261' is TX's own form number for the ICPC-100B (Compact Report) -- uses the shared doc-icpc-100b-form id since it's the same ICPC-level form as CA and federal use, not a distinct TX artifact. This whole multi-step internal routing chain (caseworker to supervisor to regional coordinator to TICO to receiving state) is collapsed into one requirement here rather than four, since it's one continuous handoff with no external document produced at each internal step -- a design choice, revisit if your dashboard wants to show each handoff separately.",
+      "retrieved": "2026-09-06"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-tx-sending-post-placement-supervision",
+    "state": "TX",
+    "direction": "sending",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-monthly-contact-log"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [
+      "req-tx-sending-100b-generation-and-transmission-chain"
+    ],
+    "source_citation": {
+      "text": "Once child is placed, ICPC requires court to maintain jurisdiction and DFPS to maintain custody. Court and DFPS remain legally responsible until receiving state provides concurrence to dismiss. [Caseworker maintains] monthly contact with the child as outlined in policy 6411.5.",
+      "url": "https://www.dfps.texas.gov/handbooks/cps/files/CPS_pg_4500.asp",
+      "page_or_section": "DFPS CPS Handbook, Section 4515.2. Same modeling caveat as CA's post-placement-supervision requirement: this is ongoing case management, not a one-time pre-placement checkbox -- may not fit the F2 'green check' model the same way as the packet-compilation requirements above.",
+      "retrieved": "2026-09-06"
+    },
+    "verified": false
+  }
+]

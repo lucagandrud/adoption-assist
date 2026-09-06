@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   Sheet,
   SheetContent,
@@ -9,13 +11,17 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { NODE_STATE_STYLE } from "@/lib/node-state";
-import type { Defect, GraphNode } from "@/lib/types";
+import type { Defect, GraphNode, ValidityStatus } from "@/lib/types";
 
 export function NodePanel({
   requirement,
+  caseId,
+  validity,
   onClose,
 }: {
   requirement: GraphNode | null;
+  caseId: string;
+  validity: ValidityStatus[];
   onClose: () => void;
 }) {
   const style = requirement ? NODE_STATE_STYLE[requirement.state] : null;
@@ -65,11 +71,20 @@ export function NodePanel({
             <div className="space-y-7 px-4 py-6">
               <Schedule requirement={requirement} />
               <Inputs requirement={requirement} />
+              <Validity
+                items={validity.filter((item) =>
+                  requirement.inputs.some(
+                    (input) =>
+                      input.kind === "document" &&
+                      input.id === item.definition_id,
+                  ),
+                )}
+              />
               <Citation requirement={requirement} />
               {requirement.defects.length > 0 ? (
                 <Defects defects={requirement.defects} />
               ) : null}
-              <UploadSlot />
+              <UploadSlot caseId={caseId} requirement={requirement} />
               <p className="rounded-md border border-navy-800/12 bg-beige-200/70 px-3 py-2 text-xs leading-relaxed text-navy-800">
                 A green check means the paperwork for this requirement is
                 complete and internally consistent. It is not an approval of the
@@ -209,6 +224,11 @@ function Citation({ requirement }: { requirement: GraphNode }) {
             Open the source document
           </a>
         ) : null}
+        {requirement.citation.page_or_section ? (
+          <p className="mt-2 text-[11px] leading-relaxed text-muted-foreground">
+            {requirement.citation.page_or_section}
+          </p>
+        ) : null}
         {requirement.citation.retrieved ? (
           <p className="mt-2 text-[11px] text-muted-foreground">
             Retrieved {requirement.citation.retrieved}
@@ -216,8 +236,8 @@ function Citation({ requirement }: { requirement: GraphNode }) {
         ) : null}
         {!requirement.verified ? (
           <p className="mt-2 text-[11px] leading-relaxed text-muted-foreground">
-            This requirement has no sourced citation yet, so it is shown as
-            unverified rather than presented as regulation.
+            A research pass supplied this citation, but a person has not yet
+            checked it against the source. It remains visibly unverified.
           </p>
         ) : null}
       </div>
@@ -277,27 +297,165 @@ function Defects({ defects }: { defects: Defect[] }) {
   );
 }
 
-function UploadSlot() {
+function Validity({ items }: { items: ValidityStatus[] }) {
+  if (items.length === 0) return null;
+  return (
+    <Section title="Document validity">
+      <ul className="space-y-2">
+        {items.map((item) => (
+          <li
+            key={item.document_id}
+            className="rounded-lg border border-navy-800/12 bg-card px-3.5 py-3 text-xs"
+          >
+            <div className="flex items-center justify-between gap-3">
+              <span className="font-semibold text-navy-900">
+                {item.document_name}
+              </span>
+              <span
+                className={
+                  item.state === "at_risk" || item.state === "expired"
+                    ? "font-semibold text-state-defect"
+                    : "text-state-verified"
+                }
+              >
+                {item.state.replace("_", " ")}
+              </span>
+            </div>
+            <p className="mt-1 text-muted-foreground">
+              Issued {item.issue_date ?? "unknown"}
+              {item.expires_on ? ` · expires ${item.expires_on}` : " · no encoded expiry"}
+            </p>
+            {item.renew_by ? (
+              <p className="mt-1 text-navy-800">
+                Start renewal by {item.renew_by}
+                {item.renewal_is_late ? " — this date has passed" : ""}.
+              </p>
+            ) : null}
+          </li>
+        ))}
+      </ul>
+    </Section>
+  );
+}
+
+function UploadSlot({
+  caseId,
+  requirement,
+}: {
+  caseId: string;
+  requirement: GraphNode;
+}) {
+  const router = useRouter();
+  const [busy, setBusy] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const documents = requirement.inputs.filter(
+    (input) => input.kind === "document",
+  );
+
+  async function addCached(documentId: string, variant: "consistent" | "conflicting") {
+    setBusy(`${documentId}-${variant}`);
+    setError(null);
+    const response = await fetch(`/api/cases/${caseId}/documents`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        document_id: documentId,
+        file_name: `${variant}-${documentId}.pdf`,
+        mime_type: "application/pdf",
+        size: 1,
+        variant,
+      }),
+    });
+    const body = (await response.json()) as { error?: string };
+    if (!response.ok) setError(body.error ?? "Unable to add the document.");
+    else router.refresh();
+    setBusy(null);
+  }
+
+  async function uploadFile(documentId: string, file: File) {
+    setBusy(`${documentId}-upload`);
+    setError(null);
+    const form = new FormData();
+    form.set("document_id", documentId);
+    form.set("variant", "consistent");
+    form.set("file", file);
+    const response = await fetch(`/api/cases/${caseId}/documents`, {
+      method: "POST",
+      body: form,
+    });
+    const body = (await response.json()) as { error?: string };
+    if (!response.ok) setError(body.error ?? "Unable to upload the document.");
+    else router.refresh();
+    setBusy(null);
+  }
+
   return (
     <Section title="Documents">
-      <div className="rounded-lg border border-dashed border-navy-800/25 bg-card px-4 py-5 text-center">
-        <p className="text-sm text-navy-900">Upload a document to verify</p>
+      <div className="rounded-lg border border-dashed border-navy-800/25 bg-card px-4 py-4">
+        <p className="text-sm font-medium text-navy-900">
+          Add a synthetic document and verify it
+        </p>
         <p className="mx-auto mt-1 max-w-sm text-xs leading-relaxed text-muted-foreground">
-          Extraction reads the document into typed facts with page-and-field
-          provenance, then the consistency rules run against the case&apos;s fact
-          graph.
+          Demo buttons use cached synthetic facts. Uploaded test files use live
+          extraction when configured, otherwise the cache. File bytes are never
+          stored.
         </p>
-        <Button
-          type="button"
-          disabled
-          className="mt-3 bg-navy-800 text-beige-100 hover:bg-navy-700"
-        >
-          Upload — pipeline not wired yet
-        </Button>
-        <p className="mt-2 text-[11px] text-muted-foreground">
-          Wired in Step 5 (<code>/extraction/pipeline.ts</code>). Synthetic
-          documents only.
-        </p>
+        {documents.length > 0 ? (
+          <ul className="mt-3 space-y-3">
+            {documents.map((document) => (
+              <li
+                key={document.id}
+                className="rounded-md border border-navy-800/10 bg-beige-100 px-3 py-2.5"
+              >
+                <p className="text-xs font-semibold text-navy-900">
+                  {document.label}
+                </p>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  <Button
+                    type="button"
+                    size="sm"
+                    disabled={busy !== null}
+                    onClick={() => addCached(document.id, "consistent")}
+                  >
+                    {document.satisfied ? "Replace clean demo" : "Add clean demo"}
+                  </Button>
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant="outline"
+                    disabled={busy !== null}
+                    onClick={() => addCached(document.id, "conflicting")}
+                  >
+                    Add conflicting demo
+                  </Button>
+                  <label className="inline-flex h-8 cursor-pointer items-center rounded-lg border border-input bg-transparent px-3 text-xs font-medium hover:bg-muted">
+                    Upload synthetic file
+                    <input
+                      className="sr-only"
+                      type="file"
+                      accept="application/pdf,image/png,image/jpeg"
+                      disabled={busy !== null}
+                      onChange={(event) => {
+                        const file = event.target.files?.[0];
+                        if (file) void uploadFile(document.id, file);
+                        event.target.value = "";
+                      }}
+                    />
+                  </label>
+                </div>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="mt-3 text-xs text-muted-foreground">
+            This requirement has no document input; it is satisfied by facts or
+            serves as regulatory context.
+          </p>
+        )}
+        {busy ? <p className="mt-2 text-xs">Extracting and checking…</p> : null}
+        {error ? (
+          <p className="mt-2 text-xs font-medium text-state-defect">{error}</p>
+        ) : null}
       </div>
     </Section>
   );

@@ -1,0 +1,261 @@
+[
+  {
+    "id": "req-ca-capacity-base-cap",
+    "state": "CA",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-capacity-determination-record"
+    ],
+    "satisfied_by_facts": [
+      "fact.home.child_count"
+    ],
+    "depends_on": [],
+    "source_citation": {
+      "text": "For licenses granted after January 1, 2010, this number shall not exceed six children, including a 'child' and biological, adoptive, and guardianship children.",
+      "url": "https://regulations.justia.com/states/california/title-22/division-6/chapter-9-5/article-2/section-89228",
+      "page_or_section": "22 Cal. Code Regs. Section 89228 (Capacity Determination), Division 6, Chapter 9.5, Article 2. This is the actual codified regulation implementing WIC Section 16519.5(d)(2)(C) -- a more authoritative and more reliably-fetchable source than the RFA Written Directives compilation PDF used for the first 32 entries. Recommend re-sourcing other capacity-adjacent entries against this same regulations.justia Title 22 mirror where possible.",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-capacity-sibling-group-exception",
+    "state": "CA",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-capacity-determination-record"
+    ],
+    "satisfied_by_facts": [
+      "fact.placement.is_sibling_group"
+    ],
+    "depends_on": [
+      "req-ca-capacity-base-cap"
+    ],
+    "source_citation": {
+      "text": "The licensing agency may authorize a home to care for up to eight children to accommodate a sibling group. A sibling group includes, but is not limited to, biological, step-siblings, and half-siblings.",
+      "url": "https://regulations.justia.com/states/california/title-22/division-6/chapter-9-5/article-2/section-89228",
+      "page_or_section": "22 Cal. Code Regs. Section 89228. THIS IS THE GAP-CLOSING FINDING: cross-checked and consistent with WIC Section 16519.5(d)(2)(C)(ii) ('...exceptional circumstances...including...the need to place siblings together, consistent with Section 16002') and WIC Section 16002(b) ('physical capacity of the home shall not be the sole reason to deny placement of a sibling group if each child in the home has an age-appropriate place to sleep and there are no other safety risks'). Three independent sources (public.law, findlaw, regulations.justia) agree with each other on this chain -- resolves the round-1/round-2 open question about a sibling-group capacity exception.",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-capacity-general-waiver",
+    "state": "CA",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-capacity-determination-record",
+      "doc-capacity-waiver-request"
+    ],
+    "satisfied_by_facts": [
+      "fact.capacity.agency_determination_home_can_meet_needs"
+    ],
+    "depends_on": [
+      "req-ca-capacity-sibling-group-exception"
+    ],
+    "source_citation": {
+      "text": "If it is determined that the home can meet the needs of all children in the home, the licensing agency may grant a waiver or exception for the home to provide care to more than six children.",
+      "url": "https://regulations.justia.com/states/california/title-22/division-6/chapter-9-5/article-2/section-89228",
+      "page_or_section": "22 Cal. Code Regs. Section 89228.",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-relative-nrefm-financial-requirement-waiver",
+    "state": "CA",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-financial-waiver-request"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [],
+    "source_citation": {
+      "text": "This requirement may be waived for relative and nonrelative extended family member resource families on a case-by-case basis. [Referring to a household financial stability/self-sufficiency requirement -- applicants relying on foster care funding as part of household income cannot be denied approval solely for this reason.]",
+      "url": "https://california.public.law/codes/ca_welf_and_inst_code_section_16519.5",
+      "page_or_section": "WIC Section 16519.5(c)(1)(D). THIS IS A NEW FINDING NOT IN THE ORIGINAL 32: a genuine, statute-level, relative/NREFM-specific waiver provision -- the CA analogue to Texas's kinship non-safety waiver (req-tx-kinship-minstandards-waiver). Resolves part of the round-1 open question 'does CA have anything relative-specific' with a definitive yes, for this one requirement. Not independently confirmed against the official leginfo.legislature.ca.gov text (blocked by robots.txt in this session) -- corroborated instead by a second independent secondary source (public.law) reproducing the same subdivision letter and language; recommend a quick manual check against leginfo.legislature.ca.gov directly if you want the primary-official copy.",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-sibling-placement-preference",
+    "state": "CA",
+    "direction": "receiving",
+    "applies_to": [
+      "general",
+      "relative"
+    ],
+    "satisfied_by_documents": [],
+    "satisfied_by_facts": [
+      "fact.placement.is_sibling_group",
+      "fact.placement.sibling_diligent_effort_documented"
+    ],
+    "depends_on": [],
+    "source_citation": {
+      "text": "The responsible local agency shall make a diligent effort in all out-of-home placements of dependent children and wards in foster care, including those with relatives, to place siblings together in the same placement.",
+      "url": "https://codes.findlaw.com/ca/welfare-and-institutions-code/wic-sect-16002/",
+      "page_or_section": "WIC Section 16002(a)(2). Cross-referenced by the capacity exception above.",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-bedroom-sharing-limit",
+    "state": "CA",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-physical-environment-inspection-report"
+    ],
+    "satisfied_by_facts": [
+      "fact.home.bedroom_count",
+      "fact.home.children_per_bedroom"
+    ],
+    "depends_on": [],
+    "source_citation": {
+      "text": "No more than two children shall share a bedroom. [Children of different sexes cannot share rooms unless both are under 5, one is an infant with parent, or the arrangement respects gender identity.]",
+      "url": "https://regulations.justia.com/states/california/title-22/division-6/chapter-9-5/article-3/section-89387",
+      "page_or_section": "22 Cal. Code Regs. Section 89387 (Buildings and Grounds), Division 6, Chapter 9.5, Article 3. THIS IS PART OF THE GAP-CLOSING FINDING for the physical-environment/Article-11 content that could not be read from the RFA Written Directives PDF directly -- found instead via the actual codified Title 22 regulation.",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-bed-mattress-linen-standards",
+    "state": "CA",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-physical-environment-inspection-report"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [],
+    "source_citation": {
+      "text": "Each child needs an individual bed with clean mattress, linens, blankets, and pillows in good repair. Linen shall be changed at least once per week or more often when necessary. Bunk beds limited to two tiers with safety railings; children under 6 prohibited from upper tier.",
+      "url": "https://regulations.justia.com/states/california/title-22/division-6/chapter-9-5/article-3/section-89387",
+      "page_or_section": "22 Cal. Code Regs. Section 89387.",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-bedroom-use-restrictions",
+    "state": "CA",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-physical-environment-inspection-report"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [],
+    "source_citation": {
+      "text": "At least one operable window/door for emergency exit; cannot serve as passageway to other rooms. No room commonly used for other purposes shall be used as a bedroom (excludes halls, attics, garages, storage areas). Closet and drawer space required for children's belongings.",
+      "url": "https://regulations.justia.com/states/california/title-22/division-6/chapter-9-5/article-3/section-89387",
+      "page_or_section": "22 Cal. Code Regs. Section 89387.",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-smoke-co-detectors",
+    "state": "CA",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-physical-environment-inspection-report"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [],
+    "source_citation": {
+      "text": "Smoke detectors in hallways near sleeping areas, audible in bedrooms. Carbon monoxide detectors meeting Health and Safety Code standards.",
+      "url": "https://regulations.justia.com/states/california/title-22/division-6/chapter-9-5/article-3/section-89387",
+      "page_or_section": "22 Cal. Code Regs. Section 89387.",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-pool-safety-conditional",
+    "state": "CA",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-physical-environment-inspection-report"
+    ],
+    "satisfied_by_facts": [
+      "fact.home.has_pool",
+      "fact.household.has_child_under_10"
+    ],
+    "depends_on": [],
+    "source_citation": {
+      "text": "Children under 10 require inaccessible pools via: approved enclosures, safety covers, or exit alarms on direct-access doors/windows (limited to 4-inch opening). Above-ground pools need ladder removal when unused.",
+      "url": "https://regulations.justia.com/states/california/title-22/division-6/chapter-9-5/article-3/section-89387",
+      "page_or_section": "22 Cal. Code Regs. Section 89387.",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-bathroom-standards",
+    "state": "CA",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-physical-environment-inspection-report"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [],
+    "source_citation": {
+      "text": "Minimum one toilet, sink, and tub/shower in working condition. Bathrooms shall be located inside the home.",
+      "url": "https://regulations.justia.com/states/california/title-22/division-6/chapter-9-5/article-3/section-89387",
+      "page_or_section": "22 Cal. Code Regs. Section 89387.",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  },
+  {
+    "id": "req-ca-general-home-condition",
+    "state": "CA",
+    "direction": "receiving",
+    "applies_to": [
+      "relative"
+    ],
+    "satisfied_by_documents": [
+      "doc-physical-environment-inspection-report"
+    ],
+    "satisfied_by_facts": [],
+    "depends_on": [],
+    "source_citation": {
+      "text": "The home shall be clean, safe, sanitary, and in good repair at all times. Passageways, stairs, and porches kept unobstructed. Yards free from hazards endangering children's health/safety. Adequate lighting throughout all areas.",
+      "url": "https://regulations.justia.com/states/california/title-22/division-6/chapter-9-5/article-3/section-89387",
+      "page_or_section": "22 Cal. Code Regs. Section 89387.",
+      "retrieved": "2026-09-05"
+    },
+    "verified": false
+  }
+]
