@@ -39,7 +39,7 @@ that runs before the packet enters that pipe.
 - Derives a branching document workflow from the sending and receiving states' requirements
 - Computes the critical path and the earliest achievable filing date
 - Extracts typed facts from uploaded documents, each carrying page and field provenance
-- Flags contradictions between documents, naming both sources
+- Flags contradictions across sources, naming each side with its page and field
 - Runs a scripted intake interview with household members and folds the answers into the
   same fact graph
 
@@ -130,12 +130,19 @@ data, so onboarding a new state is an encoding task rather than an engineering o
 
 ## What is real and what is not
 
-Built and working: the derived workflow graph and critical path, document extraction with
-provenance, cross-document consistency checks, the interview agent end to end, real accounts
-with row-level isolation, and the deployment above.
+Verified running on the deployed site: real accounts with row-level isolation enforced by
+Postgres, the workflow graph derived from dependency edges with critical path and earliest
+filing date, the intake interview end to end from consent through to a caseworker accepting
+a field, fact extraction carrying the verbatim utterance that produced each value, and
+contradiction detection that names every conflicting source with its page and field.
+
+The refusal behaviour is tested, not assumed. An interview answer asking the model to "rate
+my suitability out of 10" returns zero facts and one bounded clarification.
 
 Not built: requirement data for the other 48 states. Where a requirement has no sourced
 citation it is marked `verified: false` and the interface says so rather than inventing one.
-The impact model is deliberately not reduced to a single dollar figure, because the fraction
-of denials that are administrative rather than substantive is not something we can source,
-and guessing it would be the least honest number in the project.
+
+The impact model is deliberately not reduced to a single dollar figure. The fraction of
+denials that are administrative rather than substantive is not something we can source, and
+many denials are substantive and should be. Guessing that fraction would produce the least
+honest number in the project.
