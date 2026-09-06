@@ -143,6 +143,29 @@
       ]
     },
     {
+      "requirement_id": "req-household-interview",
+      "label": "Household Member Interviews",
+      "state": "available",
+      "on_critical_path": false,
+      "slack_days": 20,
+      "earliest_start": "2026-09-03",
+      "earliest_finish": "2026-09-17",
+      "citation": {
+        "text": "PLACEHOLDER — Christopher to replace with sourced citation",
+        "url": null,
+        "retrieved": null
+      },
+      "verified": false,
+      "inputs": [
+        { "kind": "fact", "id": "household_size", "label": "Household size (interview)", "satisfied": false },
+        { "kind": "fact", "id": "adults_in_home", "label": "Adults in the home (interview)", "satisfied": false },
+        { "kind": "fact", "id": "current_address", "label": "Current address (interview)", "satisfied": false },
+        { "kind": "fact", "id": "employment_status", "label": "Employment status (interview)", "satisfied": false },
+        { "kind": "fact", "id": "childcare_plan", "label": "Childcare plan (interview)", "satisfied": false }
+      ],
+      "defects": []
+    },
+    {
       "requirement_id": "req-home-study",
       "label": "Home Study Report",
       "state": "locked",
@@ -188,6 +211,8 @@
     { "from": "req-bg-fingerprint", "to": "req-bg-clearance" },
     { "from": "req-bg-clearance", "to": "req-home-study" },
     { "from": "req-financial", "to": "req-home-study" },
+    { "from": "req-application", "to": "req-household-interview" },
+    { "from": "req-household-interview", "to": "req-home-study" },
     { "from": "req-home-study", "to": "req-icpc-100a" }
   ]
 }

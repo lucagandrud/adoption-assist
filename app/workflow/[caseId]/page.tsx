@@ -4,7 +4,7 @@ import { findCase, listCases } from "@/lib/store";
 import { listSessions } from "@/lib/interview-store";
 import { INTERVIEW_SCRIPTS } from "@/lib/interview-scripts";
 import { SendIntern } from "@/components/interview/send-intern";
-import { graphModelForCase } from "@/lib/workflow-model";
+import { graphModelWithFacts } from "@/lib/workflow-model";
 import { AppHeader } from "@/components/app-header";
 import { WorkflowToolbar } from "@/components/workflow/workflow-toolbar";
 import { WorkflowDashboard } from "@/components/workflow/workflow-dashboard";
@@ -26,7 +26,7 @@ export default async function WorkflowPage({
   ]);
   if (!record) notFound();
 
-  const model = graphModelForCase(record);
+  const model = await graphModelWithFacts(user.id, record);
   const firstName = user.name.trim().split(/\s+/)[0] || "Your";
 
   return (

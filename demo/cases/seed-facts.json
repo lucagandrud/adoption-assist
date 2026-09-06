@@ -1,0 +1,37 @@
+{
+  "_README": [
+    "SYNTHETIC DOCUMENT-DERIVED FACTS. Fixture, not extraction output.",
+    "",
+    "There is no document extraction yet (extraction/pipeline.ts is a design",
+    "sketch), so these stand in for what the pipeline will emit from the demo",
+    "case's tax return. They exist so the interview-vs-document contradiction",
+    "in lib/interview-consistency.ts has a document side to fire against.",
+    "",
+    "Every value is fabricated. The document they cite does not exist.",
+    "Delete this file when extraction/pipeline.ts produces real facts."
+  ],
+  "facts": [
+    {
+      "fact_id": "dependents_claimed",
+      "value": "3",
+      "provenance": {
+        "source": "document",
+        "document_id": "doc-tax-return",
+        "document_name": "2025 Tax Return (Form 1040)",
+        "page": 1,
+        "field": "Dependents claimed"
+      }
+    },
+    {
+      "fact_id": "filing_status",
+      "value": "Married filing jointly",
+      "provenance": {
+        "source": "document",
+        "document_id": "doc-tax-return",
+        "document_name": "2025 Tax Return (Form 1040)",
+        "page": 1,
+        "field": "Filing status"
+      }
+    }
+  ]
+}
