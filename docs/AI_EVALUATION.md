@@ -4,9 +4,11 @@
 
 The language model has one bounded job: convert a synthetic PDF or image into ontology-approved
 facts. The live Claude request uses a document-specific JSON Schema through structured output,
-so the model can return only the fact types allowed for that document. Zod validates the result
-again before persistence. Every accepted value carries the source document, printed field,
-page, extraction time, and confidence.
+so the model can return only the extracted fact types allowed for that document. Provider-side
+constraints use only Anthropic-supported schema keywords; strict object shape, complete field
+coverage, value types, ranges, dates, enums, and uniqueness are enforced locally before
+persistence. Every accepted value carries the source document, printed field, page, extraction
+time, and confidence.
 
 AI does not determine applicability, satisfy requirements, compute deadlines, approve a
 family, or predict a case outcome. Those operations use deterministic TypeScript engines and
@@ -41,13 +43,14 @@ functional smoke test, not statistically meaningful validation.
 ## Reliability controls
 
 1. Authentication plus MIME type and 10 MB size limits before extraction.
-2. Document-specific JSON Schema with an explicit enum of allowed fact types.
-3. Provider-side constrained decoding followed by Zod validation.
-4. Unknown fact types dropped before persistence.
-5. A 45-second request timeout and one retry; errors remain visible and never silently become replay results.
-6. Values below 80% confidence are marked for human review and downgrade blocking defects to warnings.
-7. Deterministic rules include both sources and provenance in every defect.
-8. Explicit mode labels, model name, elapsed time, and token telemetry for live runs.
+2. Document-specific JSON Schema with an explicit enum of allowed extracted fact types.
+3. Provider-side constrained decoding followed by strict Zod and ontology-type validation.
+4. Missing, null, extra, duplicate, wrongly typed, or invalid-enum values fail closed and are never persisted.
+5. Refusals and truncated output fail visibly instead of being parsed as successful analysis.
+6. A 45-second request timeout and one retry; errors remain visible and never silently become replay results.
+7. Values below 80% confidence are marked for human review and downgrade blocking defects to warnings.
+8. Deterministic rules include both sources and provenance in every defect.
+9. Explicit mode labels, model name, elapsed time, and token telemetry for live runs.
 
 `claude-sonnet-5` is the default because this task is bounded extraction rather than open-ended
 reasoning; it provides a better latency/cost posture than defaulting to the largest model. The
@@ -59,8 +62,9 @@ Run the mocked live-contract test without an API key:
 npm run test:live-pipeline
 ```
 
-This verifies PDF byte encoding, structured-output request shape, a transient-failure retry,
-usage telemetry, and provenance. It does not claim that an external model was contacted.
+This verifies PDF byte encoding, Anthropic-supported structured-output shape, local completeness
+rejection, a transient-failure retry, usage telemetry, and provenance. It does not claim that an
+external model was contacted.
 
 ## Limitations and next validation
 

@@ -54,7 +54,7 @@ that hangs during judging costs more than the credit earned for doing it live.
   replay remains available. Manual uploads are disabled instead of silently ignoring their bytes.
 - With a key and `EXTRACTION_USE_CACHE=0`, uploaded synthetic PDFs and images are sent to the
   Anthropic Messages API using a document-specific structured-output schema. The response is
-  validated again locally, extra or duplicate fact types are dropped, nulls remain missing,
-  and one retry is allowed.
+  validated again locally; missing, null, extra, duplicate, wrongly typed, or invalid-enum
+  values fail closed, and one retry is allowed.
 - Uploaded bytes are never persisted by the local store. Only file metadata and extracted
   synthetic facts are saved.

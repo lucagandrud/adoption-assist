@@ -17,6 +17,7 @@ const expected = JSON.parse(
 );
 const ontology = loadOntology();
 const results = [];
+const extractions = new Map();
 
 for (const [fileName, fixture] of Object.entries(expected)) {
   const variant = fileName.includes("conflict") ? "conflicting" : "consistent";
@@ -26,6 +27,7 @@ for (const [fileName, fixture] of Object.entries(expected)) {
   const extraction = live
     ? await extractDocument(metadata, bytes, fixture.definition_id, ontology)
     : extractSyntheticDocument(metadata, fixture.definition_id, ontology, variant);
+  extractions.set(fileName, extraction);
   if (live && fixture.facts.length > 0) {
     assert.equal(extraction.mode, "live_anthropic", `${fileName}: did not use live AI`);
   }
@@ -59,22 +61,9 @@ for (const [fileName, fixture] of Object.entries(expected)) {
 
 const application = results[0];
 assert.ok(application, "Evaluation set is empty");
-const extractFixture = async (name) => {
-  const fixture = expected[name];
-  const bytes = await readFile(path.join(root, "demo/documents", name));
-  const metadata = { name, type: "application/pdf", size: bytes.length };
-  return live
-    ? extractDocument(metadata, bytes, fixture.definition_id, ontology)
-    : extractSyntheticDocument(
-        metadata,
-        fixture.definition_id,
-        ontology,
-        name.includes("conflict") ? "conflicting" : "consistent",
-      );
-};
-const appFacts = (await extractFixture("rfa-application-rivera.pdf")).facts;
-const conflictFacts = (await extractFixture("home-safety-assessment-conflict.pdf")).facts;
-const correctedFacts = (await extractFixture("home-safety-assessment-corrected.pdf")).facts;
+const appFacts = extractions.get("rfa-application-rivera.pdf").facts;
+const conflictFacts = extractions.get("home-safety-assessment-conflict.pdf").facts;
+const correctedFacts = extractions.get("home-safety-assessment-corrected.pdf").facts;
 const conflictDetected = runConsistencyChecks(
   [...appFacts, ...conflictFacts],
   ontology.rules,
@@ -102,6 +91,12 @@ const report = {
   provenanceComplete: results.every(({ provenanceComplete }) => provenanceComplete),
   conflictDetected,
   correctedDocumentClearsConflict: correctedClears,
+  telemetry: live
+    ? [...extractions.values()].map(({ document, telemetry }) => ({
+        document_id: document.id,
+        ...telemetry,
+      }))
+    : undefined,
   results,
 };
 
