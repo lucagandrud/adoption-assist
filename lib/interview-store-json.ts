@@ -73,6 +73,16 @@ async function write(db: Database): Promise<void> {
 
 const now = () => new Date().toISOString();
 
+function stripSession(turn: StoredTurn): InterviewTurn {
+  return {
+    turn_index: turn.turn_index,
+    speaker: turn.speaker,
+    text: turn.text,
+    started_at: turn.started_at,
+    ended_at: turn.ended_at,
+  };
+}
+
 /** Same strength as the Postgres default: 32 random bytes, hex-encoded. */
 function mintToken(): string {
   return randomBytes(32).toString("hex");
@@ -164,7 +174,7 @@ export async function listTurns(
   return db.turns
     .filter((t) => t.session_id === sessionId)
     .sort((a, b) => a.turn_index - b.turn_index)
-    .map(({ session_id: _s, ...turn }) => turn);
+    .map(stripSession);
 }
 
 export async function listFacts(
@@ -297,7 +307,7 @@ export async function getTurnsByToken(token: string): Promise<InterviewTurn[]> {
   return db.turns
     .filter((t) => t.session_id === session.id)
     .sort((a, b) => a.turn_index - b.turn_index)
-    .map(({ session_id: _s, ...turn }) => turn);
+    .map(stripSession);
 }
 
 function openSession(db: Database, token: string): TokenResult<StoredSession> {
