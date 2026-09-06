@@ -6,9 +6,8 @@ import { Button } from "@/components/ui/button";
 /**
  * Consent before the microphone (CLAUDE.md §4a.5).
  *
- * Rendered before any getUserMedia or SpeechRecognition call. Every sentence
- * below is a plain statement of what happens; none of it is boilerplate to
- * scroll past. The Continue button is the only way forward and it is
+ * Rendered before any getUserMedia or SpeechRecognition call. Kept short so it
+ * is actually read. The Continue button is the only way forward and stays
  * disabled until the box is ticked.
  */
 export function ConsentGate({
@@ -29,45 +28,31 @@ export function ConsentGate({
         Before we begin{subjectName ? `, ${subjectName}` : ""}
       </h1>
       <p className="mt-3 text-sm leading-relaxed text-navy-800/85">
-        Your caseworker has asked you to answer a short set of questions. Please
-        read the following before continuing.
+        Your caseworker asked you to answer a short set of questions. Please read
+        this first.
       </p>
 
-      <ul className="mt-6 space-y-3 border-[3px] border-double border-beige-500 bg-beige-100 p-5 text-sm leading-relaxed text-navy-900">
+      <ul className="mt-6 space-y-2.5 border-[3px] border-double border-beige-500 bg-beige-100 p-5 text-sm leading-relaxed text-navy-900">
         <Item>
-          <strong>Your answers are recorded as a written transcript.</strong> If
-          you answer by voice, your speech is transcribed to text. The transcript
-          is kept and shown to your caseworker exactly as spoken.
+          Your answers are saved as a written transcript. Your caseworker reads
+          it in your own words.
         </Item>
         <Item>
-          <strong>
-            In Chrome, the browser&apos;s speech service sends your audio to
-            Google for transcription.
-          </strong>{" "}
-          If you prefer that your audio not leave this device, choose{" "}
-          <em>Type my answers</em> instead of speaking. You can switch at any
-          time.
+          If you speak, Chrome sends your audio to Google to turn it into text.
+          Choose <em>Type my answers</em> if you would rather it did not.
         </Item>
         <Item>
-          <strong>Video is previewed only.</strong> Your camera, if you allow
-          it, is shown on your own screen so the session feels like a call. No
-          video is recorded, uploaded, or stored. Declining the camera does not
-          affect the interview.
+          Your camera shows only on your screen. No video is saved. You can skip
+          the camera and still answer.
         </Item>
         <Item>
-          <strong>Every question is fixed in advance.</strong> Every household
-          member is asked the same questions in the same words. The assistant
-          may ask you to repeat or clarify an answer once, and nothing else.
+          Every household member gets these same questions in the same words.
         </Item>
         <Item>
-          <strong>A licensed caseworker reviews everything.</strong> The
-          assistant only writes down what you say. Every value it records is a
-          draft until your caseworker reads it and accepts it.
+          A licensed caseworker reviews everything you say.
         </Item>
         <Item>
-          <strong>This interview does not make any decision about the placement.</strong>{" "}
-          It does not score, rate, or evaluate you. The decision is made by
-          people, through the ordinary process, and this is one input to it.
+          This interview decides nothing. It does not score or rate you.
         </Item>
       </ul>
 
@@ -79,8 +64,7 @@ export function ConsentGate({
           className="mt-0.5 size-4 accent-navy-800"
         />
         <span>
-          I have read the above and I agree to answer these questions. I
-          understand a caseworker will review my answers.
+          I have read this and I agree to answer these questions.
         </span>
       </label>
 

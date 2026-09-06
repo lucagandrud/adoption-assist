@@ -131,9 +131,7 @@ export function SendIntern({
           <SheetHeader className="border-b border-navy-800/10 bg-card">
             <SheetTitle className="text-2xl text-navy-900">{label}</SheetTitle>
             <SheetDescription className="text-navy-800/75">
-              Sends a household member a link to a fixed, scripted interview. They answer by voice
-              or text; you get a verbatim transcript and draft fields to accept or edit. It gathers.
-              You decide.
+              Sends a household member a link to a fixed, scripted interview.
             </SheetDescription>
           </SheetHeader>
 
@@ -258,7 +256,7 @@ export function SendIntern({
             <p className="rounded-md border border-navy-800/12 bg-beige-200/70 px-3 py-2 text-xs leading-relaxed text-navy-800">
               The intern asks the same authored questions of every household member, records
               the answers verbatim, and drafts fields for you to accept. It never scores, rates,
-              or evaluates anyone, and nothing it produces reaches the case until you accept it.
+              or evaluates anyone.
             </p>
           </div>
         </SheetContent>

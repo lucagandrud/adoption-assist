@@ -159,9 +159,8 @@ export function InterviewReview({
             Draft — not reviewed
           </span>
           <p className="text-sm text-navy-900">
-            {requiredAccepted} of {requiredFacts.length} required fields accepted. Nothing below
-            reaches the case until you accept it. Every value is the assistant&apos;s reading of
-            the words on the right; the words are the record.
+            {requiredAccepted} of {requiredFacts.length} required fields accepted. Every value
+            is the assistant&apos;s reading of the words on the right. The words are the record.
           </p>
         </div>
       )}
