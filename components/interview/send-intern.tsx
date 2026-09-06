@@ -88,6 +88,19 @@ export function SendIntern({
       ? ""
       : `${window.location.origin}/interview/${session.link_token}`;
 
+  const [seeding, setSeeding] = useState(false);
+  async function seedDemo() {
+    setSeeding(true);
+    setErrors({});
+    const response = await fetch(`/api/cases/${caseId}/interviews/seed-demo`, { method: "POST" }).catch(() => null);
+    setSeeding(false);
+    if (!response || !response.ok) {
+      setErrors({ _seed: "Could not load the demo interviews." });
+      return;
+    }
+    router.refresh();
+  }
+
   async function copy(url: string) {
     try {
       await navigator.clipboard.writeText(url);
@@ -228,6 +241,19 @@ export function SendIntern({
                 </ul>
               )}
             </section>
+
+            <div className="rounded-lg border border-dashed border-navy-800/25 bg-card px-4 py-3">
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-navy-800">Demo</p>
+              <p className="mt-1 text-[11px] leading-relaxed text-muted-foreground">
+                Loads three completed interviews for fictional household members: one clean, one
+                with a single clarification, one whose household size contradicts the seeded tax
+                return. Accept the fields on each review page to see them reach the workflow.
+              </p>
+              {errors._seed ? <p role="alert" className="mt-1 text-sm text-destructive">{errors._seed}</p> : null}
+              <Button type="button" size="sm" variant="outline" disabled={seeding} onClick={seedDemo} className="mt-2">
+                {seeding ? "Loading…" : "Load 3 demo interviews"}
+              </Button>
+            </div>
 
             <p className="rounded-md border border-navy-800/12 bg-beige-200/70 px-3 py-2 text-xs leading-relaxed text-navy-800">
               The intern asks the same authored questions of every household member, records
