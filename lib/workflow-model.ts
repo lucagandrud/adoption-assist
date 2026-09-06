@@ -211,9 +211,25 @@ function recomputeState(node: GraphNode, touched: boolean): NodeState {
   return node.state;
 }
 
+/**
+ * Interview scripts emit bare fact ids; the ontology names facts canonically.
+ * One map, so neither side has to adopt the other's naming.
+ */
+const CANONICAL_FACT_ID: Record<string, string> = {
+  household_size: "fact.household.size",
+  current_address: "fact.residence.address",
+};
+
+function factAliases(id: string): string[] {
+  const canonical = CANONICAL_FACT_ID[id];
+  return canonical ? [id, canonical] : [id];
+}
+
 export function overlayCaseFacts(model: GraphModel, facts: CaseFact[]): GraphModel {
   const accepted = new Set(
-    facts.filter((f) => f.provenance.source === "interview").map((f) => f.fact_id),
+    facts
+      .filter((f) => f.provenance.source === "interview")
+      .flatMap((f) => factAliases(f.fact_id)),
   );
   const defects = checkInterviewConsistency(facts);
 

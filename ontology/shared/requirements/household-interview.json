@@ -1,0 +1,21 @@
+[
+  {
+    "id": "req-household-interview",
+    "state": "FEDERAL",
+    "direction": "receiving",
+    "applies_to": ["relative", "parent", "fictive_kin", "non_relative"],
+    "satisfied_by_documents": [],
+    "satisfied_by_facts": [
+      "fact.household.size",
+      "fact.residence.address"
+    ],
+    "depends_on": [],
+    "source_citation": {
+      "text": "PLACEHOLDER - the home study requires interviewing each adult in the household. Not yet traced to a specific regulation section.",
+      "url": null,
+      "page_or_section": null,
+      "retrieved": null
+    },
+    "verified": false
+  }
+]
