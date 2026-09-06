@@ -69,11 +69,15 @@ export function NewCaseForm() {
       return;
     }
 
-    const { case: created } = await response.json();
     setPending(false);
     setOpen(false);
     setLabel("");
-    router.push(`/workflow/${created.id}`);
+
+    // Land back on the caseload grid rather than jumping into the workflow, so
+    // the new case is visibly added to the board. It opens at 0% verified, so
+    // it takes the largest tile and sorts to the front — the most work
+    // outstanding earns the most screen.
+    router.push("/cases");
     router.refresh();
   }
 
@@ -91,7 +95,7 @@ export function NewCaseForm() {
   return (
     <form
       onSubmit={submit}
-      className="w-full rounded-xl border border-navy-800/15 bg-card p-6 shadow-sm"
+      className="w-full border-[3px] border-double border-beige-500 bg-beige-100 p-6"
     >
       <div className="mb-5 flex items-start justify-between gap-4">
         <div>
@@ -128,7 +132,7 @@ export function NewCaseForm() {
           ) : null}
         </div>
 
-        <div className="rounded-lg border border-navy-800/12 bg-beige-100/60 p-4">
+        <div className="border border-beige-500 bg-beige-200/60 p-4">
           <StatePairPicker
             sending={pair.sending}
             receiving={pair.receiving}
@@ -196,7 +200,7 @@ export function NewCaseForm() {
           disabled={pending}
           className="h-11 bg-navy-800 text-beige-100 hover:bg-navy-700"
         >
-          {pending ? "Opening…" : "Open case and compose workflow"}
+          {pending ? "Opening…" : "Open case"}
         </Button>
       </div>
     </form>

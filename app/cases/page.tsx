@@ -41,20 +41,20 @@ export default async function CasesPage() {
     <>
       <AppHeader user={user} />
       <main className="mx-auto w-full max-w-[1500px] flex-1 px-6 py-8">
-        <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
-          <div>
+        {/* flex-wrap so the New case form, which goes full width when it
+            opens, drops onto its own row instead of squeezing the stats. */}
+        <div className="mb-6 flex flex-wrap items-end gap-x-6 gap-y-4">
+          <div className="mr-auto">
             <p className="text-xs font-semibold uppercase tracking-[0.16em] text-gold">
               Caseload
             </p>
             <h1 className="mt-1 text-3xl text-navy-900">Case Verification</h1>
           </div>
-          <div className="flex items-end gap-6">
-            <dl className="flex gap-6 text-right">
-              <Stat label="Open" value={String(open.length)} />
-              <Stat label="Filed" value={String(done)} />
-            </dl>
-            <NewCaseForm />
-          </div>
+          <dl className="flex gap-6 text-right">
+            <Stat label="Open" value={String(open.length)} />
+            <Stat label="Filed" value={String(done)} />
+          </dl>
+          <NewCaseForm />
         </div>
 
         {ordered.length === 0 ? (
